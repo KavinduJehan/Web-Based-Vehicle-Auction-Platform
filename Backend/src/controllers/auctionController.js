@@ -1,0 +1,49 @@
+import * as auctionService from '../services/auctionService.js';
+
+export async function listAuctionsController(req, res, next) {
+  try {
+    const items = await auctionService.listAuctions();
+    res.json(items);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getAuctionController(req, res, next) {
+  try {
+    const item = await auctionService.getAuctionById(req.params.id);
+    if (!item) return res.status(404).json({ message: 'Auction not found' });
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function createAuctionController(req, res, next) {
+  try {
+    const payload = await auctionService.createAuction(req.body, req.user);
+    res.status(201).json(payload);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function updateAuctionController(req, res, next) {
+  try {
+    const payload = await auctionService.updateAuction(req.params.id, req.body, req.user);
+    if (!payload) return res.status(404).json({ message: 'Auction not found' });
+    res.json(payload);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function deleteAuctionController(req, res, next) {
+  try {
+    const removed = await auctionService.deleteAuction(req.params.id, req.user);
+    if (!removed) return res.status(404).json({ message: 'Auction not found' });
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}
