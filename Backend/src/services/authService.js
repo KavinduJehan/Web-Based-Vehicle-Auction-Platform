@@ -18,8 +18,8 @@ export async function register({ email, password, role, name }) {
     throw err;
   }
   const hashed = await bcrypt.hash(password, config.bcryptRounds);
-  const user = await userRepository.create({ email, passwordHash: hashed, role, name, isVerified: false });
-  return { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.isVerified };
+  const user = await userRepository.create({ email, passwordHash: hashed, role, name });
+  return { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.verification_status === 'verified' };
 }
 
 export async function login({ email, password }) {
@@ -36,9 +36,9 @@ export async function login({ email, password }) {
     throw err;
   }
   const token = jwt.sign(
-    { sub: user.id, role: user.role, email: user.email, isVerified: user.is_verified },
+    { sub: user.id, role: user.role, email: user.email, isVerified: user.verification_status === 'verified' },
     config.jwtSecret,
     { expiresIn: config.jwtExpiresIn }
   );
-  return { token, user: { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.is_verified } };
+  return { token, user: { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.verification_status === 'verified' } };
 }

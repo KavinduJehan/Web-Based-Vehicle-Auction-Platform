@@ -1,11 +1,19 @@
 import { Router } from 'express';
+import Joi from 'joi';
+import { validate } from '../middleware/validate.js';
 import { authRequired, requireRole } from '../middleware/auth.js';
-import { verifyUserController } from '../controllers/userController.js';
+import { getMeController, setUserStatusController } from '../controllers/userController.js';
 
 const router = Router();
 
-// PATCH /users/:id/verify — admin only
-// Marks a registered user as verified so they can place bids
-router.patch('/:id/verify', authRequired, requireRole(['admin']), verifyUserController);
+const statusSchema = Joi.object({
+  status: Joi.string().valid('verified', 'rejected').required()
+});
+
+// GET /users/me — any authenticated user fetches their own profile
+router.get('/me', authRequired, getMeController);
+
+// PATCH /users/:id/status — admin only: verify or reject a user
+router.patch('/:id/status', authRequired, requireRole(['admin']), validate(statusSchema), setUserStatusController);
 
 export default router;

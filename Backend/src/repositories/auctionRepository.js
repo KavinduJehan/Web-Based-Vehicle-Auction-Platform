@@ -12,8 +12,8 @@ export async function findAll() {
 
 export async function create(payload) {
   const { rows } = await pool.query(
-    `INSERT INTO auctions (vehicle_id, title, description, status, starts_at, ends_at)
-     VALUES ($1, $2, $3, $4, $5, $6)
+    `INSERT INTO auctions (vehicle_id, title, description, status, starts_at, ends_at, min_increment)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)
      RETURNING *`,
     [
       payload.vehicleId,
@@ -21,7 +21,8 @@ export async function create(payload) {
       payload.description,
       payload.status,
       payload.startsAt,
-      payload.endsAt
+      payload.endsAt,
+      payload.minIncrement ?? 0
     ]
   );
   return rows[0];
@@ -30,10 +31,10 @@ export async function create(payload) {
 export async function update(id, payload) {
   const { rows } = await pool.query(
     `UPDATE auctions
-     SET title = $1, description = $2, status = $3, starts_at = $4, ends_at = $5
-     WHERE id = $6
+     SET title = $1, description = $2, status = $3, starts_at = $4, ends_at = $5, min_increment = $6
+     WHERE id = $7
      RETURNING *`,
-    [payload.title, payload.description, payload.status, payload.startsAt, payload.endsAt, id]
+    [payload.title, payload.description, payload.status, payload.startsAt, payload.endsAt, payload.minIncrement, id]
   );
   return rows[0];
 }
@@ -41,4 +42,31 @@ export async function update(id, payload) {
 export async function remove(id) {
   const { rowCount } = await pool.query('DELETE FROM auctions WHERE id = $1', [id]);
   return rowCount > 0;
+}
+
+export async function setWinner(id, winningBidId) {
+  const { rows } = await pool.query(
+    `UPDATE auctions SET winning_bid_id = $1, status = 'ended' WHERE id = $2 RETURNING *`,
+    [winningBidId, id]
+  );
+  return rows[0];
+}
+
+export async function findWinner(id) {
+  const { rows } = await pool.query(
+    `SELECT
+       a.*,
+       b.id          AS bid_id,
+       b.amount      AS bid_amount,
+       b.created_at  AS bid_placed_at,
+       u.id          AS winner_id,
+       u.name        AS winner_name,
+       u.email       AS winner_email
+     FROM auctions a
+     JOIN bids  b ON a.winning_bid_id = b.id
+     JOIN users u ON b.user_id = u.id
+     WHERE a.id = $1`,
+    [id]
+  );
+  return rows[0] ?? null;
 }

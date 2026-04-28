@@ -2,8 +2,8 @@ import * as vehicleService from '../services/vehicleService.js';
 
 export async function listVehiclesController(req, res, next) {
   try {
-    const items = await vehicleService.listVehicles();
-    res.json(items);
+    const result = await vehicleService.listVehicles(req.query);
+    res.json(result);
   } catch (err) {
     next(err);
   }

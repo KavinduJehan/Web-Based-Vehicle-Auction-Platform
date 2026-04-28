@@ -1,40 +1,70 @@
 import * as bidRepository from '../repositories/bidRepository.js';
-import * as vehicleRepository from '../repositories/vehicleRepository.js';
+import * as auctionRepository from '../repositories/auctionRepository.js';
 
-export async function listBidsForVehicle(vehicleId, user) {
-  const vehicle = await vehicleRepository.findById(vehicleId);
-  if (!vehicle) {
-    const err = new Error('Vehicle not found');
+export async function listBidsForAuction(auctionId, user) {
+  const auction = await auctionRepository.findById(auctionId);
+  if (!auction) {
+    const err = new Error('Auction not found');
     err.status = 404;
     throw err;
   }
-  // Admins see all bids; buyers see only their own
   if (user.role === 'admin') {
-    return bidRepository.findByVehicle(vehicleId);
+    return bidRepository.findByAuction(auctionId);
   }
-  return bidRepository.findByVehicleAndUser(vehicleId, user.sub);
+  return bidRepository.findByAuctionAndUser(auctionId, user.sub);
 }
 
-export async function placeBid(vehicleId, amount, user) {
+export async function placeBid(auctionId, amount, user) {
   if (!user.isVerified) {
     const err = new Error('Your account must be verified by an admin before you can place bids');
     err.status = 403;
     throw err;
   }
 
-  const vehicle = await vehicleRepository.findById(vehicleId);
-  if (!vehicle) {
-    const err = new Error('Vehicle not found');
+  const auction = await auctionRepository.findById(auctionId);
+  if (!auction) {
+    const err = new Error('Auction not found');
     err.status = 404;
     throw err;
   }
-  // Simple bidding rule: bid must exceed current highest
-  const highest = await bidRepository.findHighestBid(vehicleId);
-  if (highest && amount <= highest.amount) {
-    const err = new Error('Bid must be higher than current highest');
+
+  if (auction.status !== 'active') {
+    const err = new Error('Auction is not active');
     err.status = 400;
     throw err;
   }
-  // TODO: enforce auction status and timing rules per REST/API design
-  return bidRepository.create({ vehicleId, userId: user.sub, amount });
+
+  const now = new Date();
+  if (auction.starts_at && now < new Date(auction.starts_at)) {
+    const err = new Error('Auction has not started yet');
+    err.status = 400;
+    throw err;
+  }
+  if (auction.ends_at && now > new Date(auction.ends_at)) {
+    const err = new Error('Auction has ended');
+    err.status = 400;
+    throw err;
+  }
+
+  const highest = await bidRepository.findHighestBid(auctionId);
+  if (highest) {
+    const increment = Number(auction.min_increment ?? 0);
+    if (increment > 0) {
+      if (amount < Number(highest.amount) + increment) {
+        const err = new Error(
+          `Bid must be at least ${increment} more than the current highest bid of ${highest.amount}`
+        );
+        err.status = 400;
+        throw err;
+      }
+    } else {
+      if (amount <= Number(highest.amount)) {
+        const err = new Error('Bid must be higher than current highest');
+        err.status = 400;
+        throw err;
+      }
+    }
+  }
+
+  return bidRepository.create({ auctionId, userId: user.sub, amount });
 }

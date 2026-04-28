@@ -18,9 +18,9 @@ export async function createAdmin(opts = {}) {
   const password = opts.password ?? 'AdminPass1!';
   const hash = await bcrypt.hash(password, 1);
   const { rows } = await pool.query(
-    `INSERT INTO users (email, password_hash, role, name, is_verified)
-     VALUES ($1, $2, 'admin', $3, true)
-     RETURNING id, email, role, name, is_verified`,
+    `INSERT INTO users (email, password_hash, role, name, verification_status)
+     VALUES ($1, $2, 'admin', $3, 'verified')
+     RETURNING id, email, role, name, verification_status`,
     [email, hash, opts.name ?? 'Test Admin']
   );
   return { ...rows[0], password };
@@ -28,15 +28,15 @@ export async function createAdmin(opts = {}) {
 
 /** Insert a buyer directly into the DB. */
 export async function createBuyer(opts = {}) {
-  const email      = opts.email      ?? 'buyer@test.com';
-  const password   = opts.password   ?? 'BuyerPass1!';
-  const isVerified = opts.isVerified ?? false;
+  const email              = opts.email    ?? 'buyer@test.com';
+  const password           = opts.password ?? 'BuyerPass1!';
+  const verificationStatus = opts.isVerified ? 'verified' : 'pending';
   const hash = await bcrypt.hash(password, 1);
   const { rows } = await pool.query(
-    `INSERT INTO users (email, password_hash, role, name, is_verified)
+    `INSERT INTO users (email, password_hash, role, name, verification_status)
      VALUES ($1, $2, 'buyer', $3, $4)
-     RETURNING id, email, role, name, is_verified`,
-    [email, hash, opts.name ?? 'Test Buyer', isVerified]
+     RETURNING id, email, role, name, verification_status`,
+    [email, hash, opts.name ?? 'Test Buyer', verificationStatus]
   );
   return { ...rows[0], password };
 }

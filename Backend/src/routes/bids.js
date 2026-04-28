@@ -2,15 +2,16 @@ import { Router } from 'express';
 import Joi from 'joi';
 import { authRequired, requireRole } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
-import { placeBidController, listBidsForVehicleController } from '../controllers/bidController.js';
+import { placeBidController, listBidsForAuctionController } from '../controllers/bidController.js';
 
-const router = Router();
+// mergeParams lets this router see :auctionId from the parent auctions router
+const router = Router({ mergeParams: true });
 
 const bidSchema = Joi.object({
   amount: Joi.number().positive().required()
 });
 
-router.get('/vehicle/:vehicleId', authRequired, listBidsForVehicleController);
-router.post('/vehicle/:vehicleId', authRequired, requireRole(['buyer']), validate(bidSchema), placeBidController);
+router.get('/', authRequired, listBidsForAuctionController);
+router.post('/', authRequired, requireRole(['buyer']), validate(bidSchema), placeBidController);
 
 export default router;

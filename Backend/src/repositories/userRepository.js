@@ -10,21 +10,21 @@ export async function findById(id) {
   return rows[0];
 }
 
-export async function create({ email, passwordHash, role, name, isVerified }) {
+export async function create({ email, passwordHash, role, name }) {
   const { rows } = await pool.query(
-    `INSERT INTO users (email, password_hash, role, name, is_verified)
-     VALUES ($1, $2, $3, $4, $5)
-     RETURNING id, email, role, name, is_verified`,
-    [email, passwordHash, role, name, isVerified]
+    `INSERT INTO users (email, password_hash, role, name)
+     VALUES ($1, $2, $3, $4)
+     RETURNING id, email, role, name, verification_status`,
+    [email, passwordHash, role, name]
   );
   return rows[0];
 }
 
-export async function verify(id) {
+export async function setStatus(id, status) {
   const { rows } = await pool.query(
-    `UPDATE users SET is_verified = true WHERE id = $1
-     RETURNING id, email, role, name, is_verified`,
-    [id]
+    `UPDATE users SET verification_status = $1 WHERE id = $2
+     RETURNING id, email, role, name, verification_status`,
+    [status, id]
   );
   return rows[0];
 }

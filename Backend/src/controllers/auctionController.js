@@ -1,5 +1,36 @@
 import * as auctionService from '../services/auctionService.js';
 
+export async function closeAuctionController(req, res, next) {
+  try {
+    const result = await auctionService.closeAuction(Number(req.params.id));
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getWinnerController(req, res, next) {
+  try {
+    const result = await auctionService.getWinner(Number(req.params.id));
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function selectWinnerController(req, res, next) {
+  try {
+    const result = await auctionService.selectWinner(
+      Number(req.params.id),
+      Number(req.body.bidId),
+      req.user
+    );
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function listAuctionsController(req, res, next) {
   try {
     const items = await auctionService.listAuctions();
