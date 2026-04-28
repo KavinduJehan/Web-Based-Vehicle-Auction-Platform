@@ -2,6 +2,24 @@ import * as auctionRepository from '../repositories/auctionRepository.js';
 import * as vehicleRepository from '../repositories/vehicleRepository.js';
 import * as bidRepository from '../repositories/bidRepository.js';
 
+// Compute the real-world status from DB status + timestamps (on-read correction)
+export function effectiveStatus(auction) {
+  if (!auction) return null;
+  const now = new Date();
+  if (auction.status === 'draft' && auction.starts_at && new Date(auction.starts_at) <= now) {
+    return 'active';
+  }
+  if (auction.status === 'active' && auction.ends_at && new Date(auction.ends_at) <= now) {
+    return 'ended';
+  }
+  return auction.status;
+}
+
+function withEffectiveStatus(auction) {
+  if (!auction) return auction;
+  return { ...auction, status: effectiveStatus(auction) };
+}
+
 function forbidden(message = 'Forbidden') {
   const err = new Error(message);
   err.status = 403;
@@ -21,11 +39,12 @@ function badRequest(message) {
 }
 
 export async function listAuctions() {
-  return auctionRepository.findAll();
+  const rows = await auctionRepository.findAll();
+  return rows.map(withEffectiveStatus);
 }
 
 export async function getAuctionById(id) {
-  return auctionRepository.findById(id);
+  return withEffectiveStatus(await auctionRepository.findById(id));
 }
 
 export async function createAuction(payload, user) {
@@ -92,7 +111,7 @@ export async function selectWinner(auctionId, bidId, user) {
   const auction = await auctionRepository.findById(auctionId);
   if (!auction) throw notFound();
 
-  if (auction.status === 'draft') {
+  if (effectiveStatus(auction) === 'draft') {
     throw badRequest('Cannot select a winner for a draft auction');
   }
 
@@ -120,7 +139,7 @@ export async function closeAuction(auctionId) {
   const auction = await auctionRepository.findById(auctionId);
   if (!auction) throw notFound();
 
-  if (auction.status === 'ended') {
+  if (effectiveStatus(auction) === 'ended') {
     const err = new Error('Auction is already ended');
     err.status = 409;
     throw err;

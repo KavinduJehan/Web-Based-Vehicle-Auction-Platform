@@ -1,5 +1,6 @@
 import * as bidRepository from '../repositories/bidRepository.js';
 import * as auctionRepository from '../repositories/auctionRepository.js';
+import { effectiveStatus } from './auctionService.js';
 
 export async function listBidsForAuction(auctionId, user) {
   const auction = await auctionRepository.findById(auctionId);
@@ -28,20 +29,20 @@ export async function placeBid(auctionId, amount, user) {
     throw err;
   }
 
-  if (auction.status !== 'active') {
-    const err = new Error('Auction is not active');
-    err.status = 400;
-    throw err;
-  }
+  const status = effectiveStatus(auction);
 
-  const now = new Date();
-  if (auction.starts_at && now < new Date(auction.starts_at)) {
+  if (status === 'draft') {
     const err = new Error('Auction has not started yet');
     err.status = 400;
     throw err;
   }
-  if (auction.ends_at && now > new Date(auction.ends_at)) {
+  if (status === 'ended') {
     const err = new Error('Auction has ended');
+    err.status = 400;
+    throw err;
+  }
+  if (status !== 'active') {
+    const err = new Error('Auction is not active');
     err.status = 400;
     throw err;
   }

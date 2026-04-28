@@ -238,3 +238,83 @@ describe('POST /api/auctions/:id/close', () => {
   });
 });
 
+// ── Status auto-transitions (on-read) ─────────────────────────────────────────
+
+describe('Auction status auto-transitions', () => {
+  let draftId;
+  let expiredId;
+
+  beforeAll(async () => {
+    // Draft with starts_at already in the past → should read as 'active'
+    const vDraft = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ ...vehicleBody, title: 'AutoTransition Draft Car' });
+    const aDraft = await request(app)
+      .post('/api/auctions')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        vehicleId: vDraft.body.id,
+        title: 'AutoTransition Draft Auction',
+        status: 'draft',
+        startsAt: '2020-01-01T00:00:00Z',
+        endsAt: '2099-01-01T00:00:00Z',
+      });
+    draftId = aDraft.body.id;
+
+    // Active with ends_at already in the past → should read as 'ended'
+    const vExpired = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ ...vehicleBody, title: 'AutoTransition Expired Car' });
+    const aExpired = await request(app)
+      .post('/api/auctions')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        vehicleId: vExpired.body.id,
+        title: 'AutoTransition Expired Auction',
+        status: 'active',
+        startsAt: '2020-01-01T00:00:00Z',
+        endsAt: '2020-06-01T00:00:00Z',
+      });
+    expiredId = aExpired.body.id;
+  });
+
+  it('draft auction with past starts_at is returned as active', async () => {
+    const res = await request(app).get(`/api/auctions/${draftId}`);
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe('active');
+  });
+
+  it('active auction with past ends_at is returned as ended', async () => {
+    const res = await request(app).get(`/api/auctions/${expiredId}`);
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe('ended');
+  });
+
+  it('listAuctions reflects computed status for all auctions', async () => {
+    const res = await request(app).get('/api/auctions');
+    expect(res.status).toBe(200);
+    const draft   = res.body.find(a => a.id === draftId);
+    const expired = res.body.find(a => a.id === expiredId);
+    expect(draft.status).toBe('active');
+    expect(expired.status).toBe('ended');
+  });
+
+  it('rejects a bid on a time-expired auction', async () => {
+    const res = await request(app)
+      .post(`/api/auctions/${expiredId}/bids`)
+      .set('Authorization', `Bearer ${verifiedToken}`)
+      .send({ amount: 50000 });
+    expect(res.status).toBe(400);
+  });
+
+  it('allows a bid on a draft-turned-active auction', async () => {
+    const res = await request(app)
+      .post(`/api/auctions/${draftId}/bids`)
+      .set('Authorization', `Bearer ${verifiedToken}`)
+      .send({ amount: 21000 });
+    expect(res.status).toBe(201);
+  });
+});
+

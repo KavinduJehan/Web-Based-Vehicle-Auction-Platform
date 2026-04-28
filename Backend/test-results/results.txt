@@ -1,0 +1,129 @@
+﻿node : (node:26772) ExperimentalWarning: VM Modules is an experimental feature 
+and might change at any time
+At line:1 char:56
++ ... t\Backend"; node --experimental-vm-modules node_modules/jest/bin/jest ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:26772) Ex...nge at any time 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS src/__tests__/bids.test.js
+  POST /api/auctions/:auctionId/bids
+    ΓêÜ returns 401 without a token (5 ms)
+    ΓêÜ returns 403 for admin (buyer-only route) (6 ms)
+    ΓêÜ returns 403 for an unverified buyer (8 ms)
+  POST /api/auctions/:auctionId/bids ΓÇö auction state
+    ΓêÜ returns 400 when the auction is not active (5 ms)
+    ΓêÜ returns 404 for a non-existent auction (3 ms)
+  POST /api/auctions/:auctionId/bids ΓÇö bid rules
+    ΓêÜ returns 201 and records the bid for a verified buyer (7 ms)
+    ΓêÜ rejects a bid equal to the current highest (5 ms)
+    ΓêÜ rejects a bid lower than the current highest (4 ms)
+    ΓêÜ accepts a bid higher than the current highest (4 ms)
+    ΓêÜ rejects a non-numeric amount (4 ms)
+  GET /api/auctions/:auctionId/bids
+    ΓêÜ returns 401 without a token (2 ms)
+    ΓêÜ admin sees all bids for an auction (5 ms)
+    ΓêÜ buyer sees only their own bids (5 ms)
+  POST /api/auctions/:auctionId/bids ΓÇö min_increment
+    ΓêÜ rejects a bid that beats highest but is below min_increment (4 ms)
+    ΓêÜ rejects a bid exactly 1 below the required increment (4 ms)
+    ΓêÜ accepts a bid exactly at highest + min_increment (4 ms)
+    ΓêÜ accepts a bid well above highest + min_increment (5 ms)
+    ΓêÜ rejects a bid that does not meet the next increment threshold (5 ms)
+
+PASS src/__tests__/vehicles.test.js
+  GET /api/vehicles
+    ΓêÜ returns 200 with paginated shape for unauthenticated requests (6 ms)
+    ΓêÜ returns 400 for an invalid query param (5 ms)
+  POST /api/vehicles
+    ΓêÜ returns 401 without a token (2 ms)
+    ΓêÜ returns 403 for a buyer (not admin) (3 ms)
+    ΓêÜ returns 201 and the created vehicle for an admin (8 ms)
+    ΓêÜ returns 400 for missing required fields (3 ms)
+  PUT /api/vehicles/:id
+    ΓêÜ returns 401 without a token (3 ms)
+    ΓêÜ returns 403 for a buyer (3 ms)
+    ΓêÜ returns 200 and updated fields for admin (4 ms)
+  DELETE /api/vehicles/:id
+    ΓêÜ returns 401 without a token (2 ms)
+    ΓêÜ returns 204 for admin (5 ms)
+    ΓêÜ returns 404 for already-deleted vehicle (3 ms)
+  GET /api/vehicles ΓÇö filters, pagination, search
+    ΓêÜ returns all 5 vehicles by default (4 ms)
+    ΓêÜ filters by status (3 ms)
+    ΓêÜ filters by make (case-insensitive) (6 ms)
+    ΓêÜ filters by yearMin and yearMax (5 ms)
+    ΓêÜ filters by priceMin and priceMax (3 ms)
+    ΓêÜ searches across title, make, model (4 ms)
+    ΓêÜ respects limit and returns correct totalPages (4 ms)
+    ΓêÜ returns page 2 with remaining items (4 ms)
+    ΓêÜ sorts by starting_price ascending (5 ms)
+    ΓêÜ returns empty data array when no vehicles match (8 ms)
+
+PASS src/__tests__/auctions.test.js
+  POST /api/auctions/:id/winner
+    ΓêÜ returns 401 without a token (3 ms)
+    ΓêÜ returns 403 for a buyer (3 ms)
+    ΓêÜ returns 400 when bidId is missing (4 ms)
+    ΓêÜ returns 404 for a non-existent auction (5 ms)
+    ΓêÜ returns 404 for a non-existent bid (4 ms)
+    ΓêÜ returns 400 when bid belongs to a different auction (4 ms)
+    ΓêÜ returns 400 when the auction is still draft (12 ms)
+    ΓêÜ returns 200, sets winning_bid_id and marks auction ended (4 ms)
+    ΓêÜ returns 409 when winner is already set (5 ms)
+  GET /api/auctions/:id/winner
+    ΓêÜ returns 404 when no winner has been set (3 ms)
+    ΓêÜ returns 404 for a non-existent auction (3 ms)
+    ΓêÜ returns winner details after winner is selected (6 ms)
+  POST /api/auctions/:id/close
+    ΓêÜ returns 401 without a token (2 ms)
+    ΓêÜ returns 403 for a buyer (3 ms)
+    ΓêÜ returns 404 for a non-existent auction (3 ms)
+    ΓêÜ closes the auction and sets the highest bid as winner (6 ms)
+    ΓêÜ closes an auction with no bids (winning_bid_id stays null) (4 ms)
+    ΓêÜ returns 409 when auction is already ended (3 ms)
+  Auction status auto-transitions
+    ΓêÜ draft auction with past starts_at is returned as active (4 ms)
+    ΓêÜ active auction with past ends_at is returned as ended (3 ms)
+    ΓêÜ listAuctions reflects computed status for all auctions (3 ms)
+    ΓêÜ rejects a bid on a time-expired auction (4 ms)
+    ΓêÜ allows a bid on a draft-turned-active auction (5 ms)
+
+PASS src/__tests__/users.test.js
+  GET /api/users/me
+    ΓêÜ returns 401 without a token (4 ms)
+    ΓêÜ returns the caller's own profile (6 ms)
+  PATCH /api/users/:id/status
+    ΓêÜ returns 401 without a token (3 ms)
+    ΓêÜ returns 403 for a buyer (3 ms)
+    ΓêÜ returns 400 for an invalid status value (6 ms)
+    ΓêÜ returns 404 for a non-existent user ID (13 ms)
+    ΓêÜ returns 200 and verificationStatus verified when admin verifies a user 
+(7 ms)
+    ΓêÜ returns 409 when the user already has the requested status (4 ms)
+    ΓêÜ returns 200 and verificationStatus rejected when admin rejects a user 
+(8 ms)
+    ΓêÜ new token after verify carries isVerified true (12 ms)
+
+PASS src/__tests__/auth.test.js
+  POST /api/auth/register
+    ΓêÜ creates a buyer account with isVerified false (21 ms)
+    ΓêÜ blocks admin self-registration (5 ms)
+    ΓêÜ rejects duplicate email with 409 (13 ms)
+    ΓêÜ rejects password shorter than 8 chars (3 ms)
+    ΓêÜ rejects missing fields (6 ms)
+  POST /api/auth/login
+    ΓêÜ returns a token for valid credentials (7 ms)
+    ΓêÜ embeds isVerified in the token payload (7 ms)
+    ΓêÜ returns 401 for wrong password (6 ms)
+    ΓêÜ returns 401 for unknown email (5 ms)
+
+Test Suites: 5 passed, 5 total
+Tests:       82 passed, 82 total
+Snapshots:   0 total
+Time:        3.304 s, estimated 4 s
+Ran all test suites.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect 
+async operations that kept running after all tests finished?

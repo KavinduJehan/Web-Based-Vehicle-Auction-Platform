@@ -93,7 +93,7 @@ describe('POST /api/auctions/:auctionId/bids — auction state', () => {
       .set('Authorization', `Bearer ${verifiedToken}`)
       .send({ amount: 11000 });
     expect(res.status).toBe(400);
-    expect(res.body.message).toMatch(/not active/i);
+    expect(res.body.message).toMatch(/not active|not started|has ended/i);
   });
 
   it('returns 404 for a non-existent auction', async () => {
