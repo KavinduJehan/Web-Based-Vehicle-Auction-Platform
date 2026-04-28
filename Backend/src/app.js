@@ -8,7 +8,7 @@ import config from './config/index.js';
 const app = express();
 
 app.use(express.json());
-app.use(morgan(config.logFormat));
+if (config.env !== 'test') app.use(morgan(config.logFormat));
 
 app.use('/api', routes);
 

@@ -1,5 +1,6 @@
 module.exports = {
   testEnvironment: 'node',
   transform: {},
-  roots: ['<rootDir>/src']
+  roots: ['<rootDir>/src'],
+  setupFiles: ['<rootDir>/src/__tests__/setEnv.cjs']
 };

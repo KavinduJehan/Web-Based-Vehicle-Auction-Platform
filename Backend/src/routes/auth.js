@@ -8,7 +8,7 @@ const router = Router();
 const registerSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
-  role: Joi.string().valid('admin', 'seller', 'buyer').required(),
+  role: Joi.string().valid('buyer').required(),
   name: Joi.string().min(1).required()
 });
 

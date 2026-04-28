@@ -9,19 +9,13 @@ export async function getVehicleById(id) {
 }
 
 export async function createVehicle(payload, user) {
-  // Sellers can only create their own listings; admin can override seller_id
-  const ownerId = user.role === 'admin' && payload.sellerId ? payload.sellerId : user.sub;
-  return vehicleRepository.create({ ...payload, sellerId: ownerId });
+  // Only admins (the business owners) list vehicles; seller_id is always the calling admin
+  return vehicleRepository.create({ ...payload, sellerId: user.sub });
 }
 
 export async function updateVehicle(id, payload, user) {
   const existing = await vehicleRepository.findById(id);
   if (!existing) return null;
-  if (user.role !== 'admin' && existing.seller_id !== user.sub) {
-    const err = new Error('Forbidden');
-    err.status = 403;
-    throw err;
-  }
   return vehicleRepository.update(id, payload);
 }
 

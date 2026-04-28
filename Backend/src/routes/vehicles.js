@@ -24,8 +24,8 @@ const vehicleSchema = Joi.object({
 
 router.get('/', listVehiclesController);
 router.get('/:id', getVehicleController);
-router.post('/', authRequired, requireRole(['admin', 'seller']), validate(vehicleSchema), createVehicleController);
-router.put('/:id', authRequired, requireRole(['admin', 'seller']), validate(vehicleSchema), updateVehicleController);
+router.post('/', authRequired, requireRole(['admin']), validate(vehicleSchema), createVehicleController);
+router.put('/:id', authRequired, requireRole(['admin']), validate(vehicleSchema), updateVehicleController);
 router.delete('/:id', authRequired, requireRole(['admin']), deleteVehicleController);
 
 export default router;

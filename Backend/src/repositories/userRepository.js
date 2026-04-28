@@ -5,12 +5,26 @@ export async function findByEmail(email) {
   return rows[0];
 }
 
+export async function findById(id) {
+  const { rows } = await pool.query('SELECT * FROM users WHERE id = $1 LIMIT 1', [id]);
+  return rows[0];
+}
+
 export async function create({ email, passwordHash, role, name, isVerified }) {
   const { rows } = await pool.query(
     `INSERT INTO users (email, password_hash, role, name, is_verified)
      VALUES ($1, $2, $3, $4, $5)
      RETURNING id, email, role, name, is_verified`,
     [email, passwordHash, role, name, isVerified]
+  );
+  return rows[0];
+}
+
+export async function verify(id) {
+  const { rows } = await pool.query(
+    `UPDATE users SET is_verified = true WHERE id = $1
+     RETURNING id, email, role, name, is_verified`,
+    [id]
   );
   return rows[0];
 }
