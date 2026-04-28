@@ -52,6 +52,14 @@ export async function setWinner(id, winningBidId) {
   return rows[0];
 }
 
+export async function updateStatus(id, status) {
+  const { rows } = await pool.query(
+    `UPDATE auctions SET status = $1 WHERE id = $2 RETURNING *`,
+    [status, id]
+  );
+  return rows[0];
+}
+
 export async function findWinner(id) {
   const { rows } = await pool.query(
     `SELECT

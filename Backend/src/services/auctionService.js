@@ -15,9 +15,13 @@ export function effectiveStatus(auction) {
   return auction.status;
 }
 
-function withEffectiveStatus(auction) {
+async function withEffectiveStatus(auction) {
   if (!auction) return auction;
-  return { ...auction, status: effectiveStatus(auction) };
+  const computed = effectiveStatus(auction);
+  if (computed !== auction.status) {
+    await auctionRepository.updateStatus(auction.id, computed);
+  }
+  return { ...auction, status: computed };
 }
 
 function forbidden(message = 'Forbidden') {
@@ -40,7 +44,7 @@ function badRequest(message) {
 
 export async function listAuctions() {
   const rows = await auctionRepository.findAll();
-  return rows.map(withEffectiveStatus);
+  return Promise.all(rows.map(withEffectiveStatus));
 }
 
 export async function getAuctionById(id) {
