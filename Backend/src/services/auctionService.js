@@ -182,3 +182,7 @@ export async function getWinner(auctionId) {
     },
   };
 }
+
+export async function getWonAuctions(userId) {
+  return auctionRepository.findWonByUser(userId);
+}

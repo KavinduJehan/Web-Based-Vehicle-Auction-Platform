@@ -8,6 +8,9 @@ import RegisterPage      from '../pages/RegisterPage'
 import AdminPage         from '../pages/admin/AdminPage'
 import VehicleFormPage   from '../pages/admin/VehicleFormPage'
 import AuctionFormPage   from '../pages/admin/AuctionFormPage'
+import ProfilePage       from '../pages/ProfilePage'
+import VehicleListPage   from '../pages/VehicleListPage'
+import VehicleDetailPage from '../pages/VehicleDetailPage'
 
 export default function AppRouter() {
   return (
@@ -19,6 +22,8 @@ export default function AppRouter() {
       <Route path="/auctions"       element={<AuctionListPage />} />
       <Route path="/auctions/:id"   element={<AuctionDetailPage />} />
       <Route path="/auctions/:id/winner" element={<WinnerPage />} />
+      <Route path="/vehicles"            element={<VehicleListPage />} />
+      <Route path="/vehicles/:id"        element={<VehicleDetailPage />} />
 
       {/* Admin-only */}
       <Route path="/admin" element={
@@ -27,8 +32,19 @@ export default function AppRouter() {
       <Route path="/admin/vehicles/new" element={
         <ProtectedRoute role="admin"><VehicleFormPage /></ProtectedRoute>
       } />
+      <Route path="/admin/vehicles/:id/edit" element={
+        <ProtectedRoute role="admin"><VehicleFormPage /></ProtectedRoute>
+      } />
       <Route path="/admin/auctions/new" element={
         <ProtectedRoute role="admin"><AuctionFormPage /></ProtectedRoute>
+      } />
+      <Route path="/admin/auctions/:id/edit" element={
+        <ProtectedRoute role="admin"><AuctionFormPage /></ProtectedRoute>
+      } />
+
+      {/* Buyer */}
+      <Route path="/profile" element={
+        <ProtectedRoute><ProfilePage /></ProtectedRoute>
       } />
 
       {/* Catch-all */}

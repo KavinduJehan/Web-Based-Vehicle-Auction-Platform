@@ -10,7 +10,8 @@ import {
   deleteAuctionController,
   selectWinnerController,
   closeAuctionController,
-  getWinnerController
+  getWinnerController,
+  getMyWonAuctionsController
 } from '../controllers/auctionController.js';
 import bidRoutes from './bids.js';
 
@@ -40,6 +41,7 @@ const winnerSchema = Joi.object({
 });
 
 router.get('/', listAuctionsController);
+router.get('/won/me', authRequired, getMyWonAuctionsController);
 router.get('/:id', getAuctionController);
 router.post('/', authRequired, requireRole(['admin']), validate(auctionCreateSchema), createAuctionController);
 router.put('/:id', authRequired, requireRole(['admin']), validate(auctionUpdateSchema), updateAuctionController);

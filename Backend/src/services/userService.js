@@ -1,5 +1,17 @@
 import * as userRepository from '../repositories/userRepository.js';
 
+export async function listUsers() {
+  const rows = await userRepository.findAll();
+  return rows.map(u => ({
+    id: u.id,
+    email: u.email,
+    role: u.role,
+    name: u.name,
+    verificationStatus: u.verification_status,
+    createdAt: u.created_at,
+  }));
+}
+
 export async function getMe(userId) {
   const user = await userRepository.findById(userId);
   if (!user) {

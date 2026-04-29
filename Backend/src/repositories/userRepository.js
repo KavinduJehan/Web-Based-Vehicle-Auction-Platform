@@ -20,6 +20,13 @@ export async function create({ email, passwordHash, role, name }) {
   return rows[0];
 }
 
+export async function findAll() {
+  const { rows } = await pool.query(
+    `SELECT id, email, role, name, verification_status, created_at FROM users ORDER BY created_at DESC`
+  );
+  return rows;
+}
+
 export async function setStatus(id, status) {
   const { rows } = await pool.query(
     `UPDATE users SET verification_status = $1 WHERE id = $2

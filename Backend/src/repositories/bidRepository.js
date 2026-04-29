@@ -7,7 +7,11 @@ export async function findById(id) {
 
 export async function findByAuction(auctionId) {
   const { rows } = await pool.query(
-    'SELECT * FROM bids WHERE auction_id = $1 ORDER BY amount DESC',
+    `SELECT b.id, b.auction_id, b.amount, b.created_at, u.name AS bidder_name
+     FROM bids b
+     JOIN users u ON u.id = b.user_id
+     WHERE b.auction_id = $1
+     ORDER BY b.amount DESC`,
     [auctionId]
   );
   return rows;

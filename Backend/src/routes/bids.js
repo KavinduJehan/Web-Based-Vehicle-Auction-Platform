@@ -11,7 +11,7 @@ const bidSchema = Joi.object({
   amount: Joi.number().positive().required()
 });
 
-router.get('/', authRequired, listBidsForAuctionController);
+router.get('/', listBidsForAuctionController);
 router.post('/', authRequired, requireRole(['buyer']), validate(bidSchema), placeBidController);
 
 export default router;

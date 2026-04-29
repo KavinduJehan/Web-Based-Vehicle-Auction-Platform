@@ -1,5 +1,14 @@
 import * as userService from '../services/userService.js';
 
+export async function listUsersController(req, res, next) {
+  try {
+    const users = await userService.listUsers();
+    res.json(users);
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function getMeController(req, res, next) {
   try {
     const user = await userService.getMe(req.user.sub);

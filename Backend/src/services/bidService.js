@@ -9,10 +9,10 @@ export async function listBidsForAuction(auctionId, user) {
     err.status = 404;
     throw err;
   }
-  if (user.role === 'admin') {
-    return bidRepository.findByAuction(auctionId);
-  }
-  return bidRepository.findByAuctionAndUser(auctionId, user.sub);
+  // Guests and buyers see all bids (amount + timestamp, no personal data).
+  // Admins also see all bids.
+  // Buyers only used to see their own bids — now everyone sees all to show live highest bid.
+  return bidRepository.findByAuction(auctionId);
 }
 
 export async function placeBid(auctionId, amount, user) {

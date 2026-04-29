@@ -1,12 +1,34 @@
 import { pool } from '../db/pool.js';
 
 export async function findById(id) {
-  const { rows } = await pool.query('SELECT * FROM auctions WHERE id = $1 LIMIT 1', [id]);
+  const { rows } = await pool.query(
+    `SELECT a.*,
+            v.images          AS vehicle_images,
+            v.make            AS vehicle_make,
+            v.model           AS vehicle_model,
+            v.year            AS vehicle_year,
+            v.starting_price  AS starting_price
+     FROM auctions a
+     LEFT JOIN vehicles v ON v.id = a.vehicle_id
+     WHERE a.id = $1
+     LIMIT 1`,
+    [id]
+  );
   return rows[0];
 }
 
 export async function findAll() {
-  const { rows } = await pool.query('SELECT * FROM auctions ORDER BY created_at DESC');
+  const { rows } = await pool.query(
+    `SELECT a.*,
+            v.images         AS vehicle_images,
+            v.make           AS vehicle_make,
+            v.model          AS vehicle_model,
+            v.year           AS vehicle_year,
+            v.starting_price AS starting_price
+     FROM auctions a
+     LEFT JOIN vehicles v ON v.id = a.vehicle_id
+     ORDER BY a.created_at DESC`
+  );
   return rows;
 }
 
@@ -77,4 +99,23 @@ export async function findWinner(id) {
     [id]
   );
   return rows[0] ?? null;
+}
+
+export async function findWonByUser(userId) {
+  const { rows } = await pool.query(
+    `SELECT a.*,
+            v.images          AS vehicle_images,
+            v.make            AS vehicle_make,
+            v.model           AS vehicle_model,
+            v.year            AS vehicle_year,
+            v.starting_price  AS starting_price,
+            b.amount          AS winning_amount
+     FROM auctions a
+     JOIN bids b ON b.id = a.winning_bid_id
+     LEFT JOIN vehicles v ON v.id = a.vehicle_id
+     WHERE b.user_id = $1
+     ORDER BY a.ends_at DESC`,
+    [userId]
+  );
+  return rows;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getWinner } from '../api/auctions'
+import Spinner from '../components/Spinner'
 
 export default function WinnerPage() {
   const { id } = useParams()
@@ -15,7 +16,7 @@ export default function WinnerPage() {
       .finally(() => setLoading(false))
   }, [id])
 
-  if (loading) return <div className="p-12 text-center text-gray-400">Loading…</div>
+  if (loading) return <Spinner />
 
   if (error) return (
     <div className="max-w-lg mx-auto px-6 py-8 text-center">
@@ -42,7 +43,7 @@ export default function WinnerPage() {
           <div>
             <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Winning Bid</p>
             <p className="text-2xl font-bold text-blue-600">
-              ${Number(winner.winningBid.amount).toLocaleString()}
+              LKR {Number(winner.winningBid.amount).toLocaleString()}
             </p>
             <p className="text-xs text-gray-400">
               {new Date(winner.winningBid.placedAt).toLocaleString()}

@@ -78,3 +78,12 @@ export async function deleteAuctionController(req, res, next) {
     next(err);
   }
 }
+
+export async function getMyWonAuctionsController(req, res, next) {
+  try {
+    const items = await auctionService.getWonAuctions(req.user.sub);
+    res.json(items);
+  } catch (err) {
+    next(err);
+  }
+}
