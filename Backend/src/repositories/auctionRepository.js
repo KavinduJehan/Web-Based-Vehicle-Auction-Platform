@@ -7,7 +7,8 @@ export async function findById(id) {
             v.make            AS vehicle_make,
             v.model           AS vehicle_model,
             v.year            AS vehicle_year,
-            v.starting_price  AS starting_price
+            v.starting_price  AS starting_price,
+            (SELECT MAX(amount) FROM bids WHERE auction_id = a.id) AS highest_bid
      FROM auctions a
      LEFT JOIN vehicles v ON v.id = a.vehicle_id
      WHERE a.id = $1
@@ -24,7 +25,8 @@ export async function findAll() {
             v.make           AS vehicle_make,
             v.model          AS vehicle_model,
             v.year           AS vehicle_year,
-            v.starting_price AS starting_price
+            v.starting_price AS starting_price,
+            (SELECT MAX(amount) FROM bids WHERE auction_id = a.id) AS highest_bid
      FROM auctions a
      LEFT JOIN vehicles v ON v.id = a.vehicle_id
      ORDER BY a.created_at DESC`
@@ -34,8 +36,8 @@ export async function findAll() {
 
 export async function create(payload) {
   const { rows } = await pool.query(
-    `INSERT INTO auctions (vehicle_id, title, description, status, starts_at, ends_at, min_increment)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO auctions (vehicle_id, title, description, status, starts_at, ends_at, min_increment, reserve_price)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
      RETURNING *`,
     [
       payload.vehicleId,
@@ -44,7 +46,8 @@ export async function create(payload) {
       payload.status,
       payload.startsAt,
       payload.endsAt,
-      payload.minIncrement ?? 0
+      payload.minIncrement ?? 0,
+      payload.reservePrice ?? null,
     ]
   );
   return rows[0];
@@ -53,10 +56,10 @@ export async function create(payload) {
 export async function update(id, payload) {
   const { rows } = await pool.query(
     `UPDATE auctions
-     SET title = $1, description = $2, status = $3, starts_at = $4, ends_at = $5, min_increment = $6
-     WHERE id = $7
+     SET title = $1, description = $2, status = $3, starts_at = $4, ends_at = $5, min_increment = $6, reserve_price = $7
+     WHERE id = $8
      RETURNING *`,
-    [payload.title, payload.description, payload.status, payload.startsAt, payload.endsAt, payload.minIncrement, id]
+    [payload.title, payload.description, payload.status, payload.startsAt, payload.endsAt, payload.minIncrement, payload.reservePrice, id]
   );
   return rows[0];
 }

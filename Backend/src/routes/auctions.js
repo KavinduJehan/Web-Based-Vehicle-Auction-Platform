@@ -25,6 +25,7 @@ const auctionCreateSchema = Joi.object({
   startsAt:     Joi.date().iso().optional().allow(null),
   endsAt:       Joi.date().iso().optional().allow(null),
   minIncrement: Joi.number().min(0).default(0),
+  reservePrice: Joi.number().min(0).optional().allow(null),
 });
 
 const auctionUpdateSchema = Joi.object({
@@ -34,6 +35,7 @@ const auctionUpdateSchema = Joi.object({
   startsAt:     Joi.date().iso().optional().allow(null),
   endsAt:       Joi.date().iso().optional().allow(null),
   minIncrement: Joi.number().min(0).optional(),
+  reservePrice: Joi.number().min(0).optional().allow(null),
 });
 
 const winnerSchema = Joi.object({

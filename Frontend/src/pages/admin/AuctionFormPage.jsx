@@ -11,6 +11,7 @@ const INITIAL = {
   startsAt:     '',
   endsAt:       '',
   minIncrement: '0',
+  reservePrice: '',
 }
 
 export default function AuctionFormPage() {
@@ -46,6 +47,7 @@ export default function AuctionFormPage() {
           startsAt:     fmt(a.starts_at),
           endsAt:       fmt(a.ends_at),
           minIncrement: String(a.min_increment ?? '0'),
+          reservePrice: a.reserve_price != null ? String(a.reserve_price) : '',
         })
       })
       .catch(() => setError('Failed to load auction'))
@@ -64,6 +66,7 @@ export default function AuctionFormPage() {
     try {
       const payload = {
         minIncrement: Number(form.minIncrement),
+        reservePrice: form.reservePrice !== '' ? Number(form.reservePrice) : null,
       }
       if (form.title)       payload.title       = form.title
       if (form.description) payload.description = form.description
@@ -162,6 +165,16 @@ export default function AuctionFormPage() {
         <Field label="Minimum Bid Increment (LKR)">
           <input name="minIncrement" type="number" min={0} step="1"
             value={form.minIncrement} onChange={onChange} className="input" />
+        </Field>
+
+        {/* Reserve price (hidden from buyers) */}
+        <Field label="Reserve Price — LKR (hidden from buyers)">
+          <input name="reservePrice" type="number" min={0} step="1"
+            value={form.reservePrice} onChange={onChange} placeholder="Leave blank for no reserve"
+            className="input" />
+          <p className="text-xs text-gray-400 mt-1">
+            Bidding will show as &#34;reserve not met&#34; (red) until the highest bid exceeds this value. Buyers cannot see the amount.
+          </p>
         </Field>
 
         {/* Actions */}

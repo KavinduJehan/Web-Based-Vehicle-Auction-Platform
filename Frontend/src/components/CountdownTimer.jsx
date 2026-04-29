@@ -27,7 +27,7 @@ export default function CountdownTimer({ endsAt, className = '' }) {
   if (left.d > 0) parts.push(`${left.d}d`)
   parts.push(`${String(left.h).padStart(2, '0')}h`)
   parts.push(`${String(left.m).padStart(2, '0')}m`)
-  if (left.d === 0) parts.push(`${String(left.s).padStart(2, '0')}s`)
+  parts.push(`${String(left.s).padStart(2, '0')}s`)
 
   return (
     <span className={`font-mono font-semibold text-sm text-green-700 ${className}`}>

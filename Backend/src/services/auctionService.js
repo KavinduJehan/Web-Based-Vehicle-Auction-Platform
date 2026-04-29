@@ -42,13 +42,29 @@ function badRequest(message) {
   return err;
 }
 
-export async function listAuctions() {
+export async function listAuctions(user) {
   const rows = await auctionRepository.findAll();
-  return Promise.all(rows.map(withEffectiveStatus));
+  const settled = await Promise.all(rows.map(withEffectiveStatus));
+  return settled.map(a => stripReserve(a, user));
 }
 
-export async function getAuctionById(id) {
-  return withEffectiveStatus(await auctionRepository.findById(id));
+export async function getAuctionById(id, user) {
+  const auction = await withEffectiveStatus(await auctionRepository.findById(id));
+  return stripReserve(auction, user);
+}
+
+// Remove reserve_price from the row unless the requester is an admin,
+// but always inject a computed reserve_met boolean so buyers see the indicator.
+function stripReserve(auction, user) {
+  if (!auction) return auction;
+  const reserveMet = auction.reserve_price == null
+    ? null
+    : (auction.highest_bid != null
+        ? Number(auction.highest_bid) >= Number(auction.reserve_price)
+        : false);
+  if (user?.role === 'admin') return { ...auction, reserve_met: reserveMet };
+  const { reserve_price, ...rest } = auction;
+  return { ...rest, reserve_met: reserveMet };
 }
 
 export async function createAuction(payload, user) {
@@ -72,7 +88,8 @@ export async function createAuction(payload, user) {
     status:       payload.status || 'draft',
     startsAt:     payload.startsAt || null,
     endsAt:       payload.endsAt || null,
-    minIncrement: payload.minIncrement ?? 0
+    minIncrement: payload.minIncrement ?? 0,
+    reservePrice: payload.reservePrice ?? null,
   };
 
   return auctionRepository.create(auctionPayload);
@@ -95,7 +112,8 @@ export async function updateAuction(id, payload, user) {
     status:       payload.status       ?? existing.status,
     startsAt:     payload.startsAt     ?? existing.starts_at,
     endsAt:       payload.endsAt       ?? existing.ends_at,
-    minIncrement: payload.minIncrement ?? existing.min_increment
+    minIncrement: payload.minIncrement ?? existing.min_increment,
+    reservePrice: 'reservePrice' in payload ? payload.reservePrice : existing.reserve_price,
   };
 
   return auctionRepository.update(id, auctionPayload);

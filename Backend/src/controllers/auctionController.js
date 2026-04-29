@@ -33,7 +33,7 @@ export async function selectWinnerController(req, res, next) {
 
 export async function listAuctionsController(req, res, next) {
   try {
-    const items = await auctionService.listAuctions();
+    const items = await auctionService.listAuctions(req.user);
     res.json(items);
   } catch (err) {
     next(err);
@@ -42,7 +42,7 @@ export async function listAuctionsController(req, res, next) {
 
 export async function getAuctionController(req, res, next) {
   try {
-    const item = await auctionService.getAuctionById(req.params.id);
+    const item = await auctionService.getAuctionById(req.params.id, req.user);
     if (!item) return res.status(404).json({ message: 'Auction not found' });
     res.json(item);
   } catch (err) {

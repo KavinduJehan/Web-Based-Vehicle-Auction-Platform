@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams, useLocation } from 'react-router-dom'
 import { login as apiLogin } from '../api/auth'
 import { useAuth } from '../context/AuthContext'
 
@@ -10,8 +10,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const { login } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [searchParams] = useSearchParams()
   const registered = searchParams.get('registered')
+  const sessionMessage = location.state?.message ?? null
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -35,6 +37,11 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold mb-2">Sign in</h1>
         <p className="text-gray-500 text-sm mb-6">Welcome back to BidMotion</p>
 
+        {sessionMessage && (
+          <div className="bg-yellow-50 text-yellow-800 rounded-lg p-3 text-sm mb-4">
+            {sessionMessage}
+          </div>
+        )}
         {registered && (
           <div className="bg-green-50 text-green-700 rounded-lg p-3 text-sm mb-4">
             Account created! Please sign in.
