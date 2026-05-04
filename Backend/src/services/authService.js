@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import config from '../config/index.js';
 import * as userRepository from '../repositories/userRepository.js';
 

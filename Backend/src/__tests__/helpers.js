@@ -1,6 +1,6 @@
 import { pool } from '../db/pool.js';
 import app from '../app.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import request from 'supertest';
 
 export { app, pool };

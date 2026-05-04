@@ -11,5 +11,4 @@ export function errorHandler(err, req, res, next) {
     payload.stack = err.stack;
   }
   res.status(status).json(payload);
-  next();
 }
