@@ -113,3 +113,33 @@ describe('PATCH /api/users/:id/status', () => {
   });
 });
 
+// ── GET /api/users ─────────────────────────────────────────────────────────────
+
+describe('GET /api/users', () => {
+  it('returns 401 without a token', async () => {
+    const res = await request(app).get('/api/users');
+    expect(res.status).toBe(401);
+  });
+
+  it('returns 403 for a buyer', async () => {
+    const res = await request(app)
+      .get('/api/users')
+      .set('Authorization', `Bearer ${buyerToken}`);
+    expect(res.status).toBe(403);
+  });
+
+  it('returns 200 with an array of users for admin', async () => {
+    const res = await request(app)
+      .get('/api/users')
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBeGreaterThan(0);
+    expect(res.body[0]).toHaveProperty('id');
+    expect(res.body[0]).toHaveProperty('email');
+    expect(res.body[0]).toHaveProperty('role');
+    expect(res.body[0]).toHaveProperty('verificationStatus');
+    expect(res.body[0].password_hash).toBeUndefined();
+  });
+});
+

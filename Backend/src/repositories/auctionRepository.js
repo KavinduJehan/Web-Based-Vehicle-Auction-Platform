@@ -71,7 +71,12 @@ export async function remove(id) {
 
 export async function setWinner(id, winningBidId) {
   const { rows } = await pool.query(
-    `UPDATE auctions SET winning_bid_id = $1, status = 'ended' WHERE id = $2 RETURNING *`,
+    `UPDATE auctions
+     SET winning_bid_id = $1,
+         status = 'ended',
+         ends_at = CASE WHEN ends_at IS NULL OR ends_at > NOW() THEN NOW() ELSE ends_at END
+     WHERE id = $2
+     RETURNING *`,
     [winningBidId, id]
   );
   return rows[0];

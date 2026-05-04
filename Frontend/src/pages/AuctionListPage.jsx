@@ -92,6 +92,12 @@ export default function AuctionListPage() {
                     <span className="mr-1">Ends in</span>
                     <CountdownTimer endsAt={a.ends_at} />
                   </div>
+                ) : a.status === 'ended' ? (
+                  <p className="text-xs text-red-500 font-medium">
+                    {a.ends_at && new Date(a.ends_at) <= new Date()
+                      ? `Ended ${new Date(a.ends_at).toLocaleDateString()}`
+                      : 'Ended'}
+                  </p>
                 ) : (
                   <p className="text-xs text-gray-400">
                     {a.ends_at

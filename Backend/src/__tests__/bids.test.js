@@ -155,9 +155,11 @@ describe('POST /api/auctions/:auctionId/bids — bid rules', () => {
 // ── Bid listing ───────────────────────────────────────────────────────────────
 
 describe('GET /api/auctions/:auctionId/bids', () => {
-  it('returns 401 without a token', async () => {
+  it('returns 200 with bid data without a token (public route)', async () => {
     const res = await request(app).get(`/api/auctions/${auctionId}/bids`);
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBeGreaterThan(0);
   });
 
   it('admin sees all bids for an auction', async () => {

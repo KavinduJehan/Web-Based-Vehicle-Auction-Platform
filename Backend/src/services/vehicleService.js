@@ -15,9 +15,18 @@ export async function getVehicleById(id) {
   return vehicleRepository.findById(id);
 }
 
+function handleDbError(err) {
+  if (err.code === '23505' && err.constraint === 'vehicles_chassis_number_unique') {
+    const e = new Error('A vehicle with this chassis number already exists')
+    e.status = 409
+    throw e
+  }
+  throw err
+}
+
 export async function createVehicle(payload, user) {
   // Only admins (the business owners) list vehicles; seller_id is always the calling admin
-  return vehicleRepository.create({ ...payload, sellerId: user.sub });
+  return vehicleRepository.create({ ...payload, sellerId: user.sub }).catch(handleDbError);
 }
 
 export async function updateVehicle(id, payload, user) {
@@ -36,7 +45,7 @@ export async function updateVehicle(id, payload, user) {
     grade:         payload.grade         ?? existing.grade,
     images:        payload.images        ?? existing.images,
   };
-  return vehicleRepository.update(id, merged);
+  return vehicleRepository.update(id, merged).catch(handleDbError);
 }
 
 export async function deleteVehicle(id) {

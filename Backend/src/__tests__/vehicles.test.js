@@ -242,3 +242,102 @@ describe('GET /api/vehicles — filters, pagination, search', () => {
     expect(res.body.data).toHaveLength(0);
   });
 });
+
+// ── Get by ID ─────────────────────────────────────────────────────────────────
+
+describe('GET /api/vehicles/:id', () => {
+  let vehicleId;
+  let localToken;
+
+  beforeAll(async () => {
+    const admin = await createAdmin({ email: 'getbyid-admin@test.com' });
+    localToken = await loginAs(admin);
+    const res = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${localToken}`)
+      .send(vehicleBody);
+    vehicleId = res.body.id;
+  });
+
+  it('returns 200 with the correct shape for an existing vehicle', async () => {
+    const res = await request(app).get(`/api/vehicles/${vehicleId}`);
+    expect(res.status).toBe(200);
+    expect(res.body.id).toBe(vehicleId);
+    expect(res.body.make).toBe('Toyota');
+    expect(res.body.model).toBe('Hilux');
+    expect(res.body.year).toBe(2020);
+    expect(res.body.title).toBe(vehicleBody.title);
+    expect(res.body.starting_price).toBeDefined();
+  });
+
+  it('returns 404 for a non-existent vehicle', async () => {
+    const res = await request(app).get('/api/vehicles/99999');
+    expect(res.status).toBe(404);
+  });
+});
+
+// ── Chassis number uniqueness ─────────────────────────────────────────────────
+
+describe('POST /api/vehicles — chassis number uniqueness', () => {
+  let localToken;
+
+  beforeAll(async () => {
+    const admin = await createAdmin({ email: 'chassis-post-admin@test.com' });
+    localToken = await loginAs(admin);
+  });
+
+  it('returns 409 when creating a vehicle with a duplicate chassis number', async () => {
+    const chassis = 'CHASSIS-DUPE-001';
+    await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${localToken}`)
+      .send({ ...vehicleBody, chassisNumber: chassis });
+    const res = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${localToken}`)
+      .send({ ...vehicleBody, chassisNumber: chassis });
+    expect(res.status).toBe(409);
+    expect(res.body.message).toMatch(/chassis/i);
+  });
+
+  it('allows two vehicles with null chassisNumber', async () => {
+    const resA = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${localToken}`)
+      .send({ ...vehicleBody, chassisNumber: null });
+    const resB = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${localToken}`)
+      .send({ ...vehicleBody, chassisNumber: null });
+    expect(resA.status).toBe(201);
+    expect(resB.status).toBe(201);
+  });
+});
+
+describe('PUT /api/vehicles/:id — chassis number uniqueness', () => {
+  let localToken;
+
+  beforeAll(async () => {
+    const admin = await createAdmin({ email: 'chassis-put-admin@test.com' });
+    localToken = await loginAs(admin);
+  });
+
+  it('returns 409 when updating a vehicle to a chassis number already in use', async () => {
+    const chassis = 'CHASSIS-DUPE-002';
+    await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${localToken}`)
+      .send({ ...vehicleBody, chassisNumber: chassis });
+    const resB = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${localToken}`)
+      .send(vehicleBody);
+    const vehicleBId = resB.body.id;
+    const res = await request(app)
+      .put(`/api/vehicles/${vehicleBId}`)
+      .set('Authorization', `Bearer ${localToken}`)
+      .send({ ...vehicleBody, chassisNumber: chassis });
+    expect(res.status).toBe(409);
+    expect(res.body.message).toMatch(/chassis/i);
+  });
+});

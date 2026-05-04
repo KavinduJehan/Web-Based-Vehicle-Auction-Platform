@@ -16,6 +16,19 @@ export function authRequired(req, res, next) {
   }
 }
 
+/** Attaches req.user if a valid Bearer token is present, but does not reject requests without one. */
+export function optionalAuth(req, res, next) {
+  const header = req.headers.authorization;
+  if (header && header.startsWith('Bearer ')) {
+    try {
+      req.user = jwt.verify(header.slice('Bearer '.length), config.jwtSecret);
+    } catch {
+      // invalid/expired token — treat as unauthenticated
+    }
+  }
+  next();
+}
+
 export function requireRole(roles = []) {
   return (req, res, next) => {
     if (!req.user) {

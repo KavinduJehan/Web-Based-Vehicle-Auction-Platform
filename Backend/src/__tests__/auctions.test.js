@@ -318,3 +318,156 @@ describe('Auction status auto-transitions', () => {
   });
 });
 
+// ── GET /api/auctions/:id (individual fetch) ──────────────────────────────────
+
+describe('GET /api/auctions/:id', () => {
+  it('returns 200 with vehicle join fields for an existing auction', async () => {
+    const res = await request(app).get(`/api/auctions/${auctionId}`);
+    expect(res.status).toBe(200);
+    expect(res.body.id).toBe(auctionId);
+    expect(res.body.vehicle_make).toBe('Toyota');
+    expect(res.body.vehicle_id).toBeDefined();
+    expect(res.body.status).toBeDefined();
+    expect(res.body.title).toBeDefined();
+  });
+
+  it('returns 404 for a non-existent auction', async () => {
+    const res = await request(app).get('/api/auctions/99999');
+    expect(res.status).toBe(404);
+  });
+});
+
+// ── Reserve price system ──────────────────────────────────────────────────────
+
+describe('Reserve price system', () => {
+  let reserveAuctionId;
+  let noReserveAuctionId;
+
+  beforeAll(async () => {
+    const vR = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ ...vehicleBody, title: 'Reserve Test Car' });
+    const aR = await request(app)
+      .post('/api/auctions')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ vehicleId: vR.body.id, title: 'Reserve Auction', status: 'active', reservePrice: 50000 });
+    reserveAuctionId = aR.body.id;
+
+    const vNR = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ ...vehicleBody, title: 'No Reserve Test Car' });
+    const aNR = await request(app)
+      .post('/api/auctions')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ vehicleId: vNR.body.id, title: 'No Reserve Auction', status: 'active' });
+    noReserveAuctionId = aNR.body.id;
+  });
+
+  it('POST /api/auctions saves reservePrice and admin can see it', async () => {
+    const res = await request(app)
+      .get(`/api/auctions/${reserveAuctionId}`)
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(res.status).toBe(200);
+    expect(Number(res.body.reserve_price)).toBe(50000);
+  });
+
+  it('admin sees reserve_price on GET /api/auctions/:id', async () => {
+    const res = await request(app)
+      .get(`/api/auctions/${reserveAuctionId}`)
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(res.body.reserve_price).toBeDefined();
+    expect(Number(res.body.reserve_price)).toBe(50000);
+  });
+
+  it('buyer does not see reserve_price', async () => {
+    const res = await request(app)
+      .get(`/api/auctions/${reserveAuctionId}`)
+      .set('Authorization', `Bearer ${verifiedToken}`);
+    expect(res.status).toBe(200);
+    expect(res.body.reserve_price).toBeUndefined();
+  });
+
+  it('unauthenticated request does not see reserve_price', async () => {
+    const res = await request(app).get(`/api/auctions/${reserveAuctionId}`);
+    expect(res.status).toBe(200);
+    expect(res.body.reserve_price).toBeUndefined();
+  });
+
+  it('reserve_met is null when no reserve is set', async () => {
+    const res = await request(app).get(`/api/auctions/${noReserveAuctionId}`);
+    expect(res.status).toBe(200);
+    expect(res.body.reserve_met).toBeNull();
+  });
+
+  it('reserve_met is false when reserve is set but no bids placed', async () => {
+    const res = await request(app).get(`/api/auctions/${reserveAuctionId}`);
+    expect(res.body.reserve_met).toBe(false);
+  });
+
+  it('reserve_met is false when highest bid is below the reserve', async () => {
+    await request(app)
+      .post(`/api/auctions/${reserveAuctionId}/bids`)
+      .set('Authorization', `Bearer ${verifiedToken}`)
+      .send({ amount: 30000 });
+    const res = await request(app).get(`/api/auctions/${reserveAuctionId}`);
+    expect(res.body.reserve_met).toBe(false);
+  });
+
+  it('reserve_met is true when highest bid meets or exceeds the reserve', async () => {
+    await request(app)
+      .post(`/api/auctions/${reserveAuctionId}/bids`)
+      .set('Authorization', `Bearer ${verifiedToken}`)
+      .send({ amount: 60000 });
+    const res = await request(app).get(`/api/auctions/${reserveAuctionId}`);
+    expect(res.body.reserve_met).toBe(true);
+  });
+
+  it('PUT /api/auctions/:id with reservePrice: null clears the reserve', async () => {
+    const updateRes = await request(app)
+      .put(`/api/auctions/${reserveAuctionId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ reservePrice: null });
+    expect(updateRes.status).toBe(200);
+    const fetchRes = await request(app)
+      .get(`/api/auctions/${reserveAuctionId}`)
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(fetchRes.body.reserve_price).toBeNull();
+    expect(fetchRes.body.reserve_met).toBeNull();
+  });
+});
+
+// ── GET /api/auctions/won/me ──────────────────────────────────────────────────
+
+describe('GET /api/auctions/won/me', () => {
+  it('returns 401 without a token', async () => {
+    const res = await request(app).get('/api/auctions/won/me');
+    expect(res.status).toBe(401);
+  });
+
+  it('returns an empty array for a buyer with no wins', async () => {
+    const buyer = await createBuyer({ email: 'nowins-buyer@test.com' });
+    const token = await loginAs(buyer);
+    const res = await request(app)
+      .get('/api/auctions/won/me')
+      .set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body).toHaveLength(0);
+  });
+
+  it('returns the won auction with winning_amount for a buyer who has won', async () => {
+    // auctionId was closed with verifiedToken buyer as winner (set in the selectWinner suite)
+    const res = await request(app)
+      .get('/api/auctions/won/me')
+      .set('Authorization', `Bearer ${verifiedToken}`);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    const won = res.body.find(a => a.id === auctionId);
+    expect(won).toBeDefined();
+    expect(won.winning_amount).toBeDefined();
+    expect(Number(won.winning_amount)).toBe(25000);
+  });
+});
+

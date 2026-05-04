@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import Joi from 'joi';
 import { validate } from '../middleware/validate.js';
-import { authRequired, requireRole } from '../middleware/auth.js';
+import { authRequired, requireRole, optionalAuth } from '../middleware/auth.js';
 import {
   listAuctionsController,
   getAuctionController,
@@ -42,9 +42,9 @@ const winnerSchema = Joi.object({
   bidId: Joi.number().integer().positive().required()
 });
 
-router.get('/', listAuctionsController);
+router.get('/', optionalAuth, listAuctionsController);
 router.get('/won/me', authRequired, getMyWonAuctionsController);
-router.get('/:id', getAuctionController);
+router.get('/:id', optionalAuth, getAuctionController);
 router.post('/', authRequired, requireRole(['admin']), validate(auctionCreateSchema), createAuctionController);
 router.put('/:id', authRequired, requireRole(['admin']), validate(auctionUpdateSchema), updateAuctionController);
 router.delete('/:id', authRequired, requireRole(['admin']), deleteAuctionController);
