@@ -21,9 +21,8 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const res = await apiLogin(email, password)
-      login(res.data.token)
-      const decoded = JSON.parse(atob(res.data.token.split('.')[1]))
-      navigate(decoded.role === 'admin' ? '/admin' : '/auctions', { replace: true })
+      login(res.data.user)
+      navigate(res.data.user.role === 'admin' ? '/admin' : '/auctions', { replace: true })
     } catch (err) {
       setError(err.response?.data?.message ?? 'Login failed. Check your credentials.')
     } finally {

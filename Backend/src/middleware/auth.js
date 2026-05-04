@@ -1,29 +1,33 @@
 import jwt from 'jsonwebtoken';
 import config from '../config/index.js';
 
-export function authRequired(req, res, next) {
+/** Extract JWT from HttpOnly cookie first, then fall back to Authorization: Bearer (for Postman / tests). */
+function extractToken(req) {
+  if (req.cookies?.token) return req.cookies.token;
   const header = req.headers.authorization;
-  if (!header || !header.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authorization required' });
-  }
-  const token = header.slice('Bearer '.length);
+  if (header?.startsWith('Bearer ')) return header.slice('Bearer '.length);
+  return null;
+}
+
+export function authRequired(req, res, next) {
+  const token = extractToken(req);
+  if (!token) return res.status(401).json({ message: 'Authorization required' });
   try {
-    const payload = jwt.verify(token, config.jwtSecret);
-    req.user = payload;
+    req.user = jwt.verify(token, config.jwtSecret);
     next();
-  } catch (err) {
+  } catch {
     return res.status(401).json({ message: 'Invalid or expired token' });
   }
 }
 
-/** Attaches req.user if a valid Bearer token is present, but does not reject requests without one. */
+/** Attaches req.user if a valid token is present (cookie or Bearer), but never rejects. */
 export function optionalAuth(req, res, next) {
-  const header = req.headers.authorization;
-  if (header && header.startsWith('Bearer ')) {
+  const token = extractToken(req);
+  if (token) {
     try {
-      req.user = jwt.verify(header.slice('Bearer '.length), config.jwtSecret);
+      req.user = jwt.verify(token, config.jwtSecret);
     } catch {
-      // invalid/expired token — treat as unauthenticated
+      // invalid/expired — treat as unauthenticated
     }
   }
   next();

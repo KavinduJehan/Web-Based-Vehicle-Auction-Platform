@@ -58,22 +58,28 @@ describe('POST /api/auth/login', () => {
       .send({ name: 'Login User', email: 'login@test.com', password: 'Password1!', role: 'buyer' });
   });
 
-  it('returns a token for valid credentials', async () => {
+  it('sets an HttpOnly cookie and returns user on valid credentials', async () => {
     const res = await request(app)
       .post('/api/auth/login')
       .send({ email: 'login@test.com', password: 'Password1!' });
     expect(res.status).toBe(200);
-    expect(res.body.token).toBeDefined();
+    expect(res.body.token).toBeUndefined();       // token must NOT be in the body
     expect(res.body.user.email).toBe('login@test.com');
     expect(res.body.user.isVerified).toBe(false);
+    const cookies = res.headers['set-cookie'];
+    expect(cookies).toBeDefined();
+    expect(cookies.some(c => c.startsWith('token='))).toBe(true);
+    expect(cookies.some(c => c.toLowerCase().includes('httponly'))).toBe(true);
   });
 
   it('embeds isVerified in the token payload', async () => {
     const res = await request(app)
       .post('/api/auth/login')
       .send({ email: 'login@test.com', password: 'Password1!' });
-    // Decode (no verify) just to inspect payload
-    const [, payloadB64] = res.body.token.split('.');
+    // Extract token from Set-Cookie header and decode
+    const cookieHeader = res.headers['set-cookie'].find(c => c.startsWith('token='));
+    const tokenValue = cookieHeader.split(';')[0].split('=')[1];
+    const [, payloadB64] = tokenValue.split('.');
     const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString());
     expect(payload.isVerified).toBe(false);
   });

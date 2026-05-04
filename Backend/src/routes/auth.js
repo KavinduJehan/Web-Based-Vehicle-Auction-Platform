@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import Joi from 'joi';
 import { validate } from '../middleware/validate.js';
-import { registerController, loginController } from '../controllers/authController.js';
+import { authRequired } from '../middleware/auth.js';
+import { registerController, loginController, logoutController, meController } from '../controllers/authController.js';
 
 const router = Router();
 
@@ -19,5 +20,7 @@ const loginSchema = Joi.object({
 
 router.post('/register', validate(registerSchema), registerController);
 router.post('/login', validate(loginSchema), loginController);
+router.post('/logout', logoutController);
+router.get('/me', authRequired, meController);
 
 export default router;

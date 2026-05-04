@@ -1,6 +1,7 @@
 import { pool } from '../db/pool.js';
 import app from '../app.js';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import request from 'supertest';
 
 export { app, pool };
@@ -41,10 +42,11 @@ export async function createBuyer(opts = {}) {
   return { ...rows[0], password };
 }
 
-/** Log in via the API and return the JWT string. */
-export async function loginAs(user) {
-  const res = await request(app)
-    .post('/api/auth/login')
-    .send({ email: user.email, password: user.password });
-  return res.body.token;
+/** Log in by signing a JWT directly — returns a Bearer token string usable in Authorization headers. */
+export function loginAs(user) {
+  return jwt.sign(
+    { sub: user.id, role: user.role, email: user.email, isVerified: user.verification_status === 'verified' },
+    process.env.JWT_SECRET,
+    { expiresIn: '1h' }
+  );
 }

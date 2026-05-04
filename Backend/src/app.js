@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
 import morgan from 'morgan';
@@ -60,6 +61,7 @@ const bidLimiter = rateLimit({
 app.use('/api/auctions', bidLimiter);
 
 app.use(express.json({ limit: '50kb' }));
+app.use(cookieParser());
 if (config.env !== 'test') app.use(morgan(config.logFormat));
 
 app.use('/api', routes);

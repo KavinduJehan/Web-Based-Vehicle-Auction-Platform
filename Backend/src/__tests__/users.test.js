@@ -107,7 +107,9 @@ describe('PATCH /api/users/:id/status', () => {
       .post('/api/auth/login')
       .send({ email: 'fresh@test.com', password: 'BuyerPass1!' });
 
-    const [, payloadB64] = loginRes.body.token.split('.');
+    const cookieHeader = loginRes.headers['set-cookie'].find(c => c.startsWith('token='));
+    const tokenValue = cookieHeader.split(';')[0].split('=')[1];
+    const [, payloadB64] = tokenValue.split('.');
     const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString());
     expect(payload.isVerified).toBe(true);
   });

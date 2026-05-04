@@ -1,67 +1,61 @@
 import { createContext, useContext, useState, useEffect, useRef } from 'react'
+import { me as fetchMe, logout as apiLogout } from '../api/auth'
 
 const AuthContext = createContext(null)
 
 const INACTIVITY_MS = 30 * 60 * 1000 // 30 minutes
 
-function decodeToken(token) {
-  try {
-    return JSON.parse(atob(token.split('.')[1]))
-  } catch {
-    return null
-  }
-}
-
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem('token'))
-  const [user, setUser] = useState(() => {
-    const t = localStorage.getItem('token')
-    return t ? decodeToken(t) : null
-  })
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)   // true while restoring session
   const timerRef = useRef(null)
 
+  // Restore session on mount by calling /auth/me (reads the HttpOnly cookie)
+  useEffect(() => {
+    fetchMe()
+      .then(res => setUser(res.data.user))
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false))
+  }, [])
+
   function logout() {
-    localStorage.removeItem('token')
-    setToken(null)
+    apiLogout().catch(() => {})
     setUser(null)
   }
 
   // Reset the inactivity timer on any user activity
   function resetTimer() {
     clearTimeout(timerRef.current)
-    if (!localStorage.getItem('token')) return
+    if (!user) return
     timerRef.current = setTimeout(() => {
       logout()
-      // Signal other tabs / components
       window.dispatchEvent(new CustomEvent('session-expired'))
     }, INACTIVITY_MS)
   }
 
   useEffect(() => {
-    if (!token) {
+    if (!user) {
       clearTimeout(timerRef.current)
       return
     }
     const events = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click']
     events.forEach(e => window.addEventListener(e, resetTimer, { passive: true }))
-    resetTimer() // start the initial timer
+    resetTimer()
 
     return () => {
       clearTimeout(timerRef.current)
       events.forEach(e => window.removeEventListener(e, resetTimer))
     }
-  }, [token])
+  }, [user])
 
-  function login(newToken) {
-    localStorage.setItem('token', newToken)
-    setToken(newToken)
-    setUser(decodeToken(newToken))
+  function login(userData) {
+    setUser(userData)
   }
 
   return (
     <AuthContext.Provider value={{
-      token,
       user,
+      loading,
       login,
       logout,
       isAdmin:    user?.role === 'admin',
