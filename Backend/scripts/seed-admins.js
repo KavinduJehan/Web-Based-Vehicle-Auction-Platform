@@ -26,7 +26,7 @@ const ADMINS = [
 const BCRYPT_ROUNDS = Number(process.env.BCRYPT_ROUNDS || 10);
 
 async function run() {
-  const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+  const pool = new pg.Pool({ connectionString: process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL });
 
   try {
     for (const admin of ADMINS) {
