@@ -47,25 +47,26 @@ function App() {
       {wonBanner.map(a => (
         <div
           key={a.id}
-          className="bg-green-600 text-white px-6 py-3 flex items-center justify-between gap-4 text-sm"
+          className="bg-green-700 text-white px-4 sm:px-6 py-3 flex items-center justify-between gap-4 text-sm border-b border-green-800"
         >
-          <span>
-            🏆 Congratulations! You won the auction for{' '}
-            <button
-              onClick={() => { navigate(`/auctions/${a.id}`); dismissWon(a.id) }}
-              className="font-bold underline hover:no-underline"
-            >
-              {a.title || `${a.vehicle_make} ${a.vehicle_model} ${a.vehicle_year}`}
-            </button>
-            {' '}— winning bid:{' '}
-            <strong>LKR {Number(a.winning_amount).toLocaleString()}</strong>
+          <span className="flex items-center gap-2 min-w-0">
+            <span className="shrink-0 font-semibold text-green-200 uppercase tracking-wide text-xs">You Won</span>
+            <span className="text-white/90 truncate">
+              <button
+                onClick={() => { navigate(`/auctions/${a.id}`); dismissWon(a.id) }}
+                className="font-semibold underline decoration-white/40 hover:decoration-white transition-colors"
+              >
+                {a.title || `${a.vehicle_make} ${a.vehicle_model} ${a.vehicle_year}`}
+              </button>
+              {' '}— LKR <strong>{Number(a.winning_amount).toLocaleString()}</strong>
+            </span>
           </span>
           <button
             onClick={() => dismissWon(a.id)}
-            className="text-white/80 hover:text-white text-lg leading-none shrink-0"
+            className="text-white/60 hover:text-white transition-colors shrink-0 text-base leading-none"
             aria-label="Dismiss"
           >
-            ✕
+            ×
           </button>
         </div>
       ))}

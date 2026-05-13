@@ -34,11 +34,11 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-sm border p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-2">Create account</h1>
-        <p className="text-gray-500 text-sm mb-6">
-          Register as a buyer — an admin will verify your account before you can bid.
-        </p>
+      <div className="card p-8 w-full max-w-sm">
+        <div className="mb-6">
+          <h1 className="text-xl font-bold text-gray-900">Create account</h1>
+          <p className="text-sm text-gray-500 mt-1">Register as a buyer on Thapro<span className="font-semibold text-blue-600">AUTO</span></p>
+        </div>
 
         {error && (
           <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mb-4">
@@ -54,13 +54,13 @@ export default function RegisterPage() {
                 type={type} name={name} required value={form[name]}
                 onChange={onChange} placeholder={placeholder}
                 minLength={name === 'password' ? 8 : undefined}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="input"
               />
             </div>
           ))}
           <button
             type="submit" disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors disabled:opacity-50"
+            className="btn-primary w-full py-2.5"
           >
             {loading ? 'Creating account…' : 'Create account'}
           </button>
