@@ -35,3 +35,14 @@ export async function setStatus(id, status) {
   );
   return rows[0];
 }
+
+export async function changePassword(id, passwordHash) {
+  const { rows } = await pool.query(
+    `UPDATE users
+     SET password_hash = $1, must_change_password = false
+     WHERE id = $2
+     RETURNING id, email, role, name, verification_status, must_change_password`,
+    [passwordHash, id]
+  );
+  return rows[0];
+}

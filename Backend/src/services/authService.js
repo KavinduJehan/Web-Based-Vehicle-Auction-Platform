@@ -36,9 +36,9 @@ export async function login({ email, password }) {
     throw err;
   }
   const token = jwt.sign(
-    { sub: user.id, role: user.role, email: user.email, isVerified: user.verification_status === 'verified' },
+    { sub: user.id, role: user.role, email: user.email, isVerified: user.verification_status === 'verified', mustChangePassword: user.must_change_password },
     config.jwtSecret,
     { expiresIn: config.jwtExpiresIn }
   );
-  return { token, user: { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.verification_status === 'verified' } };
+  return { token, user: { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.verification_status === 'verified', mustChangePassword: user.must_change_password } };
 }

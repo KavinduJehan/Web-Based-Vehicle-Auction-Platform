@@ -26,3 +26,13 @@ export async function setUserStatusController(req, res, next) {
     next(err);
   }
 }
+
+export async function changePasswordController(req, res, next) {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    await userService.changePassword(req.user.sub, currentPassword, newPassword);
+    res.json({ message: 'Password changed successfully' });
+  } catch (err) {
+    next(err);
+  }
+}

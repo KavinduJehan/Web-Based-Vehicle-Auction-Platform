@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+import config from '../config/index.js';
 import * as userRepository from '../repositories/userRepository.js';
 
 export async function listUsers() {
@@ -19,7 +21,7 @@ export async function getMe(userId) {
     err.status = 404;
     throw err;
   }
-  return { id: user.id, email: user.email, role: user.role, name: user.name, verificationStatus: user.verification_status };
+  return { id: user.id, email: user.email, role: user.role, name: user.name, verificationStatus: user.verification_status, mustChangePassword: user.must_change_password };
 }
 
 export async function setUserStatus(id, status) {
@@ -35,4 +37,21 @@ export async function setUserStatus(id, status) {
     throw err;
   }
   return userRepository.setStatus(id, status);
+}
+
+export async function changePassword(userId, currentPassword, newPassword) {
+  const user = await userRepository.findById(userId);
+  if (!user) {
+    const err = new Error('User not found');
+    err.status = 404;
+    throw err;
+  }
+  const ok = await bcrypt.compare(currentPassword, user.password_hash);
+  if (!ok) {
+    const err = new Error('Current password is incorrect');
+    err.status = 400;
+    throw err;
+  }
+  const hash = await bcrypt.hash(newPassword, config.bcryptRounds);
+  return userRepository.changePassword(userId, hash);
 }

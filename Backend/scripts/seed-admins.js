@@ -11,16 +11,16 @@
  */
 
 import dotenv from 'dotenv';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import pg from 'pg';
 
 dotenv.config();
 
 const ADMINS = [
-  // Replace these with the real names, emails, and temporary passwords for
-  // the two business owners. Passwords should be changed on first login.
-  { name: 'Owner',    email: 'owner@example.com', password: 'ChangeMe1' },
-  { name: 'Owner Two',    email: 'owner2@example.com', password: 'ChangeMe2!' },
+  // Replace these with the real names, emails, and temporary passwords.
+  // Passwords should be changed on first login.
+  { name: 'Owner',    email: 'owner@thaproauto.com', password: 'ChangeMe1!' },
+  { name: 'Owner Two', email: 'owner2@thaproauto.com', password: 'ChangeMe2!' },
 ];
 
 const BCRYPT_ROUNDS = Number(process.env.BCRYPT_ROUNDS || 10);
@@ -43,8 +43,8 @@ async function run() {
       const passwordHash = await bcrypt.hash(admin.password, BCRYPT_ROUNDS);
 
       await pool.query(
-        `INSERT INTO users (email, password_hash, role, name, is_verified)
-         VALUES ($1, $2, 'admin', $3, true)`,
+        `INSERT INTO users (email, password_hash, role, name, verification_status, must_change_password)
+         VALUES ($1, $2, 'admin', $3, 'verified', true)`,
         [admin.email, passwordHash, admin.name]
       );
 

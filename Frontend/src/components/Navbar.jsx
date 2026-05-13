@@ -76,7 +76,7 @@ export default function Navbar() {
     <nav className="bg-gray-900 text-white px-6 py-4">
       <div className="flex items-center justify-between">
         <Link to="/auctions" className="text-xl font-bold tracking-tight">
-          ThaproJapan
+          ThaproAUTO
         </Link>
 
         {/* Desktop */}

@@ -11,6 +11,7 @@ import AuctionFormPage   from '../pages/admin/AuctionFormPage'
 import ProfilePage       from '../pages/ProfilePage'
 import VehicleListPage   from '../pages/VehicleListPage'
 import VehicleDetailPage from '../pages/VehicleDetailPage'
+import ChangePasswordPage from '../pages/ChangePasswordPage'
 
 export default function AppRouter() {
   return (
@@ -45,6 +46,11 @@ export default function AppRouter() {
       {/* Buyer */}
       <Route path="/profile" element={
         <ProtectedRoute><ProfilePage /></ProtectedRoute>
+      } />
+
+      {/* Force password change — no role guard, just auth */}
+      <Route path="/change-password" element={
+        <ProtectedRoute skipPasswordCheck><ChangePasswordPage /></ProtectedRoute>
       } />
 
       {/* Catch-all */}

@@ -34,7 +34,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-sm border p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-2">Sign in</h1>
-        <p className="text-gray-500 text-sm mb-6">Welcome back to BidMotion</p>
+        <p className="text-gray-500 text-sm mb-6">Welcome back to ThaproAUTO</p>
 
         {sessionMessage && (
           <div className="bg-yellow-50 text-yellow-800 rounded-lg p-3 text-sm mb-4">

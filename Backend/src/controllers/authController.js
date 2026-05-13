@@ -40,6 +40,6 @@ export function logoutController(req, res) {
 }
 
 export function meController(req, res) {
-  const { sub: id, role, email, isVerified } = req.user;
-  res.json({ user: { id, role, email, isVerified } });
+  const { sub: id, role, email, isVerified, mustChangePassword } = req.user;
+  res.json({ user: { id, role, email, isVerified, mustChangePassword } });
 }
