@@ -42,7 +42,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link to="/auctions" className="text-base font-bold tracking-tight text-white shrink-0">
-            Thapro<span className="text-blue-400">AUTO</span>
+            TAPRO<span className="text-blue-400">AUTO</span>
           </Link>
 
           {/* Desktop nav */}

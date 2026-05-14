@@ -235,7 +235,7 @@ export default function AuctionDetailPage() {
           </span>
         )}
         {increment > 0 && (
-          <span>Min increment: <b>LKR {increment.toLocaleString()}</b></span>
+          <span>Min increment: <b>USD {increment.toLocaleString()}</b></span>
         )}
       </div>
 
@@ -252,8 +252,8 @@ export default function AuctionDetailPage() {
           'text-blue-600'
         }`}>
           {highest != null
-            ? `LKR ${highest.toLocaleString()}`
-            : `Starting at LKR ${Number(auction.starting_price ?? 0).toLocaleString()}`}
+            ? `USD ${highest.toLocaleString()}`
+            : `Starting at USD ${Number(auction.starting_price ?? 0).toLocaleString()}`}
         </p>
         <div className="flex items-center gap-3 mt-1">
           <p className="text-xs text-gray-400">
@@ -273,7 +273,7 @@ export default function AuctionDetailPage() {
           {/* Admin sees the actual reserve value */}
           {isAdmin && reservePrice != null && (
             <span className="text-xs text-orange-700 bg-orange-100 px-2 py-0.5 rounded-full">
-              Reserve: LKR {reservePrice.toLocaleString()}
+              Reserve: USD {reservePrice.toLocaleString()}
             </span>
           )}
         </div>
@@ -292,7 +292,7 @@ export default function AuctionDetailPage() {
             <form onSubmit={handleBid} className="flex gap-3 items-end">
               <div className="flex-1">
                 <label className="block text-sm text-gray-600 mb-1">
-                  Amount (minimum LKR {minNext.toLocaleString()})
+                  Amount (minimum USD {minNext.toLocaleString()})
                 </label>
                 <input
                   type="number" min={minNext} step="1" required
@@ -358,7 +358,7 @@ export default function AuctionDetailPage() {
                   <tbody>
                     {sortedBids.map((b) => (
                       <tr key={b.id} className="border-b last:border-0">
-                        <td className="py-2 font-medium">LKR {Number(b.amount).toLocaleString()}</td>
+                        <td className="py-2 font-medium">USD {Number(b.amount).toLocaleString()}</td>
                         <td className="py-2 text-gray-700">{b.bidder_name ?? '—'}</td>
                         <td className="py-2 text-gray-400">{new Date(b.created_at).toLocaleString()}</td>
                         <td className="py-2">
@@ -415,7 +415,7 @@ export default function AuctionDetailPage() {
                 <tr key={b.id} className="border-b last:border-0">
                   <td className="py-2 font-medium">
                     {i === 0 && <span className="text-green-600 mr-1">★</span>}
-                    LKR {Number(b.amount).toLocaleString()}
+                    USD {Number(b.amount).toLocaleString()}
                   </td>
                   <td className="py-2 text-gray-700">{b.bidder_name ?? '—'}</td>
                   <td className="py-2 text-gray-400">

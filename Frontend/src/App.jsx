@@ -58,7 +58,7 @@ function App() {
               >
                 {a.title || `${a.vehicle_make} ${a.vehicle_model} ${a.vehicle_year}`}
               </button>
-              {' '}— LKR <strong>{Number(a.winning_amount).toLocaleString()}</strong>
+              {' '}— USD <strong>{Number(a.winning_amount).toLocaleString()}</strong>
             </span>
           </span>
           <button

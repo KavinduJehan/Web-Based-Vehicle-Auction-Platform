@@ -39,7 +39,7 @@ describe('App — won auction banners', () => {
 
     await waitFor(() => expect(screen.getByText(/Congratulations/i)).toBeInTheDocument())
     expect(screen.getByText(/Test Auction/)).toBeInTheDocument()
-    expect(screen.getByText(/LKR/)).toBeInTheDocument()
+    expect(screen.getByText(/USD/)).toBeInTheDocument()
   })
 
   it('does not show a banner for an admin', () => {

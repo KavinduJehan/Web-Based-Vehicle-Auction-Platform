@@ -187,7 +187,7 @@ export default function VehicleDetailPage() {
       <div className="bg-white border rounded-xl p-5">
         <p className="text-sm text-gray-500 mb-1">Starting price</p>
         <p className="text-3xl font-bold text-blue-600">
-          LKR {Number(vehicle.starting_price).toLocaleString()}
+          USD {Number(vehicle.starting_price).toLocaleString()}
         </p>
       </div>
 

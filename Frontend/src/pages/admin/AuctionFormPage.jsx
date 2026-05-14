@@ -162,13 +162,13 @@ export default function AuctionFormPage() {
         </div>
 
         {/* Min increment */}
-        <Field label="Minimum Bid Increment (LKR)">
+        <Field label="Minimum Bid Increment (USD)">
           <input name="minIncrement" type="number" min={0} step="1"
             value={form.minIncrement} onChange={onChange} className="input" />
         </Field>
 
         {/* Reserve price (hidden from buyers) */}
-        <Field label="Reserve Price — LKR (hidden from buyers)">
+        <Field label="Reserve Price — USD (hidden from buyers)">
           <input name="reservePrice" type="number" min={0} step="1"
             value={form.reservePrice} onChange={onChange} placeholder="Leave blank for no reserve"
             className="input" />

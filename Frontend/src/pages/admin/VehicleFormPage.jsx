@@ -131,7 +131,7 @@ export default function VehicleFormPage() {
         </div>
 
         {/* Starting price */}
-        <Field label="Starting Price (LKR) *">
+        <Field label="Starting Price (USD) *">
           <input name="startingPrice" type="number" required min={1} step="0.01"
             value={form.startingPrice} onChange={onChange}
             placeholder="5000000" className="input" />

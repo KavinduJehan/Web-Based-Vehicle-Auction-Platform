@@ -210,7 +210,7 @@ export default function VehicleListPage() {
                 )}
 
                 <p className="text-blue-600 font-bold mt-auto">
-                  LKR {Number(v.starting_price).toLocaleString()}
+                  USD {Number(v.starting_price).toLocaleString()}
                 </p>
               </div>
             </Link>

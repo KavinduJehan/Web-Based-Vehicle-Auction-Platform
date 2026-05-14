@@ -124,7 +124,7 @@ export default function AdminPage() {
                   <td className="py-3 pr-4 font-medium">
                     {v.title || `${v.make} ${v.model} ${v.year}`}
                   </td>
-                  <td className="py-3 pr-4">LKR {Number(v.starting_price).toLocaleString()}</td>
+                  <td className="py-3 pr-4">USD {Number(v.starting_price).toLocaleString()}</td>
                   <td className="py-3 pr-4"><StatusBadge status={v.status} /></td>
                   <td className="py-3">
                     <div className="flex gap-2">

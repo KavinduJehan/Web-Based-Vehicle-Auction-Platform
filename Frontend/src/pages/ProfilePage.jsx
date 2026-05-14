@@ -111,7 +111,7 @@ export default function ProfilePage() {
                       {a.vehicle_make} {a.vehicle_model} · {a.vehicle_year}
                     </p>
                     <p className="text-sm font-semibold text-blue-600 mt-0.5">
-                      Winning bid: LKR {Number(a.winning_amount).toLocaleString()}
+                      Winning bid: USD {Number(a.winning_amount).toLocaleString()}
                     </p>
                   </div>
                   <span className="text-xs text-gray-400 shrink-0">

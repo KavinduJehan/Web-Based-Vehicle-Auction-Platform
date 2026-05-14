@@ -43,7 +43,7 @@ export default function WinnerPage() {
           <div>
             <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Winning Bid</p>
             <p className="text-2xl font-bold text-blue-600">
-              LKR {Number(winner.winningBid.amount).toLocaleString()}
+              USD {Number(winner.winningBid.amount).toLocaleString()}
             </p>
             <p className="text-xs text-gray-400">
               {new Date(winner.winningBid.placedAt).toLocaleString()}
