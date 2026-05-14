@@ -8,6 +8,7 @@ export default function Navbar() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [pendingCount, setPendingCount] = useState(0)
+  const [showSignOutModal, setShowSignOutModal] = useState(false)
 
   useEffect(() => {
     if (!isAdmin) return
@@ -28,6 +29,7 @@ export default function Navbar() {
     logout()
     navigate('/auctions')
     setOpen(false)
+    setShowSignOutModal(false)
   }
 
   const close = () => setOpen(false)
@@ -36,6 +38,7 @@ export default function Navbar() {
     `text-sm font-medium transition-colors ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`
 
   return (
+    <>
     <nav className="bg-gray-950 border-b border-gray-800 sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
@@ -72,7 +75,7 @@ export default function Navbar() {
               <>
                 <span className="text-xs text-gray-500 truncate max-w-36">{user.email}</span>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => setShowSignOutModal(true)}
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
                   Sign out
@@ -134,7 +137,7 @@ export default function Navbar() {
               <>
                 <p className="text-xs text-gray-500 px-3 py-1 truncate">{user.email}</p>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => { setOpen(false); setShowSignOutModal(true) }}
                   className="w-full text-left text-sm text-gray-400 hover:text-white hover:bg-gray-800 px-3 py-2 rounded-md transition-colors"
                 >
                   Sign out
@@ -154,6 +157,32 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+
+      {/* Sign out confirmation modal */}
+      {showSignOutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowSignOutModal(false)} />
+          <div className="relative bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
+            <h2 className="text-base font-semibold text-gray-900 mb-1">Sign out</h2>
+            <p className="text-sm text-gray-500 mb-6">Are you sure you want to sign out of ThaproAUTO?</p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowSignOutModal(false)}
+                className="btn-secondary"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="btn-danger"
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
