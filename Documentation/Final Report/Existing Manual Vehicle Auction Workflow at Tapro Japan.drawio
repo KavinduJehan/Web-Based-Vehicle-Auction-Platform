@@ -1,0 +1,78 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Page-1" id="mqSSCuK5hsDpExwCf3x4">
+    <mxGraphModel dx="607" dy="1693" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-2" target="r3SZa-OH5eaqaaBaUp3e-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-2" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;&amp;nbsp;Vehicle acquired by owner&amp;nbsp;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;" vertex="1" parent="1">
+          <mxGeometry x="200" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-13" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-3" target="r3SZa-OH5eaqaaBaUp3e-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-3" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;Take photos and record&amp;nbsp;&lt;br&gt;&amp;nbsp;vehicle specification&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="200" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-14" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-4" target="r3SZa-OH5eaqaaBaUp3e-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="495" y="410" />
+              <mxPoint x="495" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-4" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;Share vehicle details via&amp;nbsp;&lt;br&gt;WhatsApp and Facebook&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="420" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-15" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-5" target="r3SZa-OH5eaqaaBaUp3e-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-5" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;Buyers submit bids via message replies&amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="410" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-16" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-6" target="r3SZa-OH5eaqaaBaUp3e-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-6" target="r3SZa-OH5eaqaaBaUp3e-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-6" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;Owner manually reviews&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;&amp;nbsp;and compares bids&amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="630" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-17" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-7" target="r3SZa-OH5eaqaaBaUp3e-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-7" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;&amp;nbsp;Highest bidder selected &amp;nbsp;manually&amp;nbsp;&amp;nbsp;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="630" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-18" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-8" target="r3SZa-OH5eaqaaBaUp3e-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-8" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;&amp;nbsp;Winner notified privately&amp;nbsp;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="830" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-11" value="&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;&amp;nbsp;Transaction completed&amp;nbsp;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;&amp;nbsp;offline&amp;nbsp; &amp;nbsp;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;strokeColor=#000000;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="830" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-20" value="&lt;li data-start=&quot;1708&quot; data-end=&quot;1727&quot;&gt;&lt;font style=&quot;color: rgb(255, 51, 51);&quot;&gt;No bid validation&lt;/font&gt;&lt;/li&gt;&lt;li data-start=&quot;1728&quot; data-end=&quot;1750&quot;&gt;&lt;font style=&quot;color: rgb(255, 51, 51);&quot;&gt;No minimum increment&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;li data-start=&quot;1751&quot; data-end=&quot;1767&quot;&gt;&lt;font style=&quot;color: rgb(255, 51, 51);&quot;&gt;No bid history&lt;/font&gt;&lt;/li&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="425" y="210" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-21" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.429;entryY=0.984;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=#000000;strokeWidth=2;align=center;verticalAlign=middle;arcSize=14;absoluteArcSize=1;fontFamily=Helvetica;fontSize=12;fontColor=default;fillColor=#FFFFFF;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-5" target="r3SZa-OH5eaqaaBaUp3e-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-22" value="&lt;li data-start=&quot;1809&quot; data-end=&quot;1830&quot;&gt;&lt;font style=&quot;color: rgb(255, 51, 51);&quot;&gt;Risk of missed bids&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;li data-start=&quot;1831&quot; data-end=&quot;1855&quot;&gt;&lt;font style=&quot;color: rgb(255, 51, 51);&quot;&gt;Time-consuming process&lt;br&gt;&lt;/font&gt;&lt;/li&gt;&lt;li data-start=&quot;1856&quot; data-end=&quot;1872&quot;&gt;&lt;font style=&quot;color: rgb(255, 51, 51);&quot;&gt;No audit trail&lt;/font&gt;&lt;/li&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="210" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-24" value="&lt;li data-start=&quot;1912&quot; data-end=&quot;1934&quot;&gt;Lack of transparency&lt;/li&gt;&lt;li data-start=&quot;1935&quot; data-end=&quot;1959&quot;&gt;No bidder verification&lt;/li&gt;" style="text;whiteSpace=wrap;html=1;fontColor=#FF3333;" vertex="1" parent="1">
+          <mxGeometry x="850" y="520" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.422;entryY=-0.042;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-8" target="r3SZa-OH5eaqaaBaUp3e-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

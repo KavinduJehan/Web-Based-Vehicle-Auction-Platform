@@ -1,0 +1,60 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.0.3 Chrome/140.0.7339.249 Electron/38.7.0 Safari/537.36" version="29.0.3">
+  <diagram name="Page-1" id="mqSSCuK5hsDpExwCf3x4">
+    <mxGraphModel dx="1603" dy="1185" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-2" target="r3SZa-OH5eaqaaBaUp3e-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-2" value="&amp;nbsp;Vehicle acquired by owner&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-3" target="r3SZa-OH5eaqaaBaUp3e-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-3" value="Take photos and record&amp;nbsp;&lt;br&gt;&amp;nbsp;vehicle specification" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-4" target="r3SZa-OH5eaqaaBaUp3e-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="495" y="410" />
+              <mxPoint x="495" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-4" value="Share vehicle details via&amp;nbsp;&lt;br&gt;WhatsApp and Facebook" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="420" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-5" target="r3SZa-OH5eaqaaBaUp3e-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-5" value="Buyers submit bids via message replies&amp;nbsp; &amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="410" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-6" target="r3SZa-OH5eaqaaBaUp3e-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-6" value="Owner manually reviews&amp;nbsp;&lt;div&gt;&amp;nbsp;and compares bids&amp;nbsp;&amp;nbsp;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="630" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-7" target="r3SZa-OH5eaqaaBaUp3e-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-7" value="&amp;nbsp;Highest bidder selected &amp;nbsp;manually&amp;nbsp;&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="630" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3SZa-OH5eaqaaBaUp3e-8" target="r3SZa-OH5eaqaaBaUp3e-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-8" value="&amp;nbsp;Winner notified privately&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="440" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="r3SZa-OH5eaqaaBaUp3e-11" value="&amp;nbsp;Transaction completed&amp;nbsp;&lt;div&gt;&amp;nbsp;offline&amp;nbsp; &amp;nbsp;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="280" width="170" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
