@@ -5,25 +5,31 @@ import * as userRepository from '../repositories/userRepository.js';
 
 const PUBLIC_ROLES = new Set(['buyer']);
 
+function normalizeEmail(email) {
+  return String(email ?? '').trim().toLowerCase();
+}
+
 export async function register({ email, password, role, name }) {
+  const normalizedEmail = normalizeEmail(email);
   if (!PUBLIC_ROLES.has(role)) {
     const err = new Error('Invalid role');
     err.status = 400;
     throw err;
   }
-  const existing = await userRepository.findByEmail(email);
+  const existing = await userRepository.findByEmail(normalizedEmail);
   if (existing) {
     const err = new Error('Email already registered');
     err.status = 409;
     throw err;
   }
   const hashed = await bcrypt.hash(password, config.bcryptRounds);
-  const user = await userRepository.create({ email, passwordHash: hashed, role, name });
+  const user = await userRepository.create({ email: normalizedEmail, passwordHash: hashed, role, name });
   return { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.verification_status === 'verified' };
 }
 
 export async function login({ email, password }) {
-  const user = await userRepository.findByEmail(email);
+  const normalizedEmail = normalizeEmail(email);
+  const user = await userRepository.findByEmail(normalizedEmail);
   if (!user) {
     const err = new Error('Invalid credentials');
     err.status = 401;

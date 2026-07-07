@@ -1,7 +1,7 @@
 import { pool } from '../db/pool.js';
 
 export async function findByEmail(email) {
-  const { rows } = await pool.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [email]);
+  const { rows } = await pool.query('SELECT * FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1', [email]);
   return rows[0];
 }
 

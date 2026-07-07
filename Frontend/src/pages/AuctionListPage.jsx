@@ -45,20 +45,35 @@ export default function AuctionListPage() {
   return (
     <div className="page">
       {/* Header */}
+      <div className="enterprise-panel bg-linear-to-r from-[#0f2a43] to-[#1f4d76] text-white p-6 md:p-8 mb-8 overflow-hidden relative">
+        <div className="absolute right-0 top-0 h-40 w-40 bg-amber-300/20 rounded-full blur-3xl" />
+        <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.16em] uppercase text-slate-200">Live Marketplace</p>
+            <h1 className="mt-2 text-3xl md:text-4xl font-semibold text-white">Vehicle Auctions</h1>
+            <p className="text-sm text-slate-200/90 mt-1">Transparent bidding and verified buyers for export-ready inventory.</p>
+          </div>
+          <div className="rounded-xl border border-white/25 bg-white/10 backdrop-blur-sm px-4 py-3 self-start sm:self-auto">
+            <p className="text-xs uppercase tracking-[0.12em] text-slate-200">Total Listings</p>
+            <p className="text-2xl font-semibold text-white">{auctions.length}</p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Auctions</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{auctions.length} listing{auctions.length !== 1 ? 's' : ''}</p>
+          <h2 className="text-xl font-semibold text-slate-900">Browse by status</h2>
+          <p className="text-sm text-slate-500 mt-0.5">{displayed.length} visible auction{displayed.length !== 1 ? 's' : ''}</p>
         </div>
 
         {/* Filter tabs */}
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-lg self-start sm:self-auto">
+        <div className="flex gap-1 bg-slate-200/70 p-1 rounded-lg self-start sm:self-auto">
           {FILTERS.map(s => (
             <button
               key={s}
               onClick={() => setFilter(s)}
               className={`px-3 py-1.5 rounded-md text-xs font-medium capitalize transition-colors ${
-                filter === s ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                filter === s ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-600 hover:text-slate-800'
               }`}
             >
               {s}
@@ -70,7 +85,7 @@ export default function AuctionListPage() {
       {/* Empty state */}
       {displayed.length === 0 && (
         <div className="card p-16 text-center">
-          <p className="text-gray-400 font-medium">No {filter === 'all' ? '' : filter} auctions found.</p>
+          <p className="text-slate-500 font-medium">No {filter === 'all' ? '' : filter} auctions found.</p>
         </div>
       )}
 
@@ -80,7 +95,7 @@ export default function AuctionListPage() {
           <Link
             key={a.id}
             to={`/auctions/${a.id}`}
-            className="card overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 flex flex-col group"
+            className="card overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-150 flex flex-col group"
           >
             {/* Thumbnail */}
             <div className="relative overflow-hidden">
@@ -100,26 +115,26 @@ export default function AuctionListPage() {
 
             {/* Content */}
             <div className="p-4 flex flex-col gap-2 flex-1">
-              <h2 className="font-semibold text-gray-900 leading-snug line-clamp-2">{a.title}</h2>
+              <h3 className="font-semibold text-slate-900 leading-snug line-clamp-2">{a.title}</h3>
 
               {(a.vehicle_make || a.vehicle_year) && (
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-slate-500">
                   {[a.vehicle_make, a.vehicle_model, a.vehicle_year].filter(Boolean).join(' · ')}
                 </p>
               )}
 
-              <div className="mt-auto pt-2 border-t border-gray-50">
+              <div className="mt-auto pt-2 border-t border-slate-100">
                 {a.status === 'active' && a.ends_at ? (
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
+                  <div className="flex items-center gap-1 text-xs text-slate-600">
                     <span>Closes in</span>
-                    <span className="font-medium text-gray-700"><CountdownTimer endsAt={a.ends_at} /></span>
+                    <span className="font-medium text-slate-800"><CountdownTimer endsAt={a.ends_at} /></span>
                   </div>
                 ) : a.status === 'ended' ? (
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-slate-500">
                     Ended {a.ends_at ? new Date(a.ends_at).toLocaleDateString() : ''}
                   </p>
                 ) : (
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-slate-500">
                     {a.ends_at ? `Scheduled · ${new Date(a.ends_at).toLocaleDateString()}` : 'Not scheduled'}
                   </p>
                 )}

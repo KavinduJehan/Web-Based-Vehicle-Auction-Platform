@@ -64,6 +64,10 @@ export default function AdminPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <div className="flex gap-2">
+          <Link to="/admin/reports"
+            className="bg-slate-700 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+            Reports
+          </Link>
           <Link to="/admin/vehicles/new"
             className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
             + Vehicle

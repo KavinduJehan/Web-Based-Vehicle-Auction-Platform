@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import AppRouter from './router'
 import { useAuth } from './context/AuthContext'
 import { getMyWonAuctions } from './api/auctions'
@@ -9,6 +10,7 @@ function App() {
   const { user, isAdmin } = useAuth()
   const navigate = useNavigate()
   const [wonBanner, setWonBanner] = useState([])
+  const userId = user?.sub
 
   // Redirect to login on session expiry
   useEffect(() => {
@@ -21,7 +23,10 @@ function App() {
 
   // Show "you won" banner for buyer when they are logged in
   useEffect(() => {
-    if (!user || isAdmin) { setWonBanner([]); return }
+    if (!userId || isAdmin) {
+      Promise.resolve().then(() => setWonBanner([]))
+      return
+    }
     getMyWonAuctions()
       .then(res => {
         const wins = res.data ?? []
@@ -31,7 +36,7 @@ function App() {
         setWonBanner(fresh)
       })
       .catch(() => {})
-  }, [user?.sub])
+  }, [userId, isAdmin])
 
   function dismissWon(auctionId) {
     const dismissed = JSON.parse(localStorage.getItem('wonDismissed') ?? '[]')
@@ -40,14 +45,14 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
       {/* Won auction banners */}
       {wonBanner.map(a => (
         <div
           key={a.id}
-          className="bg-green-700 text-white px-4 sm:px-6 py-3 flex items-center justify-between gap-4 text-sm border-b border-green-800"
+          className="bg-emerald-800 text-white px-4 sm:px-6 py-3 flex items-center justify-between gap-4 text-sm border-b border-emerald-900"
         >
           <span className="flex items-center gap-2 min-w-0">
             <span className="shrink-0 font-semibold text-green-200 uppercase tracking-wide text-xs">You Won</span>
@@ -58,7 +63,7 @@ function App() {
               >
                 {a.title || `${a.vehicle_make} ${a.vehicle_model} ${a.vehicle_year}`}
               </button>
-              {' '}— USD <strong>{Number(a.winning_amount).toLocaleString()}</strong>
+              {' '}-- USD <strong>{Number(a.winning_amount).toLocaleString()}</strong>
             </span>
           </span>
           <button
@@ -66,14 +71,16 @@ function App() {
             className="text-white/60 hover:text-white transition-colors shrink-0 text-base leading-none"
             aria-label="Dismiss"
           >
-            ×
+            X
           </button>
         </div>
       ))}
 
-      <main>
+      <main className="flex-1">
         <AppRouter />
       </main>
+
+      <Footer />
     </div>
   )
 }

@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { listUsers } from '../api/users'
 
 export default function Navbar() {
-  const { user, logout, isAdmin } = useAuth()
-  const navigate = useNavigate()
+  const { user, isAdmin } = useAuth()
   const [open, setOpen] = useState(false)
   const [pendingCount, setPendingCount] = useState(0)
-  const [showSignOutModal, setShowSignOutModal] = useState(false)
 
   useEffect(() => {
     if (!isAdmin) return
@@ -25,31 +23,31 @@ export default function Navbar() {
     return () => window.removeEventListener('user-status-changed', fetchPending)
   }, [isAdmin])
 
-  function handleLogout() {
-    logout()
-    navigate('/auctions')
-    setOpen(false)
-    setShowSignOutModal(false)
-  }
-
   const close = () => setOpen(false)
+  const accountPath = isAdmin ? '/admin' : '/profile'
 
   const navLinkClass = ({ isActive }) =>
-    `text-sm font-medium transition-colors ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`
+    `text-sm font-medium transition-colors ${isActive ? 'text-white' : 'text-slate-200/80 hover:text-white'}`
 
   return (
     <>
-    <nav className="bg-gray-950 border-b border-gray-800 sticky top-0 z-40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-14">
+    <nav className="sticky top-0 z-40 border-b border-slate-800/70 bg-linear-to-r from-[#0f2a43] to-[#173f62] shadow-[0_16px_35px_-24px_rgba(15,42,67,0.85)] backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link to="/auctions" className="text-base font-bold tracking-tight text-white shrink-0">
-            TAPRO<span className="text-blue-400">AUTO</span>
+          <Link to="/" className="shrink-0 flex items-center gap-3">
+            <span className="inline-flex items-center justify-center h-9 w-9 rounded-lg bg-white/10 text-white font-bold text-sm">TA</span>
+            <span>
+              <span className="block text-base font-bold tracking-tight text-white">TAPRO<span className="text-amber-300">AUTO</span></span>
+              <span className="block text-[10px] uppercase tracking-[0.18em] text-slate-200/80">Export Desk</span>
+            </span>
           </Link>
 
           {/* Desktop nav */}
           <div className="hidden sm:flex items-center gap-6">
+            <NavLink to="/" onClick={close} className={navLinkClass}>Home</NavLink>
+            <NavLink to="/about" onClick={close} className={navLinkClass}>About</NavLink>
             <NavLink to="/auctions" onClick={close} className={navLinkClass}>Auctions</NavLink>
             <NavLink to="/vehicles"  onClick={close} className={navLinkClass}>Vehicles</NavLink>
             {user && isAdmin && (
@@ -64,31 +62,30 @@ export default function Navbar() {
                 )}
               </NavLink>
             )}
-            {user && !isAdmin && (
-              <NavLink to="/profile" onClick={close} className={navLinkClass}>Profile</NavLink>
-            )}
           </div>
 
           {/* Desktop auth */}
           <div className="hidden sm:flex items-center gap-3">
             {user ? (
-              <>
-                <span className="text-xs text-gray-500 truncate max-w-36">{user.email}</span>
-                <button
-                  onClick={() => setShowSignOutModal(true)}
-                  className="text-sm text-gray-400 hover:text-white transition-colors"
-                >
-                  Sign out
-                </button>
-              </>
+              <NavLink
+                to={accountPath}
+                onClick={close}
+                className={({ isActive }) =>
+                  `account-icon ${isActive ? 'account-icon-active' : ''}`
+                }
+                aria-label={isAdmin ? 'Open admin account' : 'Open profile'}
+                title={isAdmin ? 'Admin account' : 'Profile'}
+              >
+                <AccountIcon />
+              </NavLink>
             ) : (
               <>
-                <Link to="/login" className="text-sm text-gray-400 hover:text-white transition-colors">
+                <Link to="/login" className="text-sm text-slate-200/80 hover:text-white transition-colors">
                   Sign in
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
+                  className="text-sm bg-amber-400 hover:bg-amber-300 text-slate-900 px-3 py-1.5 rounded-lg transition-colors font-semibold"
                 >
                   Register
                 </Link>
@@ -98,7 +95,7 @@ export default function Navbar() {
 
           {/* Hamburger */}
           <button
-            className="sm:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+            className="sm:hidden p-2 rounded-md text-slate-200/80 hover:text-white hover:bg-white/10 transition-colors"
             onClick={() => setOpen(o => !o)}
             aria-label="Toggle menu"
           >
@@ -117,7 +114,9 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="sm:hidden border-t border-gray-800 bg-gray-950 px-4 py-3 space-y-1">
+        <div className="mobile-menu-open sm:hidden border-t border-slate-800/70 bg-[#0c2237] px-4 py-3 space-y-1">
+          <MobileLink to="/" onClick={close}>Home</MobileLink>
+          <MobileLink to="/about" onClick={close}>About</MobileLink>
           <MobileLink to="/auctions" onClick={close}>Auctions</MobileLink>
           <MobileLink to="/vehicles"  onClick={close}>Vehicles</MobileLink>
           {user && isAdmin && (
@@ -130,26 +129,22 @@ export default function Navbar() {
               )}
             </MobileLink>
           )}
-          {user && !isAdmin && <MobileLink to="/profile" onClick={close}>Profile</MobileLink>}
 
           <div className="pt-2 mt-2 border-t border-gray-800">
             {user ? (
-              <>
-                <p className="text-xs text-gray-500 px-3 py-1 truncate">{user.email}</p>
-                <button
-                  onClick={() => { setOpen(false); setShowSignOutModal(true) }}
-                  className="w-full text-left text-sm text-gray-400 hover:text-white hover:bg-gray-800 px-3 py-2 rounded-md transition-colors"
-                >
-                  Sign out
-                </button>
-              </>
+              <MobileLink to={accountPath} onClick={close}>
+                <span className="inline-flex items-center gap-2">
+                  <AccountIcon />
+                  {isAdmin ? 'Admin Account' : 'Profile'}
+                </span>
+              </MobileLink>
             ) : (
               <div className="flex gap-2 px-1 pt-1">
                 <Link to="/login" onClick={close}
-                  className="flex-1 text-center text-sm text-gray-300 border border-gray-700 hover:border-gray-500 px-3 py-2 rounded-lg transition-colors"
+                  className="flex-1 text-center text-sm text-slate-200 border border-slate-500/40 hover:border-slate-300/60 px-3 py-2 rounded-lg transition-colors"
                 >Sign in</Link>
                 <Link to="/register" onClick={close}
-                  className="flex-1 text-center text-sm bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg transition-colors font-medium"
+                  className="flex-1 text-center text-sm bg-amber-400 hover:bg-amber-300 text-slate-900 px-3 py-2 rounded-lg transition-colors font-semibold"
                 >Register</Link>
               </div>
             )}
@@ -157,31 +152,6 @@ export default function Navbar() {
         </div>
       )}
     </nav>
-
-      {/* Sign out confirmation modal */}
-      {showSignOutModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowSignOutModal(false)} />
-          <div className="relative bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
-            <h2 className="text-base font-semibold text-gray-900 mb-1">Sign out</h2>
-            <p className="text-sm text-gray-500 mb-6">Are you sure you want to sign out of ThaproAUTO?</p>
-            <div className="flex gap-3 justify-end">
-              <button
-                onClick={() => setShowSignOutModal(false)}
-                className="btn-secondary"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleLogout}
-                className="btn-danger"
-              >
-                Sign out
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }
@@ -193,7 +163,7 @@ function MobileLink({ to, onClick, children }) {
       onClick={onClick}
       className={({ isActive }) =>
         `flex items-center text-sm px-3 py-2 rounded-md transition-colors ${
-          isActive ? 'bg-gray-800 text-white font-medium' : 'text-gray-400 hover:text-white hover:bg-gray-800'
+          isActive ? 'bg-white/10 text-white font-medium' : 'text-slate-200/80 hover:text-white hover:bg-white/10'
         }`
       }
     >
@@ -202,4 +172,12 @@ function MobileLink({ to, onClick, children }) {
   )
 }
 
+function AccountIcon() {
+  return (
+    <svg className="h-5 w-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 7.5a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 20.25a7.5 7.5 0 0 1 15 0" />
+    </svg>
+  )
+}
 

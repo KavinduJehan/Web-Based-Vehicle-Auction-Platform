@@ -4,6 +4,7 @@ import authRoutes from './auth.js';
 import vehicleRoutes from './vehicles.js';
 import auctionRoutes from './auctions.js';
 import userRoutes from './users.js';
+import reportRoutes from './reports.js';
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use('/auth', authRoutes);
 router.use('/vehicles', vehicleRoutes);
 router.use('/auctions', auctionRoutes);
 router.use('/users', userRoutes);
+router.use('/reports', reportRoutes);
 
 export default router;

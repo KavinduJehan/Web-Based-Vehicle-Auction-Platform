@@ -20,73 +20,102 @@ export default function LoginPage() {
     setError('')
     setLoading(true)
     try {
-      const res = await apiLogin(email, password)
+      const res = await apiLogin(email.trim(), password)
       login(res.data.user)
       navigate(res.data.user.role === 'admin' ? '/admin' : '/auctions', { replace: true })
     } catch (err) {
-      setError(err.response?.data?.message ?? 'Login failed. Check your credentials.')
+      if (!err.response) {
+        setError('Unable to reach server. Please check backend/CORS configuration and try again.')
+      } else {
+        setError(err.response?.data?.message ?? 'Login failed. Check your credentials.')
+      }
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="card p-8 w-full max-w-sm">
-        <div className="mb-6">
-          <h1 className="text-xl font-bold text-gray-900">Sign in</h1>
-          <p className="text-sm text-gray-500 mt-1">Welcome back to Thapro<span className="font-semibold text-blue-600">AUTO</span></p>
-        </div>
+    <div className="page">
+      <div className="enterprise-panel overflow-hidden grid lg:grid-cols-2">
+        <section className="bg-linear-to-br from-[#0f2a43] to-[#173f62] text-white p-8 lg:p-10">
+          <p className="text-xs font-semibold tracking-[0.18em] text-slate-200 uppercase">Tapro Japan Export Desk</p>
+          <h1 className="mt-4 text-3xl font-semibold leading-tight">Enterprise Vehicle Auction Operations</h1>
+          <p className="mt-4 text-slate-200/90 text-sm leading-6 max-w-md">
+            Access secure, time-bound vehicle auctions managed by Taproauto for verified global buyers.
+          </p>
 
-        {sessionMessage && (
-          <div className="bg-yellow-50 text-yellow-800 rounded-lg p-3 text-sm mb-4">
-            {sessionMessage}
-          </div>
-        )}
-        {registered && (
-          <div className="bg-green-50 text-green-700 rounded-lg p-3 text-sm mb-4">
-            Account created! Please sign in.
-          </div>
-        )}
-        {error && (
-          <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mb-4">
-            {error}
-          </div>
-        )}
+          <dl className="mt-8 space-y-3 text-sm text-slate-100/90">
+            <div>
+              <dt className="font-semibold text-white">Address</dt>
+              <dd>1-1-14 Kamiikedai, Ota-ku, Tokyo 145-0064</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-white">Phone</dt>
+              <dd>+81 3-6426-7620</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-white">Office Hours</dt>
+              <dd>Mon-Fri, 9:00-18:00 JST</dd>
+            </div>
+          </dl>
+        </section>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              type="email" required value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="input"
-              placeholder="you@example.com"
-            />
+        <section className="p-8 lg:p-10 bg-white">
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold text-slate-900">Sign in</h2>
+            <p className="text-sm text-slate-500 mt-1">Welcome back to Taproauto buyer and admin portal.</p>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input
-              type="password" required value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="input"
-              placeholder="••••••••"
-            />
-          </div>
-          <button
-            type="submit" disabled={loading}
-            className="btn-primary w-full py-2.5"
-          >
-            {loading ? 'Signing in…' : 'Sign in'}
-          </button>
-        </form>
 
-        <p className="text-sm text-center mt-5 text-gray-500">
-          No account?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline font-medium">
-            Register
-          </Link>
-        </p>
+          {sessionMessage && (
+            <div className="bg-amber-50 text-amber-800 rounded-lg p-3 text-sm mb-4 border border-amber-200">
+              {sessionMessage}
+            </div>
+          )}
+          {registered && (
+            <div className="bg-emerald-50 text-emerald-700 rounded-lg p-3 text-sm mb-4 border border-emerald-200">
+              Account created! Please sign in.
+            </div>
+          )}
+          {error && (
+            <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mb-4 border border-red-200">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="label">Business Email</label>
+              <input
+                type="email" required value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="input"
+                placeholder="you@company.com"
+              />
+            </div>
+            <div>
+              <label className="label">Password</label>
+              <input
+                type="password" required value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="input"
+                placeholder="Enter your password"
+              />
+            </div>
+            <button
+              type="submit" disabled={loading}
+              className="btn-primary w-full py-2.5"
+            >
+              {loading ? 'Signing in...' : 'Sign in'}
+            </button>
+          </form>
+
+          <p className="text-sm mt-5 text-slate-500">
+            No account?{' '}
+            <Link to="/register" className="text-slate-900 hover:underline font-semibold">
+              Register as buyer
+            </Link>
+          </p>
+        </section>
       </div>
     </div>
   )
