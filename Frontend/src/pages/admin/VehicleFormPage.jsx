@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { createVehicle, getVehicle, updateVehicle } from '../../api/vehicles'
 import { uploadImage } from '../../api/cloudinary'
+import { toMediaUrl } from '../../utils/mediaUrl'
 
 const CURRENT_YEAR = new Date().getFullYear()
 
@@ -177,7 +178,7 @@ export default function VehicleFormPage() {
             <div className="flex flex-wrap gap-2 mb-2">
               {existingImages.map((url, i) => (
                 <div key={url} className="relative w-20 h-20 rounded-lg overflow-hidden border group">
-                  <img src={url} alt={`img ${i + 1}`} className="w-full h-full object-cover" />
+                  <img src={toMediaUrl(url)} alt={`img ${i + 1}`} className="w-full h-full object-cover" />
                   <button
                     type="button"
                     onClick={() => setExisting(prev => prev.filter((_, j) => j !== i))}

@@ -4,6 +4,7 @@ import { listAuctions } from '../api/auctions'
 import StatusBadge from '../components/StatusBadge'
 import CountdownTimer from '../components/CountdownTimer'
 import Spinner from '../components/Spinner'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 const FILTERS = ['all', 'active', 'draft', 'ended']
 
@@ -101,7 +102,7 @@ export default function AuctionListPage() {
             <div className="relative overflow-hidden">
               {a.vehicle_images?.[0] ? (
                 <img
-                  src={a.vehicle_images[0]}
+                  src={toMediaUrl(a.vehicle_images[0])}
                   alt={a.title}
                   className="w-full h-48 object-cover group-hover:scale-[1.02] transition-transform duration-200"
                 />

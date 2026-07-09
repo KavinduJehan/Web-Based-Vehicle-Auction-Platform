@@ -5,6 +5,7 @@ import { getMyWonAuctions } from '../api/auctions'
 import { useAuth } from '../context/AuthContext'
 import StatusBadge from '../components/StatusBadge'
 import Spinner from '../components/Spinner'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 const statusCopy = {
   pending: {
@@ -169,7 +170,7 @@ export default function ProfilePage() {
                   return (
                     <Link key={auction.id} to={`/auctions/${auction.id}`} className="won-item">
                       {thumb ? (
-                        <img src={thumb} alt={title} />
+                          <img src={toMediaUrl(thumb)} alt={title} />
                       ) : (
                         <div className="vehicle-placeholder">AUTO</div>
                       )}

@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext'
 import StatusBadge from '../components/StatusBadge'
 import CountdownTimer from '../components/CountdownTimer'
 import Spinner from '../components/Spinner'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 export default function AuctionDetailPage() {
   const { id } = useParams()
@@ -144,7 +145,7 @@ export default function AuctionDetailPage() {
             onClick={() => openLightbox(activeIdx)}
           >
             <img
-              src={images[activeIdx]}
+              src={toMediaUrl(images[activeIdx])}
               alt={auction.title}
               className="w-full h-72 object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -161,7 +162,7 @@ export default function AuctionDetailPage() {
               {images.map((url, i) => (
                 <img
                   key={i}
-                  src={url}
+                  src={toMediaUrl(url)}
                   alt={`${auction.title} ${i + 1}`}
                   className={`w-20 h-20 object-cover rounded-lg border-2 shrink-0 cursor-pointer transition-all hover:opacity-90
                     ${i === activeIdx ? 'border-blue-500 ring-2 ring-blue-300' : 'border-gray-200'}`}
@@ -187,7 +188,7 @@ export default function AuctionDetailPage() {
             <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl leading-none hover:text-gray-300 z-10 px-2" aria-label="Previous">‹</button>
           )}
           <img
-            src={images[activeIdx]}
+            src={toMediaUrl(images[activeIdx])}
             alt={`${auction.title} ${activeIdx + 1}`}
             onClick={(e) => { e.stopPropagation(); setZoomed(z => !z) }}
             className={`max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl transition-transform duration-300 select-none
@@ -199,7 +200,7 @@ export default function AuctionDetailPage() {
           {images.length > 1 && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 overflow-x-auto max-w-lg px-2" onClick={e => e.stopPropagation()}>
               {images.map((url, i) => (
-                <img key={i} src={url} alt={`thumb ${i + 1}`}
+                <img key={i} src={toMediaUrl(url)} alt={`thumb ${i + 1}`}
                   className={`w-14 h-14 object-cover rounded-md shrink-0 cursor-pointer border-2 transition-all
                     ${i === activeIdx ? 'border-blue-400 opacity-100' : 'border-transparent opacity-60 hover:opacity-90'}`}
                   onClick={() => { setActiveIdx(i); setZoomed(false) }}

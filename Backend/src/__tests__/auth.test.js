@@ -97,4 +97,14 @@ describe('POST /api/auth/login', () => {
       .send({ email: 'nobody@test.com', password: 'Password1!' });
     expect(res.status).toBe(401);
   });
+
+  it('does not set a persistent login cookie', async () => {
+    const res = await request(app)
+      .post('/api/auth/login')
+      .send({ email: 'login@test.com', password: 'Password1!' });
+
+    const cookieHeader = res.headers['set-cookie'].find(c => c.startsWith('token='));
+    expect(cookieHeader.toLowerCase()).not.toContain('max-age=');
+    expect(cookieHeader.toLowerCase()).not.toContain('expires=');
+  });
 });

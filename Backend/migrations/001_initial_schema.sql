@@ -43,6 +43,15 @@ CREATE TABLE IF NOT EXISTS bids (
   created_at TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_bids_vehicle_id ON bids(vehicle_id);
-CREATE INDEX IF NOT EXISTS idx_bids_amount     ON bids(vehicle_id, amount DESC);
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'bids' AND column_name = 'vehicle_id'
+  ) THEN
+    CREATE INDEX IF NOT EXISTS idx_bids_vehicle_id ON bids(vehicle_id);
+    CREATE INDEX IF NOT EXISTS idx_bids_amount     ON bids(vehicle_id, amount DESC);
+  END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_auctions_vehicle ON auctions(vehicle_id);

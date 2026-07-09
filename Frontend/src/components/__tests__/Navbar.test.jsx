@@ -17,18 +17,28 @@ describe('Navbar', () => {
 
     render(<MemoryRouter><Navbar /></MemoryRouter>)
 
-    expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /sign in/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /register/i })).toBeInTheDocument()
     expect(screen.queryByText(/logout/i)).not.toBeInTheDocument()
   })
 
-  it('shows Logout button and email when a buyer is logged in', () => {
+  it('shows account link when a buyer is logged in', () => {
     useAuth.mockReturnValue({ user: { email: 'buyer@test.com', role: 'buyer' }, logout: vi.fn(), isAdmin: false })
 
     render(<MemoryRouter><Navbar /></MemoryRouter>)
 
-    expect(screen.getByRole('button', { name: /logout/i })).toBeInTheDocument()
-    expect(screen.getByText('buyer@test.com')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /open profile/i })).toHaveAttribute('href', '/profile')
+    expect(screen.queryByText(/logout/i)).not.toBeInTheDocument()
+  })
+
+  it('shows admin account link when an admin is logged in', () => {
+    useAuth.mockReturnValue({ user: { email: 'admin@test.com', role: 'admin' }, logout: vi.fn(), isAdmin: true })
+    listUsers.mockResolvedValueOnce({ data: [] })
+
+    render(<MemoryRouter><Navbar /></MemoryRouter>)
+
+    expect(screen.getByRole('link', { name: /open admin account/i })).toHaveAttribute('href', '/admin')
+    expect(screen.queryByText(/logout/i)).not.toBeInTheDocument()
   })
 
   it('shows a red badge with the pending count for an admin', async () => {

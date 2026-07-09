@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { listAuctions } from '../api/auctions'
 import CountdownTimer from './CountdownTimer'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 function statusDot(status) {
   if (status === 'active') return (
@@ -90,7 +91,7 @@ export default function LiveAuctionStrip() {
               >
                 <div className="strip-card-img">
                   {img
-                    ? <img src={img} alt={a.title} loading="lazy" />
+                    ? <img src={toMediaUrl(img)} alt={a.title} loading="lazy" />
                     : <div className="strip-placeholder"><CarIcon /></div>
                   }
                   <div className="strip-card-badge">

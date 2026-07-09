@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { getVehicle } from '../api/vehicles'
 import StatusBadge from '../components/StatusBadge'
 import Spinner from '../components/Spinner'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 export default function VehicleDetailPage() {
   const { id } = useParams()
@@ -67,7 +68,7 @@ export default function VehicleDetailPage() {
             onClick={() => openLightbox(activeIdx)}
           >
             <img
-              src={images[activeIdx]}
+              src={toMediaUrl(images[activeIdx])}
               alt={vehicle.title}
               className="w-full h-72 object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -84,7 +85,7 @@ export default function VehicleDetailPage() {
               {images.map((url, i) => (
                 <img
                   key={i}
-                  src={url}
+                  src={toMediaUrl(url)}
                   alt={`${vehicle.title} ${i + 1}`}
                   className={`w-20 h-20 object-cover rounded-lg border-2 shrink-0 cursor-pointer transition-all hover:opacity-90
                     ${i === activeIdx ? 'border-blue-500 ring-2 ring-blue-300' : 'border-gray-200'}`}
@@ -131,7 +132,7 @@ export default function VehicleDetailPage() {
 
           {/* Image — click toggles zoom */}
           <img
-            src={images[activeIdx]}
+            src={toMediaUrl(images[activeIdx])}
             alt={`${vehicle.title} ${activeIdx + 1}`}
             onClick={(e) => { e.stopPropagation(); setZoomed(z => !z) }}
             className={`max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl transition-transform duration-300 select-none
@@ -158,7 +159,7 @@ export default function VehicleDetailPage() {
               {images.map((url, i) => (
                 <img
                   key={i}
-                  src={url}
+                  src={toMediaUrl(url)}
                   alt={`thumb ${i + 1}`}
                   className={`w-14 h-14 object-cover rounded-md shrink-0 cursor-pointer border-2 transition-all
                     ${i === activeIdx ? 'border-blue-400 opacity-100' : 'border-transparent opacity-60 hover:opacity-90'}`}

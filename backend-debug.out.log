@@ -1,0 +1,6 @@
+API listening on port 3000
+[scheduler] auction status cron started (every minute)
+[0mGET /api/auctions [32m200[0m 53.763 ms - 17666[0m
+[0mGET /api/auctions/17/bids [32m200[0m 5.915 ms - 829[0m
+[0mPOST /api/auth/login [32m200[0m 66.553 ms - 130[0m
+[0mPOST /api/auctions/17/bids [32m201[0m 14.656 ms - 99[0m

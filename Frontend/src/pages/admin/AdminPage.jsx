@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { listVehicles, deleteVehicle } from '../../api/vehicles'
 import { listAuctions, deleteAuction } from '../../api/auctions'
 import { listUsers, setStatus } from '../../api/users'
+import { useAuth } from '../../context/AuthContext'
 import StatusBadge from '../../components/StatusBadge'
 import Spinner from '../../components/Spinner'
 
@@ -10,6 +11,8 @@ const TABS = ['Vehicles', 'Auctions', 'Users']
 
 export default function AdminPage() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const { logout } = useAuth()
   const [tab, setTab]         = useState('Vehicles')
   const [vehicles, setVehicles] = useState([])
   const [auctions, setAuctions] = useState([])
@@ -59,6 +62,11 @@ export default function AdminPage() {
     }
   }
 
+  function handleLogout() {
+    logout()
+    navigate('/')
+  }
+
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
       <div className="flex items-center justify-between mb-6">
@@ -76,6 +84,13 @@ export default function AdminPage() {
             className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
             + Auction
           </Link>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          >
+            Logout
+          </button>
         </div>
       </div>
 

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { listVehicles } from '../api/vehicles'
 import StatusBadge from '../components/StatusBadge'
+import { toMediaUrl } from '../utils/mediaUrl'
 
 const LIMIT = 12
 
@@ -183,7 +184,7 @@ export default function VehicleListPage() {
               {/* Thumbnail */}
               {v.images?.[0] ? (
                 <img
-                  src={v.images[0]}
+                  src={toMediaUrl(v.images[0])}
                   alt={v.title}
                   className="w-full h-44 object-cover"
                 />

@@ -47,9 +47,9 @@ export default function Navbar() {
           {/* Desktop nav */}
           <div className="hidden sm:flex items-center gap-6">
             <NavLink to="/" onClick={close} className={navLinkClass}>Home</NavLink>
-            <NavLink to="/about" onClick={close} className={navLinkClass}>About</NavLink>
             <NavLink to="/auctions" onClick={close} className={navLinkClass}>Auctions</NavLink>
             <NavLink to="/vehicles"  onClick={close} className={navLinkClass}>Vehicles</NavLink>
+            <NavLink to="/about" onClick={close} className={navLinkClass}>About</NavLink>
             {user && isAdmin && (
               <NavLink to="/admin" onClick={close} className={({ isActive }) =>
                 `relative text-sm font-medium transition-colors ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`
