@@ -101,7 +101,8 @@ export default function ReportsPage() {
 
         <div className="report-flex-row no-print-break" style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
           <div style={{ flex: '1 1 500px', minWidth: 0 }}>
-            <table className="report-table">
+            <div className="overflow-x-auto">
+              <table className="report-table">
           <thead>
             <tr>
               <th>Metric</th>
@@ -122,7 +123,8 @@ export default function ReportsPage() {
             <tr><td>Total Sales Revenue</td>     <td>{usd(o.total_sales_value)}</td> <td>Sum of winning bids</td></tr>
             <tr><td>Average Sale Price</td>      <td>{usd(o.avg_sale_price)}</td>    <td>Across completed auctions</td></tr>
           </tbody>
-        </table>
+              </table>
+            </div>
           </div>
           <div style={{ flex: '1 1 300px', minHeight: '300px', minWidth: 0 }}>
             <h3 style={{ marginBottom: '1rem', fontWeight: 600 }}>Auction Status Distribution</h3>
@@ -180,7 +182,8 @@ export default function ReportsPage() {
           </div>
         )}
 
-        <table className="report-table report-table--wide">
+        <div className="overflow-x-auto">
+          <table className="report-table report-table--wide">
           <thead>
             <tr>
               <th>#</th>
@@ -241,7 +244,8 @@ export default function ReportsPage() {
               </tr>
             </tfoot>
           )}
-        </table>
+          </table>
+        </div>
       </section>
 
       {/* ── 3. Buyer Activity ── */}
@@ -267,10 +271,11 @@ export default function ReportsPage() {
           </div>
         )}
 
-        <table className="report-table">
-          <thead>
-            <tr>
-              <th>#</th>
+        <div className="overflow-x-auto">
+          <table className="report-table">
+            <thead>
+              <tr>
+                <th>#</th>
               <th>Buyer Name</th>
               <th>Email</th>
               <th>Registered</th>
@@ -301,7 +306,8 @@ export default function ReportsPage() {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </section>
 
       {/* ── 4. Vehicle Inventory ── */}
@@ -349,10 +355,11 @@ export default function ReportsPage() {
           </div>
         )}
 
-        <table className="report-table">
-          <thead>
-            <tr>
-              <th>Make</th>
+        <div className="overflow-x-auto">
+          <table className="report-table">
+            <thead>
+              <tr>
+                <th>Make</th>
               <th className="text-right">Total</th>
               <th className="text-right">Draft</th>
               <th className="text-right">Listed</th>
@@ -391,7 +398,8 @@ export default function ReportsPage() {
               </tr>
             </tfoot>
           )}
-        </table>
+          </table>
+        </div>
       </section>
 
       {/* ── Footer ── */}

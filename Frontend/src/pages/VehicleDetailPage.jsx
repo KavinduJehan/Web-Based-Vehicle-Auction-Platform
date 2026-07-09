@@ -57,112 +57,156 @@ export default function VehicleDetailPage() {
   ].filter(s => s.value != null && s.value !== '')
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-8 space-y-6">
-
-      {/* Image gallery */}
-      {images.length > 0 && (
-        <div className="space-y-2">
-          {/* Hero image — click to open lightbox */}
-          <div
-            className="relative group cursor-zoom-in overflow-hidden rounded-xl border"
-            onClick={() => openLightbox(activeIdx)}
-          >
-            <img
-              src={toMediaUrl(images[activeIdx])}
-              alt={vehicle.title}
-              className="w-full h-72 object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-sm font-medium bg-black/50 px-3 py-1 rounded-full">
-                Click to zoom
-              </span>
-            </div>
-          </div>
-
-          {/* Thumbnails */}
-          {images.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {images.map((url, i) => (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        
+        {/* Left Column: Images */}
+        <div className="w-full lg:w-7/12 space-y-4">
+          {images.length > 0 ? (
+            <div>
+              {/* Hero image — click to open lightbox */}
+              <div
+                className="relative group cursor-zoom-in overflow-hidden rounded border border-gray-200 bg-gray-50 shadow-sm"
+                onClick={() => openLightbox(activeIdx)}
+              >
                 <img
-                  key={i}
-                  src={toMediaUrl(url)}
-                  alt={`${vehicle.title} ${i + 1}`}
-                  className={`w-20 h-20 object-cover rounded-lg border-2 shrink-0 cursor-pointer transition-all hover:opacity-90
-                    ${i === activeIdx ? 'border-blue-500 ring-2 ring-blue-300' : 'border-gray-200'}`}
-                  onClick={() => setActiveIdx(i)}
+                  src={toMediaUrl(images[activeIdx])}
+                  alt={vehicle.title}
+                  className="w-full aspect-[4/3] object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                 />
-              ))}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-sm font-medium bg-black/60 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                    Click to zoom
+                  </span>
+                </div>
+              </div>
+
+              {/* Thumbnails */}
+              {images.length > 1 && (
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-2">
+                  {images.map((url, i) => (
+                    <div
+                      key={i}
+                      className={`relative aspect-[4/3] overflow-hidden rounded border cursor-pointer transition-all hover:opacity-90 
+                        ${i === activeIdx ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}`}
+                      onClick={() => setActiveIdx(i)}
+                    >
+                      <img
+                        src={toMediaUrl(url)}
+                        alt={`${vehicle.title} ${i + 1}`}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="w-full aspect-[4/3] bg-gray-100 rounded border border-gray-200 flex items-center justify-center text-gray-400">
+              No images available
             </div>
           )}
         </div>
-      )}
+
+        {/* Right Column: Details */}
+        <div className="w-full lg:w-5/12 space-y-8">
+          
+          {/* Header */}
+          <div>
+            <div className="flex items-start justify-between gap-4 mb-2">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+                {vehicle.title || `${vehicle.make} ${vehicle.model} ${vehicle.year}`}
+              </h1>
+              <div className="mt-2">
+                <StatusBadge status={vehicle.status} />
+              </div>
+            </div>
+          </div>
+
+          {/* Starting price */}
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-5 shadow-sm">
+            <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-1">Starting price</p>
+            <p className="text-4xl font-bold text-red-600">
+              USD {Number(vehicle.starting_price).toLocaleString()}
+            </p>
+          </div>
+
+          {/* Specs grid */}
+          {specs.length > 0 && (
+            <div>
+              <div className="border-b border-red-200 mb-4 pb-2">
+                <h2 className="text-2xl font-light text-gray-800">Vehicle Details</h2>
+              </div>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
+                {specs.map(({ label, value }) => (
+                  <div key={label} className="flex gap-2">
+                    <span className="font-bold text-gray-900 w-1/3 shrink-0">{label}</span>
+                    <span className="text-gray-700 w-2/3 truncate" title={value}>{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Other Details */}
+          {vehicle.description && (
+            <div>
+              <div className="border-b border-red-200 mb-4 pb-2">
+                <h2 className="text-2xl font-light text-gray-800">Other Details</h2>
+              </div>
+              <p className="text-gray-700 text-sm whitespace-pre-wrap leading-relaxed">
+                {vehicle.description}
+              </p>
+            </div>
+          )}
+
+          <div className="pt-4 border-t border-gray-200">
+            <Link to="/vehicles" className="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 w-max">
+              ← Back to vehicles
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* Lightbox */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center backdrop-blur-sm"
           onClick={closeLightbox}
         >
-          {/* Close */}
-          <button
-            onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white text-3xl leading-none hover:text-gray-300 z-10"
-            aria-label="Close"
-          >
-            ✕
-          </button>
-
-          {/* Counter */}
+          <button onClick={closeLightbox} className="absolute top-4 right-4 text-white/70 hover:text-white text-4xl leading-none z-10 transition-colors" aria-label="Close">✕</button>
+          
           {images.length > 1 && (
-            <span className="absolute top-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+            <span className="absolute top-6 left-1/2 -translate-x-1/2 text-white/80 font-medium text-sm tracking-widest z-10 bg-black/50 px-3 py-1 rounded-full">
               {activeIdx + 1} / {images.length}
             </span>
           )}
 
-          {/* Prev */}
           {images.length > 1 && (
-            <button
-              onClick={prev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl leading-none hover:text-gray-300 z-10 px-2"
-              aria-label="Previous"
-            >
-              ‹
-            </button>
+            <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-6xl leading-none z-10 p-4 transition-colors" aria-label="Previous">‹</button>
           )}
 
-          {/* Image — click toggles zoom */}
           <img
             src={toMediaUrl(images[activeIdx])}
             alt={`${vehicle.title} ${activeIdx + 1}`}
             onClick={(e) => { e.stopPropagation(); setZoomed(z => !z) }}
-            className={`max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl transition-transform duration-300 select-none
-              ${zoomed ? 'scale-150 cursor-zoom-out' : 'cursor-zoom-in'}`}
+            className={`max-h-[85vh] max-w-[90vw] object-contain rounded shadow-2xl transition-transform duration-500 select-none
+              ${zoomed ? 'scale-[1.7] cursor-zoom-out' : 'cursor-zoom-in'}`}
           />
 
-          {/* Next */}
           {images.length > 1 && (
-            <button
-              onClick={next}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl leading-none hover:text-gray-300 z-10 px-2"
-              aria-label="Next"
-            >
-              ›
-            </button>
+            <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white text-6xl leading-none z-10 p-4 transition-colors" aria-label="Next">›</button>
           )}
 
-          {/* Thumbnail strip in lightbox */}
           {images.length > 1 && (
-            <div
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 overflow-x-auto max-w-lg px-2"
-              onClick={e => e.stopPropagation()}
-            >
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 overflow-x-auto max-w-[90vw] px-4 py-2" onClick={e => e.stopPropagation()}>
               {images.map((url, i) => (
                 <img
                   key={i}
                   src={toMediaUrl(url)}
                   alt={`thumb ${i + 1}`}
-                  className={`w-14 h-14 object-cover rounded-md shrink-0 cursor-pointer border-2 transition-all
-                    ${i === activeIdx ? 'border-blue-400 opacity-100' : 'border-transparent opacity-60 hover:opacity-90'}`}
+                  className={`w-16 h-16 object-cover rounded shrink-0 cursor-pointer border-2 transition-all duration-200
+                    ${i === activeIdx ? 'border-red-500 opacity-100 scale-110 shadow-lg' : 'border-transparent opacity-50 hover:opacity-100 hover:scale-105'}`}
                   onClick={() => { setActiveIdx(i); setZoomed(false) }}
                 />
               ))}
@@ -170,46 +214,6 @@ export default function VehicleDetailPage() {
           )}
         </div>
       )}
-
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            {vehicle.title || `${vehicle.make} ${vehicle.model} ${vehicle.year}`}
-          </h1>
-          {vehicle.description && (
-            <p className="text-gray-500 mt-1">{vehicle.description}</p>
-          )}
-        </div>
-        <StatusBadge status={vehicle.status} />
-      </div>
-
-      {/* Starting price */}
-      <div className="bg-white border rounded-xl p-5">
-        <p className="text-sm text-gray-500 mb-1">Starting price</p>
-        <p className="text-3xl font-bold text-blue-600">
-          USD {Number(vehicle.starting_price).toLocaleString()}
-        </p>
-      </div>
-
-      {/* Specs grid */}
-      {specs.length > 0 && (
-        <div className="bg-white border rounded-xl p-5">
-          <h2 className="font-semibold mb-4">Specifications</h2>
-          <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {specs.map(({ label, value }) => (
-              <div key={label}>
-                <dt className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">{label}</dt>
-                <dd className="font-medium text-gray-800">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      )}
-
-      <Link to="/vehicles" className="text-sm text-blue-600 hover:underline">
-        ← Back to vehicles
-      </Link>
     </div>
   )
 }
