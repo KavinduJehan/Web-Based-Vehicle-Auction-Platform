@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer,
+  PieChart, Pie, Cell
+} from 'recharts'
 import { getSummaryReport } from '../../api/reports'
 import Spinner from '../../components/Spinner'
+
+const COLORS = ['#0f172a', '#3b82f6', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6'];
 
 const fmt = (n) => Number(n ?? 0).toLocaleString()
 const usd = (n) => `USD ${Number(n ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -93,7 +99,9 @@ export default function ReportsPage() {
           <KPI label="Vehicle Inventory"   value={fmt(o.total_vehicles)}    sub={`${fmt(o.listed_vehicles)} listed · ${fmt(o.sold_vehicles)} sold`} />
         </div>
 
-        <table className="report-table">
+        <div className="report-flex-row no-print-break" style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ flex: '1 1 500px', minWidth: 0 }}>
+            <table className="report-table">
           <thead>
             <tr>
               <th>Metric</th>
@@ -115,6 +123,32 @@ export default function ReportsPage() {
             <tr><td>Average Sale Price</td>      <td>{usd(o.avg_sale_price)}</td>    <td>Across completed auctions</td></tr>
           </tbody>
         </table>
+          </div>
+          <div style={{ flex: '1 1 300px', minHeight: '300px', minWidth: 0 }}>
+            <h3 style={{ marginBottom: '1rem', fontWeight: 600 }}>Auction Status Distribution</h3>
+            <ResponsiveContainer width="100%" height={350}>
+              <PieChart margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                <Pie
+                  data={[
+                    { name: 'Draft', value: Number(o.draft_auctions) },
+                    { name: 'Active', value: Number(o.active_auctions) },
+                    { name: 'Ended', value: Number(o.ended_auctions) },
+                    { name: 'Completed', value: Number(o.completed_sales) }
+                  ]}
+                  cx="50%" cy="50%" outerRadius={80}
+                  dataKey="value"
+                  label={({ name, percent }) => percent > 0 ? `${name} ${(percent * 100).toFixed(0)}%` : ''}
+                >
+                  <Cell fill="#94a3b8" />
+                  <Cell fill="#3b82f6" />
+                  <Cell fill="#f59e0b" />
+                  <Cell fill="#10b981" />
+                </Pie>
+                <RechartsTooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </section>
 
       {/* ── 2. Auction Performance ── */}
@@ -124,6 +158,27 @@ export default function ReportsPage() {
           title="Auction Performance Report"
           sub={`Detailed breakdown of all ${auctions.length} auction(s) conducted on the platform.`}
         />
+
+        {auctions.length > 0 && (
+          <div className="no-print-break" style={{ marginBottom: '2rem', height: '350px' }}>
+            <h3 style={{ marginBottom: '1rem', fontWeight: 600 }}>Winning Amount vs Starting Price</h3>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={auctions.map(a => ({
+                title: a.title?.substring(0, 15) || 'Auction',
+                starting: Number(a.starting_price),
+                winning: Number(a.winning_amount || 0)
+              }))}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="title" stroke="#64748b" fontSize={12} />
+                <YAxis stroke="#64748b" fontSize={12} tickFormatter={(val) => `$${val}`} />
+                <RechartsTooltip formatter={(val) => usd(val)} />
+                <Legend />
+                <Bar dataKey="starting" name="Starting Price" fill="#94a3b8" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="winning" name="Winning Amount" fill="#10b981" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
 
         <table className="report-table report-table--wide">
           <thead>
@@ -197,6 +252,21 @@ export default function ReportsPage() {
           sub={`Participation and spending overview for all ${buyers.length} registered buyer(s). Active: ${activeBuyers}.`}
         />
 
+        {buyers.length > 0 && (
+          <div className="no-print-break" style={{ marginBottom: '2rem', height: '350px' }}>
+             <h3 style={{ marginBottom: '1rem', fontWeight: 600 }}>Top Buyers by Bids Placed</h3>
+             <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={[...buyers].sort((a,b) => b.total_bids - a.total_bids).slice(0, 10)}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis dataKey="name" stroke="#64748b" fontSize={12} />
+                <YAxis stroke="#64748b" fontSize={12} />
+                <RechartsTooltip />
+                <Bar dataKey="total_bids" name="Total Bids" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+
         <table className="report-table">
           <thead>
             <tr>
@@ -241,6 +311,43 @@ export default function ReportsPage() {
           title="Vehicle Inventory Report"
           sub="Breakdown of vehicle stock by make, including status counts and price statistics."
         />
+
+        {inventory.length > 0 && (
+          <div className="no-print-break" style={{ marginBottom: '2rem', height: '350px', display: 'flex', gap: '2rem' }}>
+            <div style={{ flex: '1 1 50%', minWidth: 0 }}>
+              <h3 style={{ marginBottom: '1rem', fontWeight: 600 }}>Inventory Distribution by Make</h3>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                  <Pie
+                    data={inventory.map(inv => ({ name: inv.make, value: Number(inv.total) }))}
+                    cx="50%" cy="50%" outerRadius={80}
+                    dataKey="value"
+                    label={({ name, percent }) => percent > 0 ? `${name} (${(percent * 100).toFixed(0)}%)` : ''}
+                  >
+                    {inventory.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <RechartsTooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div style={{ flex: '1 1 50%', minWidth: 0 }}>
+              <h3 style={{ marginBottom: '1rem', fontWeight: 600 }}>Listed vs Sold by Make</h3>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={inventory.map(inv => ({ name: inv.make, listed: Number(inv.listed_count), sold: Number(inv.sold_count) }))}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                  <XAxis dataKey="name" stroke="#64748b" fontSize={12} />
+                  <YAxis stroke="#64748b" fontSize={12} />
+                  <RechartsTooltip />
+                  <Legend />
+                  <Bar dataKey="listed" name="Listed" stackId="a" fill="#f59e0b" />
+                  <Bar dataKey="sold" name="Sold" stackId="a" fill="#10b981" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
 
         <table className="report-table">
           <thead>
