@@ -33,6 +33,26 @@ export async function loginController(req, res, next) {
   }
 }
 
+export async function forgotPasswordController(req, res, next) {
+  try {
+    const { email } = req.body;
+    await authService.requestPasswordReset({ email });
+    res.json({ message: 'If an account exists for that email, a password reset link has been sent.' });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function resetPasswordController(req, res, next) {
+  try {
+    const { token, newPassword } = req.body;
+    await authService.resetPassword({ token, newPassword });
+    res.json({ message: 'Password reset successfully' });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export function logoutController(req, res) {
   res.clearCookie(COOKIE_NAME, cookieOptions());
   res.json({ message: 'Logged out' });

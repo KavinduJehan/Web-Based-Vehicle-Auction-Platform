@@ -37,7 +37,7 @@ describe('App — won auction banners', () => {
 
     render(<MemoryRouter><App /></MemoryRouter>)
 
-    await waitFor(() => expect(screen.getByText(/Congratulations/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/You Won/i)).toBeInTheDocument())
     expect(screen.getByText(/Test Auction/)).toBeInTheDocument()
     expect(screen.getByText(/USD/)).toBeInTheDocument()
   })
@@ -49,7 +49,7 @@ describe('App — won auction banners', () => {
 
     // The effect returns early for admin — no API call, no banner
     expect(getMyWonAuctions).not.toHaveBeenCalled()
-    expect(screen.queryByText(/Congratulations/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/You Won/i)).not.toBeInTheDocument()
   })
 
   it('hides banner and saves dismissal to localStorage when the ✕ button is clicked', async () => {
@@ -61,7 +61,7 @@ describe('App — won auction banners', () => {
     const dismissBtn = await screen.findByRole('button', { name: /Dismiss/i })
     fireEvent.click(dismissBtn)
 
-    expect(screen.queryByText(/Congratulations/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/You Won/i)).not.toBeInTheDocument()
     const dismissed = JSON.parse(localStorage.getItem('wonDismissed'))
     expect(dismissed).toContain(42)
   })
@@ -75,6 +75,6 @@ describe('App — won auction banners', () => {
 
     // Wait for the API call to resolve
     await waitFor(() => expect(getMyWonAuctions).toHaveBeenCalled())
-    expect(screen.queryByText(/Congratulations/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/You Won/i)).not.toBeInTheDocument()
   })
 })

@@ -1,4 +1,5 @@
 import request from 'supertest';
+import crypto from 'crypto';
 import { app, pool, truncateAll } from './helpers.js';
 
 beforeAll(truncateAll);
@@ -106,5 +107,78 @@ describe('POST /api/auth/login', () => {
     const cookieHeader = res.headers['set-cookie'].find(c => c.startsWith('token='));
     expect(cookieHeader.toLowerCase()).not.toContain('max-age=');
     expect(cookieHeader.toLowerCase()).not.toContain('expires=');
+  });
+});
+
+describe('Password reset', () => {
+  beforeAll(async () => {
+    await request(app)
+      .post('/api/auth/register')
+      .send({ name: 'Reset User', email: 'reset@test.com', password: 'OldPass1!', role: 'buyer' });
+  });
+
+  it('creates a password reset token without revealing whether the account exists', async () => {
+    const known = await request(app)
+      .post('/api/auth/forgot-password')
+      .send({ email: 'reset@test.com' });
+
+    const unknown = await request(app)
+      .post('/api/auth/forgot-password')
+      .send({ email: 'missing@test.com' });
+
+    expect(known.status).toBe(200);
+    expect(unknown.status).toBe(200);
+    expect(known.body.message).toBe(unknown.body.message);
+
+    const { rows } = await pool.query('SELECT COUNT(*)::int AS total FROM password_reset_tokens');
+    expect(rows[0].total).toBe(1);
+  });
+
+  it('resets the password with a valid token and prevents token reuse', async () => {
+    const token = 'valid-reset-token-1234567890abcdef';
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    const { rows: users } = await pool.query('SELECT id FROM users WHERE email = $1', ['reset@test.com']);
+
+    await pool.query(
+      `INSERT INTO password_reset_tokens (user_id, token_hash, expires_at)
+       VALUES ($1, $2, NOW() + INTERVAL '1 hour')`,
+      [users[0].id, tokenHash]
+    );
+
+    const reset = await request(app)
+      .post('/api/auth/reset-password')
+      .send({ token, newPassword: 'NewPass1!' });
+
+    expect(reset.status).toBe(200);
+
+    const login = await request(app)
+      .post('/api/auth/login')
+      .send({ email: 'reset@test.com', password: 'NewPass1!' });
+
+    expect(login.status).toBe(200);
+
+    const reuse = await request(app)
+      .post('/api/auth/reset-password')
+      .send({ token, newPassword: 'AnotherPass1!' });
+
+    expect(reuse.status).toBe(400);
+  });
+
+  it('rejects expired reset tokens', async () => {
+    const token = 'expired-reset-token-1234567890abcdef';
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    const { rows: users } = await pool.query('SELECT id FROM users WHERE email = $1', ['reset@test.com']);
+
+    await pool.query(
+      `INSERT INTO password_reset_tokens (user_id, token_hash, expires_at)
+       VALUES ($1, $2, NOW() - INTERVAL '1 minute')`,
+      [users[0].id, tokenHash]
+    );
+
+    const res = await request(app)
+      .post('/api/auth/reset-password')
+      .send({ token, newPassword: 'ExpiredPass1!' });
+
+    expect(res.status).toBe(400);
   });
 });

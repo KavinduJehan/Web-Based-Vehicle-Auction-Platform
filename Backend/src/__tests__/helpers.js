@@ -9,7 +9,7 @@ export { app, pool };
 /** Wipe all rows and reset auto-increment sequences between test suites. */
 export async function truncateAll() {
   await pool.query(
-    'TRUNCATE TABLE bids, auctions, vehicles, users RESTART IDENTITY CASCADE'
+    'TRUNCATE TABLE password_reset_tokens, bids, auctions, vehicles, users RESTART IDENTITY CASCADE'
   );
 }
 

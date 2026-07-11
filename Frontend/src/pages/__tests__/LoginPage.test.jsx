@@ -3,12 +3,10 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import LoginPage from '../LoginPage'
 
-// useAuth mock — login fn is not called in error/banner tests, but needed to satisfy the hook
 vi.mock('../../context/AuthContext', () => ({
   useAuth: () => ({ login: vi.fn() }),
 }))
 
-// Mock the login API call
 vi.mock('../../api/auth', () => ({
   login: vi.fn(),
 }))
@@ -18,10 +16,11 @@ import { login as mockLogin } from '../../api/auth'
 describe('LoginPage', () => {
   beforeEach(() => vi.clearAllMocks())
 
-  it('renders email and password fields', () => {
+  it('renders email, password, and password reset controls', () => {
     render(<MemoryRouter><LoginPage /></MemoryRouter>)
-    expect(screen.getByPlaceholderText('you@example.com')).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('••••••••')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('you@company.com')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Enter your password')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /forgot password/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument()
   })
 
@@ -48,8 +47,8 @@ describe('LoginPage', () => {
       response: { data: { message: 'Invalid credentials' } },
     })
     render(<MemoryRouter><LoginPage /></MemoryRouter>)
-    fireEvent.change(screen.getByPlaceholderText('you@example.com'), { target: { value: 'a@b.com' } })
-    fireEvent.change(screen.getByPlaceholderText('••••••••'), { target: { value: 'wrongpass' } })
+    fireEvent.change(screen.getByPlaceholderText('you@company.com'), { target: { value: 'a@b.com' } })
+    fireEvent.change(screen.getByPlaceholderText('Enter your password'), { target: { value: 'wrongpass' } })
     fireEvent.click(screen.getByRole('button', { name: /sign in/i }))
     await waitFor(() => expect(screen.getByText('Invalid credentials')).toBeInTheDocument())
   })
@@ -57,9 +56,9 @@ describe('LoginPage', () => {
   it('shows a fallback error when the API rejects with no response body', async () => {
     mockLogin.mockRejectedValueOnce(new Error('Network error'))
     render(<MemoryRouter><LoginPage /></MemoryRouter>)
-    fireEvent.change(screen.getByPlaceholderText('you@example.com'), { target: { value: 'a@b.com' } })
-    fireEvent.change(screen.getByPlaceholderText('••••••••'), { target: { value: 'pass' } })
+    fireEvent.change(screen.getByPlaceholderText('you@company.com'), { target: { value: 'a@b.com' } })
+    fireEvent.change(screen.getByPlaceholderText('Enter your password'), { target: { value: 'pass' } })
     fireEvent.click(screen.getByRole('button', { name: /sign in/i }))
-    await waitFor(() => expect(screen.getByText(/Login failed/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/Unable to reach server/i)).toBeInTheDocument())
   })
 })

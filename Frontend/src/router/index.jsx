@@ -6,6 +6,8 @@ import AuctionListPage   from '../pages/AuctionListPage'
 import AuctionDetailPage from '../pages/AuctionDetailPage'
 import WinnerPage        from '../pages/WinnerPage'
 import LoginPage         from '../pages/LoginPage'
+import ForgotPasswordPage from '../pages/ForgotPasswordPage'
+import ResetPasswordPage from '../pages/ResetPasswordPage'
 import RegisterPage      from '../pages/RegisterPage'
 import AdminPage         from '../pages/admin/AdminPage'
 import VehicleFormPage   from '../pages/admin/VehicleFormPage'
@@ -24,6 +26,8 @@ export default function AppRouter() {
       <Route path="/about"          element={<AboutPage />} />
       <Route path="/contact"         element={<Navigate to="/about" replace />} />
       <Route path="/login"          element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password"  element={<ResetPasswordPage />} />
       <Route path="/register"       element={<RegisterPage />} />
       <Route path="/auctions"       element={<AuctionListPage />} />
       <Route path="/auctions/:id"   element={<AuctionDetailPage />} />
