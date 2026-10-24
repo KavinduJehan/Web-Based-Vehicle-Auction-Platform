@@ -96,143 +96,148 @@ export default function VehicleFormPage() {
     }
   }
 
-  if (loadingData) return <div className="p-12 text-center text-gray-400">Loading…</div>
+  if (loadingData) return <div className="bg-[#F8F6F2] min-h-[calc(100vh-140px)] flex items-center justify-center text-[#777777] font-mono text-sm">Loading vehicle data…</div>
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-6">{isEdit ? 'Edit Vehicle' : 'Add Vehicle'}</h1>
-
-      {error && (
-        <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mb-4">{error}</div>
-      )}
-
-      <form onSubmit={handleSubmit} className="bg-white border rounded-xl p-6 space-y-4">
-
-        {/* Title */}
-        <Field label="Title *">
-          <input name="title" required value={form.title} onChange={onChange}
-            placeholder="e.g. Toyota Land Cruiser 200"
-            className="input" />
-        </Field>
-
-        {/* Make / Model / Year */}
-        <div className="grid grid-cols-3 gap-3">
-          <Field label="Make *">
-            <input name="make" required value={form.make} onChange={onChange}
-              placeholder="Toyota" className="input" />
-          </Field>
-          <Field label="Model *">
-            <input name="model" required value={form.model} onChange={onChange}
-              placeholder="Land Cruiser" className="input" />
-          </Field>
-          <Field label="Year *">
-            <input name="year" type="number" required min={1900} max={2100}
-              value={form.year} onChange={onChange} className="input" />
-          </Field>
+    <div className="bg-[#F8F6F2] text-[#1A1A1A] min-h-[calc(100vh-140px)] py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div className="border-b border-[#D8D8D8] pb-4">
+          <p className="text-[11px] font-mono tracking-widest text-[#D01F26] uppercase font-bold">Inventory Management</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1A1A1A]">{isEdit ? 'Edit Vehicle Profile' : 'Add Vehicle to Inventory'}</h1>
         </div>
 
-        {/* Starting price */}
-        <Field label="Starting Price (USD) *">
-          <input name="startingPrice" type="number" required min={1} step="0.01"
-            value={form.startingPrice} onChange={onChange}
-            placeholder="5000000" className="input" />
-        </Field>
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-[#D01F26] rounded p-3.5 text-sm">{error}</div>
+        )}
 
-        {/* Description */}
-        <Field label="Description *">
-          <textarea name="description" rows={3} value={form.description}
-            onChange={onChange} placeholder="Condition, history, extras…"
-            className="input resize-none" />
-        </Field>
+        <form onSubmit={handleSubmit} className="bg-white border border-[#D8D8D8] rounded p-6 sm:p-8 space-y-5 shadow-xs">
 
-        {/* Status */}
-        <Field label="Status *">
-          <select name="status" value={form.status} onChange={onChange} className="input">
-            <option value="draft">Draft</option>
-            <option value="listed">Listed</option>
-            <option value="sold">Sold</option>
-          </select>
-        </Field>
-
-        {/* Optional fields */}
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Chassis Number">
-            <input name="chassisNumber" value={form.chassisNumber} onChange={onChange}
-              placeholder="JZX100-0012345" className="input" />
+          {/* Title */}
+          <Field label="Vehicle Listing Title *">
+            <input name="title" required value={form.title} onChange={onChange}
+              placeholder="e.g. 2021 Toyota Land Cruiser ZX V8"
+              className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
           </Field>
-          <Field label="Mileage (km)">
-            <input name="mileage" type="number" min={0} value={form.mileage}
-              onChange={onChange} placeholder="85000" className="input" />
+
+          {/* Make / Model / Year */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <Field label="Make *">
+              <input name="make" required value={form.make} onChange={onChange}
+                placeholder="Toyota" className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
+            </Field>
+            <Field label="Model *">
+              <input name="model" required value={form.model} onChange={onChange}
+                placeholder="Land Cruiser" className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
+            </Field>
+            <Field label="Year *">
+              <input name="year" type="number" required min={1900} max={2100}
+                value={form.year} onChange={onChange} className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#D01F26]" />
+            </Field>
+          </div>
+
+          {/* Starting price */}
+          <Field label="Starting Price (USD FOB) *">
+            <input name="startingPrice" type="number" required min={1} step="0.01"
+              value={form.startingPrice} onChange={onChange}
+              placeholder="e.g. 25000" className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
           </Field>
-        </div>
 
-        <Field label="Grade">
-          <input name="grade" value={form.grade} onChange={onChange}
-            placeholder="4.5" className="input" />
-        </Field>
+          {/* Description */}
+          <Field label="Vehicle Condition & Export Notes *">
+            <textarea name="description" rows={3} value={form.description}
+              onChange={onChange} placeholder="Provide mechanical notes, options, auction history, tyre wear…"
+              className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26] resize-none" />
+          </Field>
 
-        {/* Images */}
-        <Field label="Images">
-          {/* Existing image previews */}
-          {existingImages.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-2">
-              {existingImages.map((url, i) => (
-                <div key={url} className="relative w-20 h-20 rounded-lg overflow-hidden border group">
-                  <img src={toMediaUrl(url)} alt={`img ${i + 1}`} className="w-full h-full object-cover" />
-                  <button
-                    type="button"
-                    onClick={() => setExisting(prev => prev.filter((_, j) => j !== i))}
-                    className="absolute inset-0 bg-black/50 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+          {/* Status */}
+          <Field label="Inventory Status *">
+            <select name="status" value={form.status} onChange={onChange} className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#D01F26]">
+              <option value="draft">Draft (Warehouse prep)</option>
+              <option value="listed">Listed (Public inventory)</option>
+              <option value="sold">Sold (Exported/Dispatched)</option>
+            </select>
+          </Field>
 
-          {/* New file previews */}
-          {newFiles.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-2">
-              {newFiles.map((file, i) => (
-                <div key={i} className="relative w-20 h-20 rounded-lg overflow-hidden border group">
-                  <img
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setNewFiles(prev => prev.filter((_, j) => j !== i))}
-                    className="absolute inset-0 bg-black/50 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
+          {/* Optional fields */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Field label="Chassis Number / VIN">
+              <input name="chassisNumber" value={form.chassisNumber} onChange={onChange}
+                placeholder="e.g. URJ202-0019482" className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
+            </Field>
+            <Field label="Mileage (km)">
+              <input name="mileage" type="number" min={0} value={form.mileage}
+                onChange={onChange} placeholder="42000" className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
+            </Field>
+          </div>
 
-          <input
-            type="file" accept="image/*" multiple
-            onChange={e => setNewFiles(prev => [...prev, ...Array.from(e.target.files)])}
-            className="block w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer"
-          />
-          <p className="text-xs text-gray-400 mt-1">Upload multiple images. Hover a thumbnail to remove it.</p>
-        </Field>
+          <Field label="Auction Sheet Grade (USS/TAA)">
+            <input name="grade" value={form.grade} onChange={onChange}
+              placeholder="e.g. 4.5 / A" className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
+          </Field>
 
-        {/* Actions */}
-        <div className="flex gap-3 pt-2">
-          <button type="submit" disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors disabled:opacity-50">
-          {loading ? 'Saving…' : isEdit ? 'Save Changes' : 'Create Vehicle'}
-          </button>
-          <button type="button" onClick={() => navigate('/admin')}
-            className="px-6 py-2.5 rounded-lg border text-gray-600 hover:bg-gray-50 transition-colors">
-            Cancel
-          </button>
-        </div>
-      </form>
+          {/* Images */}
+          <Field label="Vehicle Gallery & Inspection Photos">
+            {/* Existing image previews */}
+            {existingImages.length > 0 && (
+              <div className="flex flex-wrap gap-2.5 mb-3">
+                {existingImages.map((url, i) => (
+                  <div key={url} className="relative w-20 h-20 rounded overflow-hidden border border-[#D8D8D8] group">
+                    <img src={toMediaUrl(url)} alt={`img ${i + 1}`} className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => setExisting(prev => prev.filter((_, j) => j !== i))}
+                      className="absolute inset-0 bg-black/70 text-white text-[11px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* New file previews */}
+            {newFiles.length > 0 && (
+              <div className="flex flex-wrap gap-2.5 mb-3">
+                {newFiles.map((file, i) => (
+                  <div key={i} className="relative w-20 h-20 rounded overflow-hidden border border-[#D8D8D8] group">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setNewFiles(prev => prev.filter((_, j) => j !== i))}
+                      className="absolute inset-0 bg-black/70 text-white text-[11px] font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <input
+              type="file" accept="image/*" multiple
+              onChange={e => setNewFiles(prev => [...prev, ...Array.from(e.target.files)])}
+              className="block w-full text-xs text-[#555555] file:mr-3 file:py-2 file:px-4 file:rounded file:border file:border-[#D8D8D8] file:text-xs file:font-bold file:uppercase file:tracking-wider file:bg-[#FAF8F5] file:text-[#1A1A1A] hover:file:bg-[#1A1A1A] hover:file:text-white cursor-pointer transition-colors"
+            />
+            <p className="text-[11px] text-[#777777] mt-1.5">Multiple high-resolution photo uploads supported. Hover on thumbnail to remove.</p>
+          </Field>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3 pt-4 border-t border-[#EAEAEA]">
+            <button type="submit" disabled={loading}
+              className="btn-tapro-red text-xs px-6 py-2.5 disabled:opacity-50">
+              {loading ? 'Processing…' : isEdit ? 'Update Vehicle' : 'Save & Publish'}
+            </button>
+            <button type="button" onClick={() => navigate('/admin')}
+              className="bg-white border border-[#D8D8D8] hover:border-[#1A1A1A] text-[#1A1A1A] text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded transition-colors">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
@@ -240,7 +245,7 @@ export default function VehicleFormPage() {
 function Field({ label, children }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-xs font-bold uppercase tracking-wider text-[#555555] mb-1.5">{label}</label>
       {children}
     </div>
   )

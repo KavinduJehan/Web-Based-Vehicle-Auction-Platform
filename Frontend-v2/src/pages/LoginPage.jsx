@@ -36,31 +36,26 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[85vh] bg-[#F4F6F9] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-4xl w-full card-3d-light rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl border border-slate-200">
+    <div className="min-h-[85vh] bg-[#F8F6F2] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-4xl w-full bg-white rounded border border-[#D8D8D8] overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-xs">
         
         {/* Left Col: Japanese Export Desk Brand Identity (5 cols) */}
-        <section className="lg:col-span-5 bg-[#0B111E] text-white p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden">
-          {/* Subtle port accent glow */}
-          <div className="absolute -top-24 -left-24 w-56 h-56 rounded-full bg-[#D01F26]/20 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -right-24 w-56 h-56 rounded-full bg-[#F59E0B]/10 blur-3xl pointer-events-none" />
-
+        <section className="lg:col-span-5 bg-[#111111] text-white p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden border-b lg:border-b-0 lg:border-r border-[#2A2A2A]">
           <div className="relative z-10 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-mono font-bold tracking-wider text-slate-200 border border-white/15">
-              <span className="w-2 h-2 rounded-full bg-[#D01F26] animate-pulse" />
-              <span>JAPAN EXPORT DESK</span>
+            <div className="text-[11px] font-mono tracking-widest uppercase font-bold text-[#D01F26]">
+              EXPORT DESK &middot; PORTAL ACCESS
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
-              Japanese Vehicle Direct Export Portal
+              Vehicle Direct Export Portal
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-              Direct access to verified Japanese stock, comprehensive vehicle condition reports, proforma export invoices, and ocean shipping dispatch schedules.
+            <p className="text-xs sm:text-sm text-[#D8D8D8]/80 leading-relaxed font-normal">
+              Direct access to verified stock, comprehensive vehicle condition reports, proforma export invoices, and ocean shipping dispatch schedules.
             </p>
           </div>
 
-          <div className="relative z-10 mt-8 pt-6 border-t border-white/10 space-y-3.5 text-xs text-slate-300 font-mono">
+          <div className="relative z-10 mt-8 pt-6 border-t border-white/10 space-y-3.5 text-xs text-[#D8D8D8]/80 font-mono">
             <div className="flex items-start gap-2.5">
               <svg className="w-4 h-4 text-[#D01F26] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -91,33 +86,33 @@ export default function LoginPage() {
             <span className="text-[11px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
               VERIFIED BUYER ACCESS
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
+            <h2 className="text-2xl sm:text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">
               Client Sign In
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            <p className="text-xs sm:text-sm text-[#555555] mt-1">
               Welcome back to your TAPROAUTO global vehicle procurement portal.
             </p>
           </div>
 
           {sessionMessage && (
-            <div className="bg-amber-50 text-amber-800 rounded-xl p-3.5 text-xs mb-4 border border-amber-200">
+            <div className="bg-amber-50 text-amber-800 rounded p-3 text-xs mb-4 border border-amber-200">
               {sessionMessage}
             </div>
           )}
           {registered && (
-            <div className="bg-emerald-50 text-emerald-800 rounded-xl p-3.5 text-xs mb-4 border border-emerald-200 font-semibold">
+            <div className="bg-emerald-50 text-emerald-800 rounded p-3 text-xs mb-4 border border-emerald-200 font-semibold">
               Account registered successfully! Please sign in with your credentials.
             </div>
           )}
           {error && (
-            <div className="bg-red-50 text-red-700 rounded-xl p-3.5 text-xs mb-4 border border-red-200 font-semibold">
+            <div className="bg-red-50 text-red-700 rounded p-3 text-xs mb-4 border border-red-200 font-semibold">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
                 Business Email
               </label>
               <div className="relative">
@@ -126,10 +121,10 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="form-input-clean pl-10"
+                  className="form-input-clean has-icon-left rounded"
                   placeholder="importer@company.com"
                 />
-                <svg className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-[#777777] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                 </svg>
               </div>
@@ -137,7 +132,7 @@ export default function LoginPage() {
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">
                   Password
                 </label>
                 <Link to="/forgot-password" className="text-xs text-[#D01F26] hover:underline font-bold">
@@ -150,16 +145,16 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="form-input-clean pl-10 pr-10"
+                  className="form-input-clean has-icon-left has-icon-right rounded"
                   placeholder="••••••••"
                 />
-                <svg className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-[#777777] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
                 <button
                   type="button"
                   onClick={() => setShowPassword(s => !s)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-400 hover:text-slate-700"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-[#777777] hover:text-[#1A1A1A]"
                 >
                   {showPassword ? 'HIDE' : 'SHOW'}
                 </button>
@@ -170,14 +165,14 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-3d-red w-full py-3.5 text-xs font-bold"
+                className="btn-tapro-red w-full py-3 text-xs font-bold rounded cursor-pointer"
               >
                 {loading ? 'Signing In...' : 'Sign In to Buyer Portal'}
               </button>
             </div>
           </form>
 
-          <p className="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-100 text-center">
+          <p className="text-xs text-[#555555] mt-6 pt-4 border-t border-[#EAEAEA] text-center">
             New international buyer?{' '}
             <Link to="/register" className="text-[#D01F26] hover:underline font-bold">
               Register as verified importer

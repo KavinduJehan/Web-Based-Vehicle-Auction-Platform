@@ -28,8 +28,8 @@ export default function WinnerPage() {
   )
 
   return (
-    <div className="max-w-lg mx-auto px-6 py-8">
-      <div className="bg-white border rounded-2xl p-8 text-center shadow-sm">
+    <div className="min-h-[85vh] bg-[#F8F6F2] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-lg w-full bg-white rounded border border-[#D8D8D8] p-8 text-center shadow-xs">
         <div className="flex justify-center mb-4 text-[#D01F26]">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-14 h-14">
             <path d="M6 9H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3" />
@@ -38,28 +38,31 @@ export default function WinnerPage() {
             <path d="M12 17v4m-4 0h8" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold mb-1">{winner.auctionTitle}</h1>
-        <p className="text-gray-500 text-sm mb-6">Auction ended</p>
+        <div className="text-[11px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
+          OFFICIAL AUCTION ALLOCATION
+        </div>
+        <h1 className="text-2xl font-black text-[#1A1A1A] tracking-tight mt-1 mb-1">{winner.auctionTitle}</h1>
+        <p className="text-[#555555] text-xs mb-6">Auction lot session concluded and verified</p>
 
-        <div className="bg-gray-50 rounded-xl p-5 text-left space-y-3 mb-6">
+        <div className="bg-[#FAF8F5] border border-[#EBEBEB] rounded p-5 text-left space-y-3 mb-6">
           <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Winner</p>
-            <p className="font-semibold text-gray-900">{winner.winner.name}</p>
-            <p className="text-sm text-gray-500">{winner.winner.email}</p>
+            <p className="text-[10px] font-mono text-[#777777] uppercase tracking-wider mb-0.5">Assigned Winner</p>
+            <p className="font-bold text-[#1A1A1A] text-sm">{winner.winner.name}</p>
+            <p className="text-xs font-mono text-[#555555]">{winner.winner.email}</p>
           </div>
-          <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Winning Bid</p>
-            <p className="text-2xl font-bold text-blue-600">
+          <div className="border-t border-[#EAEAEA] pt-3">
+            <p className="text-[10px] font-mono text-[#777777] uppercase tracking-wider mb-0.5">Winning Bid Amount</p>
+            <p className="text-2xl font-black font-mono text-[#D01F26]">
               USD {Number(winner.winningBid.amount).toLocaleString()}
             </p>
-            <p className="text-xs text-gray-400">
-              {new Date(winner.winningBid.placedAt).toLocaleString()}
+            <p className="text-[11px] font-mono text-[#777777] mt-0.5">
+              Confirmed on {new Date(winner.winningBid.placedAt).toLocaleString()}
             </p>
           </div>
         </div>
 
-        <Link to="/auctions" className="text-blue-600 hover:underline text-sm">
-          ← Back to auctions
+        <Link to="/auctions" className="btn-tapro-red inline-flex text-xs font-bold py-2.5 px-6 rounded">
+          &larr; Return to Auction Catalog
         </Link>
       </div>
     </div>

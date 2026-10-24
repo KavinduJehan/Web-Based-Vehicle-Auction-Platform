@@ -25,50 +25,60 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="page" style={{ maxWidth: 520, marginTop: 32 }}>
-      <div className="enterprise-panel p-7 md:p-9">
-        <p className="eyebrow">Account recovery</p>
-        <h1 style={{ marginTop: 8, fontSize: '1.5rem', fontWeight: 800, color: '#0b1724' }}>
-          Reset your password
-        </h1>
-        <p style={{ marginTop: 6, fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-          Enter your account email and we will send a secure reset link if the account exists.
-        </p>
+    <div className="min-h-[85vh] bg-[#F8F6F2] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-md w-full bg-white rounded border border-[#D8D8D8] p-8 sm:p-10 shadow-xs">
+        <div className="mb-6">
+          <span className="text-[11px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
+            ACCOUNT RECOVERY
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">
+            Reset Your Password
+          </h1>
+          <p className="text-xs sm:text-sm text-[#555555] mt-1 leading-relaxed">
+            Enter your account email and we will send a secure reset link if the account exists.
+          </p>
+        </div>
 
         {message && (
-          <div className="bg-emerald-50 text-emerald-700 rounded-lg p-3 text-sm mt-5 border border-emerald-200">
+          <div className="bg-emerald-50 text-emerald-800 rounded p-3 text-xs mb-4 border border-emerald-200 font-semibold">
             {message}
           </div>
         )}
         {error && (
-          <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mt-5 border border-red-200">
+          <div className="bg-red-50 text-red-700 rounded p-3 text-xs mb-4 border border-red-200 font-semibold">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4" style={{ marginTop: 22 }}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="label">Business Email</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
+              Business Email Address
+            </label>
             <input
               type="email"
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="input"
+              className="form-input-clean rounded"
               placeholder="you@company.com"
               autoComplete="email"
             />
           </div>
 
-          <button type="submit" disabled={loading} className="btn-primary w-full py-2.5">
-            {loading ? 'Sending...' : 'Send reset link'}
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn-tapro-red w-full py-3 text-xs font-bold rounded cursor-pointer"
+          >
+            {loading ? 'Sending Link...' : 'Send Password Reset Link'}
           </button>
         </form>
 
-        <p className="text-sm mt-5 text-slate-500">
-          Remembered your password?{' '}
-          <Link to="/login" className="text-slate-900 hover:underline font-semibold">
-            Sign in
+        <p className="text-xs text-[#555555] mt-6 pt-4 border-t border-[#EAEAEA] text-center">
+          Remembered your credentials?{' '}
+          <Link to="/login" className="text-[#D01F26] hover:underline font-bold">
+            Sign in here
           </Link>
         </p>
       </div>

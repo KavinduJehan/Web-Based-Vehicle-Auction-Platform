@@ -82,114 +82,198 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="profile-page page">
-      <section className="profile-hero">
-        <div className="profile-identity">
-          <div className="profile-avatar">{initials}</div>
-          <div>
-            <p className="eyebrow">Client profile</p>
-            <h1>Account Overview</h1>
-            <p>Manage your buyer status, auction wins, and account access.</p>
+    <div className="bg-[#F8F6F2] text-[#1A1A1A] min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto space-y-8">
+
+        {/* Page Title & Status Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#D8D8D8] pb-5">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded bg-[#1A1A1A] text-white flex items-center justify-center font-black text-xl tracking-wider shrink-0 border border-[#2A2A2A]">
+              {initials}
+            </div>
+            <div>
+              <div className="text-[11px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
+                VERIFIED CLIENT PROFILE
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-black text-[#1A1A1A] tracking-tight mt-0.5">
+                {name}
+              </h1>
+              <p className="text-xs sm:text-sm text-[#555555] mt-0.5">
+                Manage your verified buyer status, vehicle auction allocations, and export access.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <StatusBadge status={verificationStatus} />
+            <span className="text-xs font-mono font-bold bg-white border border-[#D8D8D8] text-[#1A1A1A] px-3 py-1 rounded capitalize">
+              {role}
+            </span>
           </div>
         </div>
 
-        <div className="profile-status">
-          <StatusBadge status={verificationStatus} />
-          <span className="capitalize">{role}</span>
+        {/* 2-Column Enterprise Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column: Account Details & Actions (4 cols) */}
+          <aside className="lg:col-span-4 space-y-5">
+            
+            {/* Verification Status Card */}
+            <div className="bg-white border border-[#D8D8D8] rounded p-5 shadow-xs">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#D01F26] font-bold block mb-1">
+                ACCESS VERIFICATION
+              </span>
+              <h2 className="text-base font-black text-[#1A1A1A] leading-tight">
+                {status.title}
+              </h2>
+              <p className="text-xs text-[#555555] mt-1.5 leading-relaxed">
+                {status.body}
+              </p>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="bg-white border border-[#D8D8D8] rounded p-5 shadow-xs space-y-2.5">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#777777] font-bold block mb-1">
+                PORTAL ACTIONS
+              </span>
+              <Link to="/auctions" className="btn-tapro-red w-full text-xs font-bold py-2.5 rounded text-center block">
+                Browse Live Auctions
+              </Link>
+              <Link to="/vehicles" className="bg-[#1A1A1A] hover:bg-black text-white w-full text-xs font-bold py-2.5 rounded text-center block transition-colors">
+                Showroom Inventory
+              </Link>
+              <Link to="/change-password" className="bg-white border border-[#D8D8D8] hover:bg-[#FAF8F5] text-[#1A1A1A] w-full text-xs font-bold py-2.5 rounded text-center block transition-colors">
+                Change Password
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="bg-white border border-[#D8D8D8] hover:bg-red-50 text-[#D01F26] w-full text-xs font-bold py-2.5 rounded text-center block cursor-pointer transition-colors"
+              >
+                Sign Out
+              </button>
+            </div>
+
+            {/* Registered Credentials */}
+            <div className="bg-white border border-[#D8D8D8] rounded p-5 shadow-xs space-y-3 text-xs">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#777777] font-bold block">
+                REGISTERED DETAILS
+              </span>
+              <div className="border-t border-[#EAEAEA] pt-2 flex justify-between">
+                <span className="text-[#777777] font-medium">Full Name</span>
+                <span className="font-bold text-[#1A1A1A]">{name}</span>
+              </div>
+              <div className="border-t border-[#EAEAEA] pt-2 flex justify-between">
+                <span className="text-[#777777] font-medium">Email</span>
+                <span className="font-mono text-[#1A1A1A] font-semibold">{email}</span>
+              </div>
+              <div className="border-t border-[#EAEAEA] pt-2 flex justify-between">
+                <span className="text-[#777777] font-medium">Account Role</span>
+                <span className="font-mono text-[#1A1A1A] uppercase font-bold">{role}</span>
+              </div>
+            </div>
+
+          </aside>
+
+          {/* Right Column: Portfolio & Won Auctions (8 cols) */}
+          <main className="lg:col-span-8 space-y-6">
+            
+            {/* 3 Metric Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-white border border-[#D8D8D8] rounded p-4 text-center shadow-xs">
+                <div className="text-3xl font-black text-[#1A1A1A] font-mono">{wonAuctions.length}</div>
+                <div className="text-[10px] font-mono uppercase tracking-wider text-[#777777] font-bold mt-1">Lots Won</div>
+              </div>
+              <div className="bg-white border border-[#D8D8D8] rounded p-4 text-center shadow-xs">
+                <div className="text-2xl font-black text-[#D01F26] font-mono">USD {totalWonValue.toLocaleString()}</div>
+                <div className="text-[10px] font-mono uppercase tracking-wider text-[#777777] font-bold mt-1">Total Procurement</div>
+              </div>
+              <div className="bg-white border border-[#D8D8D8] rounded p-4 text-center shadow-xs">
+                <div className="text-2xl font-black text-[#1A1A1A] font-mono capitalize">{verificationStatus === 'verified' ? 'Active' : 'Pending'}</div>
+                <div className="text-[10px] font-mono uppercase tracking-wider text-[#777777] font-bold mt-1">Bidding Status</div>
+              </div>
+            </div>
+
+            {/* Won Auctions Section */}
+            <div className="bg-white border border-[#D8D8D8] rounded p-5 sm:p-6 shadow-xs space-y-4">
+              <div className="flex items-center justify-between border-b border-[#EAEAEA] pb-3">
+                <div>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
+                    ALLOCATED LOTS
+                  </span>
+                  <h2 className="text-base font-black text-[#1A1A1A] mt-0.5">
+                    Won Vehicle Auctions
+                  </h2>
+                </div>
+                <Link to="/auctions" className="text-xs font-bold text-[#D01F26] hover:underline font-mono">
+                  Browse Active Catalog &rarr;
+                </Link>
+              </div>
+
+              {wonAuctions.length === 0 ? (
+                <div className="text-center py-12 bg-[#FAF8F5] border border-[#EBEBEB] rounded">
+                  <p className="text-sm font-bold text-[#1A1A1A]">No won auctions recorded</p>
+                  <p className="text-xs text-[#777777] mt-1">Your winning vehicle allocations and proforma invoices will appear here.</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {wonAuctions.map((auction) => {
+                    const imgs = auction.vehicle_images ?? []
+                    const thumb = imgs[0] ?? null
+                    const title = auction.title || `${auction.vehicle_make} ${auction.vehicle_model} ${auction.vehicle_year}`
+
+                    return (
+                      <Link
+                        key={auction.id}
+                        to={`/auctions/${auction.id}`}
+                        className="bg-white border border-[#D8D8D8] hover:border-[#D01F26] rounded p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-colors group shadow-2xs"
+                      >
+                        <div className="flex items-center gap-3.5">
+                          {thumb ? (
+                            <img
+                              src={toMediaUrl(thumb)}
+                              alt={title}
+                              className="w-16 h-12 object-cover rounded border border-[#D8D8D8] shrink-0"
+                            />
+                          ) : (
+                            <div className="w-16 h-12 bg-[#1A1A1A] text-white rounded border border-[#2A2A2A] flex items-center justify-center font-mono text-[10px] font-bold shrink-0">
+                              AUTO
+                            </div>
+                          )}
+                          <div>
+                            <h3 className="font-bold text-xs sm:text-sm text-[#1A1A1A] group-hover:text-[#D01F26] transition-colors leading-snug">
+                              {title}
+                            </h3>
+                            <p className="text-[11px] font-mono text-[#777777] mt-0.5">
+                              {auction.vehicle_make} {auction.vehicle_model} · {auction.vehicle_year}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 self-end sm:self-auto">
+                          <div className="text-right">
+                            <div className="text-sm font-mono font-black text-[#D01F26]">
+                              USD {Number(auction.winning_amount).toLocaleString()}
+                            </div>
+                            <div className="text-[10px] font-mono text-[#777777]">
+                              {auction.ends_at ? new Date(auction.ends_at).toLocaleDateString() : 'Closed'}
+                            </div>
+                          </div>
+                          <span className="text-xs font-bold text-[#1A1A1A] group-hover:text-[#D01F26]">
+                            &rarr;
+                          </span>
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
+          </main>
         </div>
-      </section>
 
-      <section className="profile-grid">
-        <aside className="account-panel">
-          <div className={`verification-card ${status.tone}`}>
-            <p className="eyebrow">Account status</p>
-            <h2>{status.title}</h2>
-            <p>{status.body}</p>
-          </div>
-
-          <div className="quick-actions">
-            <Link to="/auctions" className="btn-primary">Browse Auctions</Link>
-            <Link to="/vehicles" className="btn-secondary">View Vehicles</Link>
-            <Link to="/change-password" className="btn-secondary">Change Password</Link>
-            <button type="button" onClick={handleLogout} className="btn-secondary">Log Out</button>
-          </div>
-
-          <dl className="profile-details">
-            <div>
-              <dt>Name</dt>
-              <dd>{name}</dd>
-            </div>
-            <div>
-              <dt>Email</dt>
-              <dd>{email}</dd>
-            </div>
-            <div>
-              <dt>Role</dt>
-              <dd className="capitalize">{role}</dd>
-            </div>
-          </dl>
-        </aside>
-
-        <div className="profile-main">
-          <div className="portfolio-summary">
-            <div>
-              <span>{wonAuctions.length}</span>
-              <p>Won auctions</p>
-            </div>
-            <div>
-              <span>USD {totalWonValue.toLocaleString()}</span>
-              <p>Total winning value</p>
-            </div>
-            <div>
-              <span>{verificationStatus === 'verified' ? 'Open' : 'Limited'}</span>
-              <p>Bidding access</p>
-            </div>
-          </div>
-
-          <section className="wins-panel">
-            <div className="panel-heading">
-              <div>
-                <p className="eyebrow">Auction outcomes</p>
-                <h2>Won Auctions</h2>
-              </div>
-              <Link to="/auctions" className="text-link">Find more auctions</Link>
-            </div>
-
-            {wonAuctions.length === 0 ? (
-              <div className="empty-state compact">
-                <h3>No wins yet</h3>
-                <p>Your winning vehicles will appear here with bid value, vehicle details, and auction date.</p>
-              </div>
-            ) : (
-              <div className="won-list">
-                {wonAuctions.map((auction) => {
-                  const imgs = auction.vehicle_images ?? []
-                  const thumb = imgs[0] ?? null
-                  const title = auction.title || `${auction.vehicle_make} ${auction.vehicle_model} ${auction.vehicle_year}`
-
-                  return (
-                    <Link key={auction.id} to={`/auctions/${auction.id}`} className="won-item">
-                      {thumb ? (
-                          <img src={toMediaUrl(thumb)} alt={title} />
-                      ) : (
-                        <div className="vehicle-placeholder">AUTO</div>
-                      )}
-                      <div>
-                        <h3>{title}</h3>
-                        <p>{auction.vehicle_make} {auction.vehicle_model} / {auction.vehicle_year}</p>
-                        <strong>USD {Number(auction.winning_amount).toLocaleString()}</strong>
-                      </div>
-                      <time>
-                        {auction.ends_at ? new Date(auction.ends_at).toLocaleDateString() : 'Closed'}
-                      </time>
-                    </Link>
-                  )
-                })}
-              </div>
-            )}
-          </section>
-        </div>
-      </section>
+      </div>
     </div>
   )
 }

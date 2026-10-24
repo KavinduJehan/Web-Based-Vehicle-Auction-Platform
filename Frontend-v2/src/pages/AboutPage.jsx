@@ -6,22 +6,21 @@ export default function AboutPage() {
     <div className="bg-[#F8F6F2] text-[#1A1A1A] min-h-screen">
       
       {/* ── ABOUT HERO (With Port Car Background at Reduced Opacity) ── */}
-      <section className="bg-[#1A1A1A] border-b border-[#2C2C2C] text-white py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="bg-[#1A1A1A] border-b border-[#2C2C2C] text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Previous Landing Page Port Background with Less Opacity */}
         <div className="absolute inset-0 z-0">
           <img
             src="/images/hero_port_car.jpg"
             alt="Yokohama Port Operations"
-            className="w-full h-full object-cover object-center opacity-20"
+            className="w-full h-full object-cover object-center opacity-35"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/80 to-[#1A1A1A]/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/70 to-[#1A1A1A]/80" />
         </div>
         
         <div className="max-w-5xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#242424] border border-[#333333] text-[11px] font-mono tracking-widest text-[#D8D8D8] mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D01F26]" />
-            JAPAN TO THE WORLD
-          </div>
+          <p className="text-[11px] font-mono tracking-widest uppercase font-bold text-[#D01F26] mb-3">
+            JAPAN TO THE WORLD &middot; DIRECT EXPORT DESK
+          </p>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
             About <span className="text-white">TAPRO</span><span className="text-[#D01F26]">AUTO</span>
@@ -34,9 +33,9 @@ export default function AboutPage() {
       </section>
 
       {/* ── OUR MISSION & STATS ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
-        <div className="bg-white border border-[#D8D8D8] rounded-lg p-8 sm:p-10 shadow-sm">
+        <div className="bg-white border border-[#D8D8D8] rounded p-8 sm:p-10 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Mission Statement (7 cols) */}
@@ -57,15 +56,15 @@ export default function AboutPage() {
 
             {/* Stat Counters (5 cols) */}
             <div className="lg:col-span-5 grid grid-cols-3 gap-3 text-center border-t lg:border-t-0 lg:border-l border-[#D8D8D8] pt-6 lg:pt-0 lg:pl-8">
-              <div className="p-3 bg-[#FAF8F5] border border-[#EBEBEB] rounded-lg">
+              <div className="p-3 bg-[#FAF8F5] border border-[#EBEBEB] rounded">
                 <span className="block text-xl sm:text-2xl font-black text-[#1A1A1A] font-mono">100%</span>
                 <span className="block text-[10px] sm:text-[11px] font-bold text-[#777777] uppercase tracking-wider mt-1">Direct Sourcing</span>
               </div>
-              <div className="p-3 bg-[#FAF8F5] border border-[#EBEBEB] rounded-lg">
+              <div className="p-3 bg-[#FAF8F5] border border-[#EBEBEB] rounded">
                 <span className="block text-xl sm:text-2xl font-black text-[#D01F26] font-mono">Verified</span>
                 <span className="block text-[10px] sm:text-[11px] font-bold text-[#777777] uppercase tracking-wider mt-1">Inspections</span>
               </div>
-              <div className="p-3 bg-[#FAF8F5] border border-[#EBEBEB] rounded-lg">
+              <div className="p-3 bg-[#FAF8F5] border border-[#EBEBEB] rounded">
                 <span className="block text-xl sm:text-2xl font-black text-[#1A1A1A] font-mono">RoRo/FCL</span>
                 <span className="block text-[10px] sm:text-[11px] font-bold text-[#777777] uppercase tracking-wider mt-1">Port Dispatch</span>
               </div>
@@ -74,12 +73,12 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* ── 4 CORE VALUE PILLARS (With Clean Red Icons as shown in Mockup) ── */}
+        {/* ── 4 CORE VALUE PILLARS (With Clean Red Icons) ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
           
           <div className="bg-white p-6 rounded border border-[#D8D8D8] hover:border-[#D01F26] transition-all duration-200">
-            <div className="w-12 h-12 rounded-full bg-[#D01F26]/10 flex items-center justify-center text-[#D01F26] mb-4">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <div className="w-10 h-10 rounded bg-[#FAF8F5] border border-[#D8D8D8] flex items-center justify-center text-[#D01F26] mb-4">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
               </svg>
             </div>
@@ -90,8 +89,8 @@ export default function AboutPage() {
           </div>
 
           <div className="bg-white p-6 rounded border border-[#D8D8D8] hover:border-[#D01F26] transition-all duration-200">
-            <div className="w-12 h-12 rounded-full bg-[#D01F26]/10 flex items-center justify-center text-[#D01F26] mb-4">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <div className="w-10 h-10 rounded bg-[#FAF8F5] border border-[#D8D8D8] flex items-center justify-center text-[#D01F26] mb-4">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
             </div>
@@ -102,8 +101,8 @@ export default function AboutPage() {
           </div>
 
           <div className="bg-white p-6 rounded border border-[#D8D8D8] hover:border-[#D01F26] transition-all duration-200">
-            <div className="w-12 h-12 rounded-full bg-[#D01F26]/10 flex items-center justify-center text-[#D01F26] mb-4">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <div className="w-10 h-10 rounded bg-[#FAF8F5] border border-[#D8D8D8] flex items-center justify-center text-[#D01F26] mb-4">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
               </svg>
             </div>
@@ -114,8 +113,8 @@ export default function AboutPage() {
           </div>
 
           <div className="bg-white p-6 rounded border border-[#D8D8D8] hover:border-[#D01F26] transition-all duration-200">
-            <div className="w-12 h-12 rounded-full bg-[#D01F26]/10 flex items-center justify-center text-[#D01F26] mb-4">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <div className="w-10 h-10 rounded bg-[#FAF8F5] border border-[#D8D8D8] flex items-center justify-center text-[#D01F26] mb-4">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
               </svg>
             </div>
@@ -144,18 +143,18 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Card 1: Malawi (Bashir Umar Sumaili) */}
-            <div className="bg-white rounded-lg border-2 border-[#D01F26]/30 hover:border-[#D01F26] shadow-sm p-6 flex flex-col justify-between transition-all">
+            <div className="bg-white rounded border-2 border-[#D01F26]/30 hover:border-[#D01F26] shadow-sm p-6 flex flex-col justify-between transition-all">
               <div>
                 <div className="flex items-center gap-4 mb-4">
                   <img
                     src="/team/bashir_umar.jpg"
                     alt="Bashir Umar Sumaili"
-                    className="w-16 h-16 rounded-full object-cover border-2 border-[#D01F26] shadow-sm"
+                    className="w-16 h-16 rounded object-cover border border-[#D8D8D8] shadow-xs"
                   />
                   <div>
-                    <span className="inline-block bg-[#D01F26]/10 text-[#D01F26] text-[10px] font-mono font-bold px-2 py-0.5 rounded uppercase tracking-wider mb-0.5 border border-[#D01F26]/20">
-                      MW MALAWI DESK
-                    </span>
+                    <p className="text-[11px] font-mono font-bold text-[#D01F26] uppercase tracking-wider mb-0.5">
+                      Malawi Regional Desk
+                    </p>
                     <h3 className="text-sm font-black text-[#1A1A1A]">
                       Bashir Umar Sumaili
                     </h3>
@@ -185,16 +184,16 @@ export default function AboutPage() {
             </div>
 
             {/* Card 2: Japan Desk */}
-            <div className="bg-white rounded-lg border border-[#D8D8D8] shadow-sm p-6 flex flex-col justify-between">
+            <div className="bg-white rounded border border-[#D8D8D8] shadow-sm p-6 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-2xl bg-slate-100 text-slate-800 flex items-center justify-center text-xs font-bold font-mono border border-[#D8D8D8]">
+                  <div className="w-16 h-16 rounded bg-[#FAF8F5] text-[#1A1A1A] flex items-center justify-center text-xs font-bold font-mono border border-[#D8D8D8]">
                     JP DESK
                   </div>
                   <div>
-                    <span className="inline-block bg-[#1A1A1A]/10 text-[#1A1A1A] text-[10px] font-mono font-bold px-2 py-0.5 rounded uppercase tracking-wider mb-0.5">
-                      JP JAPAN DESK
-                    </span>
+                    <p className="text-[11px] font-mono font-bold text-[#777777] uppercase tracking-wider mb-0.5">
+                      Japan Desk
+                    </p>
                     <h3 className="text-sm font-black text-[#1A1A1A]">
                       Tokyo Headquarters
                     </h3>
@@ -219,16 +218,16 @@ export default function AboutPage() {
             </div>
 
             {/* Card 3: UK & Europe Desk */}
-            <div className="bg-white rounded-lg border border-[#D8D8D8] shadow-sm p-6 flex flex-col justify-between">
+            <div className="bg-white rounded border border-[#D8D8D8] shadow-sm p-6 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-2xl bg-slate-100 text-slate-800 flex items-center justify-center text-xs font-bold font-mono border border-[#D8D8D8]">
+                  <div className="w-16 h-16 rounded bg-[#FAF8F5] text-[#1A1A1A] flex items-center justify-center text-xs font-bold font-mono border border-[#D8D8D8]">
                     UK DESK
                   </div>
                   <div>
-                    <span className="inline-block bg-[#1A1A1A]/10 text-[#1A1A1A] text-[10px] font-mono font-bold px-2 py-0.5 rounded uppercase tracking-wider mb-0.5">
-                      GB UK &amp; EUROPE
-                    </span>
+                    <p className="text-[11px] font-mono font-bold text-[#777777] uppercase tracking-wider mb-0.5">
+                      UK &amp; Europe Desk
+                    </p>
                     <h3 className="text-sm font-black text-[#1A1A1A]">
                       UK Transit Desk
                     </h3>

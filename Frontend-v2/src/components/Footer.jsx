@@ -32,8 +32,9 @@ export default function Footer() {
             </p>
             <div className="grid gap-2 text-xs">
               <Link to="/" className="text-[#D8D8D8] hover:text-white transition-colors">Home Desk</Link>
-              <Link to="/vehicles" className="text-[#D8D8D8] hover:text-white transition-colors">Showroom Inventory</Link>
-              <Link to="/about" className="text-[#D8D8D8] hover:text-white transition-colors">Inspection &amp; Grading Standards</Link>
+              <Link to="/vehicles" className="text-[#D8D8D8] hover:text-white transition-colors">Vehicle Inventory</Link>
+              <Link to="/about" className="text-[#D8D8D8] hover:text-white transition-colors">Inspection &amp; Grading</Link>
+              <Link to="/contact" className="text-[#D8D8D8] hover:text-white transition-colors">Regional Sales Desks</Link>
               <Link to="/register" className="text-[#D01F26] hover:underline font-bold">Buyer Registration</Link>
             </div>
           </div>

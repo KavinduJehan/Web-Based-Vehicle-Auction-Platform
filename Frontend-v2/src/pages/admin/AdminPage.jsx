@@ -68,193 +68,221 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <div className="flex gap-2">
-          <Link to="/admin/reports"
-            className="bg-slate-700 hover:bg-slate-800 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
-            Reports
-          </Link>
-          <Link to="/admin/vehicles/new"
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
-            + Vehicle
-          </Link>
-          <Link to="/admin/auctions/new"
-            className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
-            + Auction
-          </Link>
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
-          >
-            Logout
-          </button>
+    <div className="bg-[#F8F6F2] text-[#1A1A1A] min-h-[calc(100vh-140px)] py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#D8D8D8]">
+          <div>
+            <p className="text-[11px] font-mono tracking-widest text-[#D01F26] uppercase font-bold">Administration & Operations</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1A1A1A]">Admin Dashboard</h1>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link to="/admin/reports"
+              className="bg-[#1A1A1A] hover:bg-black text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded transition-colors inline-flex items-center gap-1.5 shadow-xs">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+              Reports
+            </Link>
+            <Link to="/admin/vehicles/new"
+              className="btn-tapro-red text-xs px-4 py-2.5 inline-flex items-center gap-1.5 shadow-xs">
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" /></svg>
+              Vehicle
+            </Link>
+            <Link to="/admin/auctions/new"
+              className="bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded transition-colors inline-flex items-center gap-1.5 shadow-xs">
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" /></svg>
+              Auction
+            </Link>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="bg-white border border-[#D8D8D8] hover:border-[#1A1A1A] text-[#1A1A1A] text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </div>
-      </div>
 
-      {flash && (
-        <div className="bg-green-50 text-green-700 rounded-lg p-3 text-sm mb-4">
-          {flash}{' '}
-          <button onClick={() => setFlash('')} className="text-green-500 hover:text-green-700 ml-2 inline-flex items-center"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className="w-3.5 h-3.5"><path d="M4 4l8 8M12 4l-8 8" /></svg></button>
+        {flash && (
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded p-3.5 text-sm flex items-center justify-between">
+            <span>{flash}</span>
+            <button onClick={() => setFlash('')} className="text-emerald-600 hover:text-emerald-900 ml-2 inline-flex items-center">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4"><path d="M4 4l8 8M12 4l-8 8" /></svg>
+            </button>
+          </div>
+        )}
+
+        {/* Tabs */}
+        <div className="flex items-center gap-1.5 p-1 bg-white border border-[#D8D8D8] rounded max-w-fit shadow-xs">
+          {TABS.map(t => (
+            <button
+              key={t} onClick={() => setTab(t)}
+              className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded transition-all ${
+                tab === t
+                  ? 'bg-[#1A1A1A] text-white shadow-xs'
+                  : 'text-[#555555] hover:text-[#1A1A1A] hover:bg-[#FAF8F5]'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
         </div>
-      )}
 
-      {/* Tabs */}
-      <div className="flex gap-1 border-b mb-6">
-        {TABS.map(t => (
-          <button
-            key={t} onClick={() => setTab(t)}
-            className={`px-5 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
-              tab === t
-                ? 'border-blue-600 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-800'
-            }`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
+        {error && <div className="bg-red-50 border border-red-200 text-[#D01F26] rounded p-3.5 text-sm">{error}</div>}
 
-      {error   && <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mb-4">{error}</div>}
-      {loading && <Spinner />}
+        {loading && <Spinner />}
 
-      {/* ── Vehicles tab ── */}
-      {!loading && tab === 'Vehicles' && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs uppercase text-gray-400 border-b">
-                <th className="pb-2 pr-4">ID</th>
-                <th className="pb-2 pr-4">Title / Make Model Year</th>
-                <th className="pb-2 pr-4">Starting Price</th>
-                <th className="pb-2 pr-4">Status</th>
-                <th className="pb-2"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {vehicles.length === 0 && (
-                <tr><td colSpan={5} className="py-6 text-center text-gray-400">No vehicles.</td></tr>
-              )}
-              {vehicles.map(v => (
-                <tr key={v.id} className="border-b last:border-0 hover:bg-gray-50">
-                  <td className="py-3 pr-4 text-gray-400">{v.id}</td>
-                  <td className="py-3 pr-4 font-medium">
-                    {v.title || `${v.make} ${v.model} ${v.year}`}
-                  </td>
-                  <td className="py-3 pr-4">USD {Number(v.starting_price).toLocaleString()}</td>
-                  <td className="py-3 pr-4"><StatusBadge status={v.status} /></td>
-                  <td className="py-3">
-                    <div className="flex gap-2">
-                      <Link to={`/admin/vehicles/${v.id}/edit`}
-                        className="text-blue-600 hover:underline text-xs font-medium">Edit</Link>
-                      <button onClick={() => handleDeleteVehicle(v.id)}
-                        className="text-red-500 hover:text-red-700 text-xs font-medium">Delete</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* ── Auctions tab ── */}
-      {!loading && tab === 'Auctions' && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs uppercase text-gray-400 border-b">
-                <th className="pb-2 pr-4">ID</th>
-                <th className="pb-2 pr-4">Title</th>
-                <th className="pb-2 pr-4">Status</th>
-                <th className="pb-2 pr-4">Ends At</th>
-                <th className="pb-2"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {auctions.length === 0 && (
-                <tr><td colSpan={5} className="py-6 text-center text-gray-400">No auctions.</td></tr>
-              )}
-              {auctions.map(a => (
-                <tr key={a.id} className="border-b last:border-0 hover:bg-gray-50">
-                  <td className="py-3 pr-4 text-gray-400">{a.id}</td>
-                  <td className="py-3 pr-4 font-medium">{a.title}</td>
-                  <td className="py-3 pr-4"><StatusBadge status={a.status} /></td>
-                  <td className="py-3 pr-4 text-gray-400 text-xs">
-                    {a.ends_at ? new Date(a.ends_at).toLocaleString() : '—'}
-                  </td>
-                  <td className="py-3">
-                    <div className="flex gap-2">
-                      <Link to={`/auctions/${a.id}`}
-                        className="text-gray-500 hover:underline text-xs font-medium">View</Link>
-                      <Link to={`/admin/auctions/${a.id}/edit`}
-                        className="text-blue-600 hover:underline text-xs font-medium">Edit</Link>
-                      <button onClick={() => handleDeleteAuction(a.id)}
-                        className="text-red-500 hover:text-red-700 text-xs font-medium">Delete</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* ── Users tab ── */}
-      {!loading && tab === 'Users' && (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs uppercase text-gray-400 border-b">
-                <th className="pb-2 pr-4">ID</th>
-                <th className="pb-2 pr-4">Name</th>
-                <th className="pb-2 pr-4">Email</th>
-                <th className="pb-2 pr-4">Role</th>
-                <th className="pb-2 pr-4">Status</th>
-                <th className="pb-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.length === 0 && (
-                <tr><td colSpan={6} className="py-6 text-center text-gray-400">No users.</td></tr>
-              )}
-              {users.map(u => (
-                <tr key={u.id} className="border-b last:border-0 hover:bg-gray-50">
-                  <td className="py-3 pr-4 text-gray-400">{u.id}</td>
-                  <td className="py-3 pr-4 font-medium">{u.name}</td>
-                  <td className="py-3 pr-4 text-gray-500">{u.email}</td>
-                  <td className="py-3 pr-4 capitalize">{u.role}</td>
-                  <td className="py-3 pr-4"><StatusBadge status={u.verificationStatus} /></td>
-                  <td className="py-3">
-                    {u.role !== 'admin' && (
-                      <div className="flex gap-2">
-                        {u.verificationStatus !== 'verified' && (
-                          <button
-                            onClick={() => handleSetStatus(u.id, 'verified')}
-                            className="bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-3 py-1 rounded transition-colors"
-                          >
-                            Verify
+        {/* ── Vehicles tab ── */}
+        {!loading && tab === 'Vehicles' && (
+          <div className="bg-white border border-[#D8D8D8] rounded shadow-xs overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-[#FAF8F5] border-b border-[#D8D8D8]">
+                  <tr>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">ID</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Vehicle / Make Model Year</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Starting Price</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Status</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777] text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#EAEAEA]">
+                  {vehicles.length === 0 && (
+                    <tr><td colSpan={5} className="py-8 text-center text-[#777777]">No vehicles in inventory database.</td></tr>
+                  )}
+                  {vehicles.map(v => (
+                    <tr key={v.id} className="hover:bg-[#FAF8F5] transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-xs text-[#777777]">#{v.id}</td>
+                      <td className="py-3.5 px-4 font-bold text-[#1A1A1A]">
+                        {v.title || `${v.make} ${v.model} ${v.year}`}
+                      </td>
+                      <td className="py-3.5 px-4 font-mono font-semibold text-[#1A1A1A]">USD {Number(v.starting_price).toLocaleString()}</td>
+                      <td className="py-3.5 px-4"><StatusBadge status={v.status} /></td>
+                      <td className="py-3.5 px-4 text-right">
+                        <div className="inline-flex items-center gap-2">
+                          <Link to={`/admin/vehicles/${v.id}/edit`}
+                            className="bg-[#FAF8F5] hover:bg-[#1A1A1A] hover:text-white border border-[#D8D8D8] text-[#1A1A1A] px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors">
+                            Edit
+                          </Link>
+                          <button onClick={() => handleDeleteVehicle(v.id)}
+                            className="hover:bg-red-50 text-[#D01F26] border border-red-200 px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors">
+                            Delete
                           </button>
-                        )}
-                        {u.verificationStatus !== 'rejected' && (
-                          <button
-                            onClick={() => handleSetStatus(u.id, 'rejected')}
-                            className="bg-red-500 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1 rounded transition-colors"
-                          >
-                            Reject
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* ── Auctions tab ── */}
+        {!loading && tab === 'Auctions' && (
+          <div className="bg-white border border-[#D8D8D8] rounded shadow-xs overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-[#FAF8F5] border-b border-[#D8D8D8]">
+                  <tr>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">ID</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Title</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Status</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Ends At</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777] text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#EAEAEA]">
+                  {auctions.length === 0 && (
+                    <tr><td colSpan={5} className="py-8 text-center text-[#777777]">No active or scheduled auctions.</td></tr>
+                  )}
+                  {auctions.map(a => (
+                    <tr key={a.id} className="hover:bg-[#FAF8F5] transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-xs text-[#777777]">#{a.id}</td>
+                      <td className="py-3.5 px-4 font-bold text-[#1A1A1A]">{a.title}</td>
+                      <td className="py-3.5 px-4"><StatusBadge status={a.status} /></td>
+                      <td className="py-3.5 px-4 text-[#555555] text-xs font-mono">
+                        {a.ends_at ? new Date(a.ends_at).toLocaleString() : '—'}
+                      </td>
+                      <td className="py-3.5 px-4 text-right">
+                        <div className="inline-flex items-center gap-2">
+                          <Link to={`/auctions/${a.id}`}
+                            className="bg-[#FAF8F5] hover:bg-[#1A1A1A] hover:text-white border border-[#D8D8D8] text-[#1A1A1A] px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors">
+                            View
+                          </Link>
+                          <Link to={`/admin/auctions/${a.id}/edit`}
+                            className="bg-[#FAF8F5] hover:bg-[#1A1A1A] hover:text-white border border-[#D8D8D8] text-[#1A1A1A] px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors">
+                            Edit
+                          </Link>
+                          <button onClick={() => handleDeleteAuction(a.id)}
+                            className="hover:bg-red-50 text-[#D01F26] border border-red-200 px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors">
+                            Delete
                           </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* ── Users tab ── */}
+        {!loading && tab === 'Users' && (
+          <div className="bg-white border border-[#D8D8D8] rounded shadow-xs overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-[#FAF8F5] border-b border-[#D8D8D8]">
+                  <tr>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">ID</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Name</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Email</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Role</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777]">Status</th>
+                    <th className="py-3 px-4 text-[11px] font-mono font-bold uppercase tracking-wider text-[#777777] text-right">Verification</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#EAEAEA]">
+                  {users.length === 0 && (
+                    <tr><td colSpan={6} className="py-8 text-center text-[#777777]">No registered buyers or users.</td></tr>
+                  )}
+                  {users.map(u => (
+                    <tr key={u.id} className="hover:bg-[#FAF8F5] transition-colors">
+                      <td className="py-3.5 px-4 font-mono text-xs text-[#777777]">#{u.id}</td>
+                      <td className="py-3.5 px-4 font-bold text-[#1A1A1A]">{u.name}</td>
+                      <td className="py-3.5 px-4 text-[#555555] font-mono text-xs">{u.email}</td>
+                      <td className="py-3.5 px-4 capitalize font-semibold text-[#1A1A1A]">{u.role}</td>
+                      <td className="py-3.5 px-4"><StatusBadge status={u.verificationStatus} /></td>
+                      <td className="py-3.5 px-4 text-right">
+                        {u.role !== 'admin' && (
+                          <div className="inline-flex items-center gap-2">
+                            {u.verificationStatus !== 'verified' && (
+                              <button
+                                onClick={() => handleSetStatus(u.id, 'verified')}
+                                className="bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded transition-colors"
+                              >
+                                Verify
+                              </button>
+                            )}
+                            {u.verificationStatus !== 'rejected' && (
+                              <button
+                                onClick={() => handleSetStatus(u.id, 'rejected')}
+                                className="hover:bg-red-50 text-[#D01F26] border border-red-200 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded transition-colors"
+                              >
+                                Reject
+                              </button>
+                            )}
+                          </div>
                         )}
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

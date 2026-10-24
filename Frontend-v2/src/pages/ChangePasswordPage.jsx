@@ -88,158 +88,137 @@ export default function ChangePasswordPage() {
   }
 
   return (
-    <div className="page" style={{ maxWidth: 520, marginTop: 32 }}>
-      <div className="enterprise-panel p-7 md:p-9">
-
-        <p className="eyebrow">Account security</p>
-        <h1 style={{ marginTop: 8, fontSize: '1.5rem', fontWeight: 800, color: '#0b1724' }}>
-          Set a permanent password
-        </h1>
-        <p style={{ marginTop: 6, fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-          Your account was created with a temporary password. Choose a strong permanent one before continuing.
-        </p>
+    <div className="min-h-[85vh] bg-[#F8F6F2] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-md w-full bg-white rounded border border-[#D8D8D8] p-8 sm:p-10 shadow-xs">
+        <div className="mb-6">
+          <span className="text-[11px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
+            ACCOUNT SECURITY
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">
+            Set Permanent Password
+          </h1>
+          <p className="text-xs sm:text-sm text-[#555555] mt-1 leading-relaxed">
+            Your account was created with a temporary password. Choose a strong permanent one before continuing.
+          </p>
+        </div>
 
         {error && (
-          <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mt-5 border border-red-200">{error}</div>
+          <div className="bg-red-50 text-red-700 rounded p-3 text-xs mb-4 border border-red-200 font-semibold">{error}</div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4" style={{ marginTop: 22 }}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Current password */}
           <div>
-            <label className="label">Current (temporary) password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
+              Current (Temporary) Password
+            </label>
             <input
               type="password"
               value={current}
               onChange={e => setCurrent(e.target.value)}
               required
               autoComplete="current-password"
-              className="input"
+              className="form-input-clean rounded"
             />
           </div>
 
           {/* Suggest button */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: -6 }}>
-            <label className="label" style={{ margin: 0 }}>New password</label>
-            <button
-              type="button"
-              onClick={handleSuggest}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 5,
-                fontSize: '0.78rem', fontWeight: 700,
-                color: 'var(--brand-sky)',
-                background: 'none', border: 'none', cursor: 'pointer',
-                padding: '2px 0',
-              }}
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="13" height="13">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              {copied ? 'Copied to clipboard!' : 'Suggest strong password'}
-            </button>
-          </div>
-
-          {/* New password input + show/hide + strength bar */}
           <div>
-            <div style={{ position: 'relative' }}>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">
+                New Password
+              </label>
+              <button
+                type="button"
+                onClick={handleSuggest}
+                className="text-xs font-bold text-[#D01F26] hover:underline"
+              >
+                {copied ? 'Copied to clipboard!' : 'Suggest strong password'}
+              </button>
+            </div>
+
+            <div className="relative">
               <input
                 type={showNext ? 'text' : 'password'}
                 value={next}
                 onChange={e => { setNext(e.target.value); setCopied(false) }}
                 required
                 autoComplete="new-password"
-                className="input"
-                style={{ paddingRight: 40, fontFamily: next ? 'monospace' : undefined }}
+                className="form-input-clean pr-16 rounded"
                 placeholder="Min. 8 characters"
               />
               <button
                 type="button"
                 onClick={() => setShowNext(v => !v)}
-                style={{
-                  position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
-                  background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', padding: 2,
-                }}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-[#777777] hover:text-[#1A1A1A]"
                 tabIndex={-1}
-                aria-label={showNext ? 'Hide password' : 'Show password'}
               >
-                {showNext
-                  ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                  : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                }
+                {showNext ? 'HIDE' : 'SHOW'}
               </button>
             </div>
 
             {/* Strength meter */}
             {next && strength && (
-              <div style={{ marginTop: 8 }}>
-                <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+              <div className="mt-2.5">
+                <div className="flex gap-1.5 mb-1.5">
                   {['weak', 'medium', 'strong'].map((lvl, i) => (
-                    <div key={lvl} style={{
-                      flex: 1, height: 4, borderRadius: 99,
-                      background: ['weak','medium','strong'].indexOf(strength.level) >= i
-                        ? strength.color : 'var(--line)',
-                      transition: 'background 250ms ease',
-                    }} />
+                    <div
+                      key={lvl}
+                      className="h-1.5 flex-1 rounded-sm transition-colors duration-200"
+                      style={{
+                        background: ['weak','medium','strong'].indexOf(strength.level) >= i
+                          ? strength.color : '#E2E8F0',
+                      }}
+                    />
                   ))}
                 </div>
-                <p style={{ fontSize: '0.75rem', fontWeight: 700, color: strength.color }}>
-                  {strength.label} password
-                  {strength.level !== 'strong' && (
-                    <span style={{ color: 'var(--muted)', fontWeight: 400 }}>
-                      {' — add '}
-                      {!/[A-Z]/.test(next) && 'uppercase, '}
-                      {!/[0-9]/.test(next) && 'numbers, '}
-                      {!/[^A-Za-z0-9]/.test(next) && 'symbols, '}
-                      {next.length < 12 && '12+ characters'}
-                    </span>
-                  )}
+                <p className="text-xs font-bold" style={{ color: strength.color }}>
+                  {strength.label} password security
                 </p>
               </div>
             )}
 
             {/* Requirements checklist */}
-            <ul style={{ marginTop: 8, display: 'grid', gap: 3 }}>
+            <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] font-mono">
               {[
-                { ok: next.length >= 8,          text: 'At least 8 characters' },
-                { ok: /[A-Z]/.test(next),         text: 'Uppercase letter' },
+                { ok: next.length >= 8,          text: '8+ Characters' },
+                { ok: /[A-Z]/.test(next),         text: 'Uppercase Letter' },
                 { ok: /[0-9]/.test(next),         text: 'Number' },
-                { ok: /[^A-Za-z0-9]/.test(next),  text: 'Special character (@#$%&*!?)' },
+                { ok: /[^A-Za-z0-9]/.test(next),  text: 'Special Symbol' },
               ].map(({ ok, text }) => (
-                <li key={text} style={{
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  fontSize: '0.78rem',
-                  color: ok ? '#059669' : 'var(--muted)',
-                }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="12" height="12"
-                    style={{ flexShrink: 0, stroke: ok ? '#059669' : 'var(--line)' }}>
-                    {ok
-                      ? <polyline points="20 6 9 17 4 12" />
-                      : <circle cx="12" cy="12" r="10" />}
+                <div
+                  key={text}
+                  className={`flex items-center gap-1.5 ${ok ? 'text-emerald-700 font-bold' : 'text-[#777777]'}`}
+                >
+                  <svg className={`w-3.5 h-3.5 shrink-0 ${ok ? 'text-emerald-600' : 'text-[#CCCCCC]'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={ok ? "M5 13l4 4L19 7" : "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"} />
                   </svg>
-                  {text}
-                </li>
+                  <span>{text}</span>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Confirm */}
           <div>
-            <label className="label">Confirm new password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
+              Confirm New Password
+            </label>
             <input
               type={showNext ? 'text' : 'password'}
               value={confirm}
               onChange={e => setConfirm(e.target.value)}
               required
               autoComplete="new-password"
-              className="input"
-              style={{ fontFamily: confirm ? 'monospace' : undefined }}
+              className="form-input-clean rounded"
               placeholder="Re-enter new password"
             />
             {confirm && next && confirm !== next && (
-              <p style={{ marginTop: 4, fontSize: '0.78rem', color: '#ef4444' }}>Passwords do not match</p>
+              <p className="text-xs text-[#D01F26] font-bold mt-1.5">Passwords do not match</p>
             )}
             {confirm && next && confirm === next && (
-              <p style={{ marginTop: 4, fontSize: '0.78rem', color: '#059669', display: 'flex', alignItems: 'center', gap: 4 }}>
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ width: 14, height: 14 }}>
+              <p className="text-xs text-emerald-700 font-bold mt-1.5 flex items-center gap-1">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
                   <path d="M3.5 8.5L6.5 11.5L12.5 4.5" />
                 </svg>
                 Passwords match
@@ -250,10 +229,9 @@ export default function ChangePasswordPage() {
           <button
             type="submit"
             disabled={loading || (next && strength?.level === 'weak')}
-            className="btn-primary"
-            style={{ width: '100%', paddingTop: 11, paddingBottom: 11, marginTop: 4 }}
+            className="btn-tapro-red w-full py-3 text-xs font-bold rounded cursor-pointer mt-2"
           >
-            {loading ? 'Saving…' : 'Set new password'}
+            {loading ? 'Saving…' : 'Save Permanent Password'}
           </button>
         </form>
       </div>

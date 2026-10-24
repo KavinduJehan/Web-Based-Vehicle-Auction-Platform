@@ -59,105 +59,108 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="page" style={{ maxWidth: 520, marginTop: 32 }}>
-      <div className="enterprise-panel p-7 md:p-9">
-        <p className="eyebrow">Account recovery</p>
-        <h1 style={{ marginTop: 8, fontSize: '1.5rem', fontWeight: 800, color: '#0b1724' }}>
-          Choose a new password
-        </h1>
-        <p style={{ marginTop: 6, fontSize: '0.9rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-          Use a strong password that is unique to this account.
-        </p>
+    <div className="min-h-[85vh] bg-[#F8F6F2] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-md w-full bg-white rounded border border-[#D8D8D8] p-8 sm:p-10 shadow-xs">
+        <div className="mb-6">
+          <span className="text-[11px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
+            ACCOUNT RECOVERY
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">
+            Choose New Password
+          </h1>
+          <p className="text-xs sm:text-sm text-[#555555] mt-1 leading-relaxed">
+            Create a strong, permanent password to secure your export account access.
+          </p>
+        </div>
 
         {!token && (
-          <div className="bg-amber-50 text-amber-800 rounded-lg p-3 text-sm mt-5 border border-amber-200">
+          <div className="bg-amber-50 text-amber-800 rounded p-3 text-xs mb-4 border border-amber-200 font-semibold">
             This reset link is missing a token. Request a new password reset email.
           </div>
         )}
         {error && (
-          <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mt-5 border border-red-200">
+          <div className="bg-red-50 text-red-700 rounded p-3 text-xs mb-4 border border-red-200 font-semibold">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4" style={{ marginTop: 22 }}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="label">New password</label>
-            <div style={{ position: 'relative' }}>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
+              New Password
+            </label>
+            <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="input"
+                className="form-input-clean pr-16 rounded"
                 placeholder="Min. 8 characters"
                 autoComplete="new-password"
-                style={{ paddingRight: 64, fontFamily: password ? 'monospace' : undefined }}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(v => !v)}
-                className="text-sm text-slate-500 hover:text-slate-900"
-                style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)' }}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-[#777777] hover:text-[#1A1A1A]"
               >
-                {showPassword ? 'Hide' : 'Show'}
+                {showPassword ? 'HIDE' : 'SHOW'}
               </button>
             </div>
 
             {password && strength && (
-              <div style={{ marginTop: 8 }}>
-                <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+              <div className="mt-2.5">
+                <div className="flex gap-1.5 mb-1.5">
                   {['weak', 'medium', 'strong'].map((level, index) => (
                     <div
                       key={level}
+                      className="h-1.5 flex-1 rounded-sm transition-colors duration-200"
                       style={{
-                        flex: 1,
-                        height: 4,
-                        borderRadius: 99,
                         background: ['weak', 'medium', 'strong'].indexOf(strength.level) >= index
                           ? strength.color
-                          : 'var(--line)'
+                          : '#E2E8F0'
                       }}
                     />
                   ))}
                 </div>
-                <p style={{ fontSize: '0.75rem', fontWeight: 700, color: strength.color }}>
-                  {strength.label} password
+                <p className="text-xs font-bold" style={{ color: strength.color }}>
+                  {strength.label} password security
                 </p>
               </div>
             )}
           </div>
 
           <div>
-            <label className="label">Confirm new password</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
+              Confirm New Password
+            </label>
             <input
               type={showPassword ? 'text' : 'password'}
               required
               value={confirm}
               onChange={e => setConfirm(e.target.value)}
-              className="input"
+              className="form-input-clean rounded"
               placeholder="Re-enter new password"
               autoComplete="new-password"
-              style={{ fontFamily: confirm ? 'monospace' : undefined }}
             />
             {confirm && password && confirm !== password && (
-              <p style={{ marginTop: 4, fontSize: '0.78rem', color: '#ef4444' }}>Passwords do not match</p>
+              <p className="text-xs text-[#D01F26] font-bold mt-1.5">Passwords do not match</p>
             )}
           </div>
 
           <button
             type="submit"
             disabled={loading || !token || (password && strength?.level === 'weak')}
-            className="btn-primary w-full py-2.5"
+            className="btn-tapro-red w-full py-3 text-xs font-bold rounded cursor-pointer"
           >
-            {loading ? 'Resetting...' : 'Reset password'}
+            {loading ? 'Updating Password...' : 'Save New Password & Sign In'}
           </button>
         </form>
 
-        <p className="text-sm mt-5 text-slate-500">
-          Need a new link?{' '}
-          <Link to="/forgot-password" className="text-slate-900 hover:underline font-semibold">
-            Request password reset
+        <p className="text-xs text-[#555555] mt-6 pt-4 border-t border-[#EAEAEA] text-center">
+          Need a new reset link?{' '}
+          <Link to="/forgot-password" className="text-[#D01F26] hover:underline font-bold">
+            Request fresh link
           </Link>
         </p>
       </div>

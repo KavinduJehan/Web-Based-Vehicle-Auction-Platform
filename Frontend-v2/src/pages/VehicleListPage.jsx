@@ -332,12 +332,7 @@ export default function VehicleListPage() {
                         <div>
                           <div className="flex items-center justify-between text-[11px] font-mono text-[#777777] mb-1">
                             <span>{v.year || '2020'} · {v.make}</span>
-                            <span className="text-emerald-700 font-bold inline-flex items-center gap-1">
-                              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
-                                <path d="M3.5 8.5L6.5 11.5L12.5 4.5" />
-                              </svg>
-                              JEVIC Verified
-                            </span>
+                            <span className="text-slate-500 font-semibold">Stock #{v.id}</span>
                           </div>
 
                           <h2 className="font-extrabold text-[#1A1A1A] text-base leading-snug line-clamp-1 group-hover:text-[#D01F26] transition-colors" title={title}>

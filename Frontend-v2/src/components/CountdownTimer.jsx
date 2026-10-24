@@ -20,7 +20,7 @@ export default function CountdownTimer({ endsAt, className = '' }) {
   }, [endsAt])
 
   if (!left) {
-    return <span className={`text-red-600 font-semibold text-sm ${className}`}>Ended</span>
+    return <span className={`text-[#777777] font-bold text-xs uppercase font-mono tracking-wider ${className}`}>Ended</span>
   }
 
   const parts = []
@@ -30,7 +30,7 @@ export default function CountdownTimer({ endsAt, className = '' }) {
   parts.push(`${String(left.s).padStart(2, '0')}s`)
 
   return (
-    <span className={`font-mono font-semibold text-sm text-green-700 ${className}`}>
+    <span className={`font-mono font-bold text-xs text-[#D01F26] tracking-wider ${className}`}>
       {parts.join(' ')}
     </span>
   )

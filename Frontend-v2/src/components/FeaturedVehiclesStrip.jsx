@@ -16,8 +16,7 @@ function CarIcon() {
 function statusBadge(status) {
   if (status === 'listed' || !status) {
     return (
-      <span className="strip-live-dot" style={{ background: 'rgba(16, 185, 129, 0.15)', color: '#10b981', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
-        <span style={{ background: '#10b981' }} />
+      <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-[#FAF8F5] text-[#1A1A1A] border border-[#D8D8D8]">
         Available
       </span>
     )

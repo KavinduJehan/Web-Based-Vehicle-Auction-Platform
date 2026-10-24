@@ -83,30 +83,30 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-[85vh] bg-[#F4F6F9] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-xl w-full card-3d-light rounded-3xl p-8 sm:p-10 shadow-2xl border border-slate-200">
+    <div className="min-h-[85vh] bg-[#F8F6F2] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <div className="max-w-xl w-full bg-white rounded border border-[#D8D8D8] p-8 sm:p-10 shadow-xs">
         
         <div className="mb-6">
           <span className="text-[11px] font-mono uppercase tracking-widest text-[#D01F26] font-bold">
             GLOBAL BUYER REGISTRATION
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
+          <h1 className="text-2xl sm:text-3xl font-black text-[#1A1A1A] tracking-tight mt-1">
             Create Verified Buyer Account
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Register to access inspected JDM vehicle condition sheets, priority stock reservations, and direct CIF port export quotes.
+          <p className="text-xs sm:text-sm text-[#555555] mt-1">
+            Register to access inspected vehicle condition sheets, priority stock reservations, and direct CIF port export quotes.
           </p>
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-700 border border-red-200 rounded-xl p-3.5 text-xs font-semibold mb-5">
+          <div className="bg-red-50 text-red-700 border border-red-200 rounded p-3 text-xs font-semibold mb-5">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
               Full Name / Company Representative <span className="text-[#D01F26]">*</span>
             </label>
             <input
@@ -116,12 +116,12 @@ export default function RegisterPage() {
               value={form.name}
               onChange={onChange}
               placeholder="e.g. John Smith"
-              className="form-input-clean"
+              className="form-input-clean rounded"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A] mb-1.5">
               Business Email Address <span className="text-[#D01F26]">*</span>
             </label>
             <input
@@ -131,13 +131,13 @@ export default function RegisterPage() {
               value={form.email}
               onChange={onChange}
               placeholder="importer@company.com"
-              className="form-input-clean"
+              className="form-input-clean rounded"
             />
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#1A1A1A]">
                 Password <span className="text-[#D01F26]">*</span>
               </label>
               <button
@@ -159,12 +159,12 @@ export default function RegisterPage() {
                 minLength={8}
                 autoComplete="new-password"
                 placeholder="Min. 8 characters"
-                className="form-input-clean pr-16"
+                className="form-input-clean pr-16 rounded"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(v => !v)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-400 hover:text-slate-700"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-mono text-[#777777] hover:text-[#1A1A1A]"
                 tabIndex={-1}
               >
                 {showPassword ? 'HIDE' : 'SHOW'}
@@ -177,7 +177,7 @@ export default function RegisterPage() {
                   {['weak', 'medium', 'strong'].map((level, idx) => (
                     <span
                       key={level}
-                      className="h-1.5 flex-1 rounded-full transition-colors duration-200"
+                      className="h-1.5 flex-1 rounded-sm transition-colors duration-200"
                       style={{
                         background: ['weak', 'medium', 'strong'].indexOf(strength.level) >= idx
                           ? strength.color
@@ -202,9 +202,9 @@ export default function RegisterPage() {
               ].map(({ ok, text }) => (
                 <div
                   key={text}
-                  className={`flex items-center gap-1.5 ${ok ? 'text-emerald-700 font-bold' : 'text-slate-400'}`}
+                  className={`flex items-center gap-1.5 ${ok ? 'text-emerald-700 font-bold' : 'text-[#777777]'}`}
                 >
-                  <svg className={`w-3.5 h-3.5 shrink-0 ${ok ? 'text-emerald-600' : 'text-slate-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`w-3.5 h-3.5 shrink-0 ${ok ? 'text-emerald-600' : 'text-[#CCCCCC]'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={ok ? "M5 13l4 4L19 7" : "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"} />
                   </svg>
                   <span>{text}</span>
@@ -217,14 +217,14 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading || strength?.level === 'weak'}
-              className="btn-3d-red w-full py-3.5 text-xs font-bold"
+              className="btn-tapro-red w-full py-3 text-xs font-bold rounded cursor-pointer"
             >
               {loading ? 'Creating Account...' : 'Complete Buyer Registration'}
             </button>
           </div>
         </form>
 
-        <p className="text-xs text-slate-600 mt-6 pt-4 border-t border-slate-100 text-center">
+        <p className="text-xs text-[#555555] mt-6 pt-4 border-t border-[#EAEAEA] text-center">
           Already registered?{' '}
           <Link to="/login" className="text-[#D01F26] hover:underline font-bold">
             Sign in here

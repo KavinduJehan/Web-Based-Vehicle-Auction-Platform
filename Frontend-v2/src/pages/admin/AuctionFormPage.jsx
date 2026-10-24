@@ -90,105 +90,110 @@ export default function AuctionFormPage() {
     }
   }
 
-  if (loadingData) return <div className="p-12 text-center text-gray-400">Loading…</div>
+  if (loadingData) return <div className="bg-[#F8F6F2] min-h-[calc(100vh-140px)] flex items-center justify-center text-[#777777] font-mono text-sm">Loading auction configuration…</div>
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-6">{isEdit ? 'Edit Auction' : 'Create Auction'}</h1>
+    <div className="bg-[#F8F6F2] text-[#1A1A1A] min-h-[calc(100vh-140px)] py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div className="border-b border-[#D8D8D8] pb-4">
+          <p className="text-[11px] font-mono tracking-widest text-[#D01F26] uppercase font-bold">Auction Management</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1A1A1A]">{isEdit ? 'Edit Auction Parameters' : 'Create Live Auction'}</h1>
+        </div>
 
-      {error && (
-        <div className="bg-red-50 text-red-700 rounded-lg p-3 text-sm mb-4">{error}</div>
-      )}
-
-      <form onSubmit={handleSubmit} className="bg-white border rounded-xl p-6 space-y-4">
-
-        {/* Vehicle (create only) */}
-        {!isEdit && (
-          <Field label="Vehicle *">
-            {loadingV ? (
-              <p className="text-sm text-gray-400">Loading vehicles…</p>
-            ) : vehicles.length === 0 ? (
-              <p className="text-sm text-yellow-700 bg-yellow-50 rounded-lg p-2">
-                No vehicles found.{' '}
-                <span className="font-medium underline cursor-pointer" onClick={() => navigate('/admin/vehicles/new')}>
-                  Add one first.
-                </span>
-              </p>
-            ) : (
-              <select name="vehicleId" required value={form.vehicleId} onChange={onChange} className="input">
-                <option value="">— select vehicle —</option>
-                {vehicles.map(v => (
-                  <option key={v.id} value={v.id}>
-                    {v.title || `${v.make} ${v.model} ${v.year}`} (ID {v.id})
-                  </option>
-                ))}
-              </select>
-            )}
-          </Field>
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-[#D01F26] rounded p-3.5 text-sm">{error}</div>
         )}
 
-        {/* Title */}
-        <Field label="Auction Title (optional)">
-          <input name="title" value={form.title} onChange={onChange}
-            placeholder="Defaults to vehicle title if blank"
-            className="input" />
-        </Field>
+        <form onSubmit={handleSubmit} className="bg-white border border-[#D8D8D8] rounded p-6 sm:p-8 space-y-5 shadow-xs">
 
-        {/* Description */}
-        <Field label="Description">
-          <textarea name="description" rows={2} value={form.description}
-            onChange={onChange} placeholder="Any special notes…"
-            className="input resize-none" />
-        </Field>
+          {/* Vehicle (create only) */}
+          {!isEdit && (
+            <Field label="Target Vehicle *">
+              {loadingV ? (
+                <p className="text-xs text-[#777777]">Loading inventory database…</p>
+              ) : vehicles.length === 0 ? (
+                <div className="p-3 bg-[#FAF8F5] border border-[#EBEBEB] rounded text-xs text-[#555555]">
+                  No vehicles available for listing.{' '}
+                  <span className="font-bold text-[#D01F26] hover:underline cursor-pointer" onClick={() => navigate('/admin/vehicles/new')}>
+                    Add a new vehicle first.
+                  </span>
+                </div>
+              ) : (
+                <select name="vehicleId" required value={form.vehicleId} onChange={onChange} className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#D01F26]">
+                  <option value="">— Select Vehicle From Inventory —</option>
+                  {vehicles.map(v => (
+                    <option key={v.id} value={v.id}>
+                      {v.title || `${v.make} ${v.model} ${v.year}`} (ID #{v.id})
+                    </option>
+                  ))}
+                </select>
+              )}
+            </Field>
+          )}
 
-        {/* Status */}
-        <Field label="Initial Status">
-          <select name="status" value={form.status} onChange={onChange} className="input">
-            <option value="draft">Draft (not visible to buyers)</option>
-            <option value="active">Active (open immediately)</option>
-          </select>
-        </Field>
-
-        {/* Dates */}
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="Starts At">
-            <input name="startsAt" type="datetime-local" value={form.startsAt}
-              onChange={onChange} className="input" />
+          {/* Title */}
+          <Field label="Auction Title (Optional)">
+            <input name="title" value={form.title} onChange={onChange}
+              placeholder="Defaults to vehicle title if left blank"
+              className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
           </Field>
-          <Field label="Ends At">
-            <input name="endsAt" type="datetime-local" value={form.endsAt}
-              onChange={onChange} className="input" />
+
+          {/* Description */}
+          <Field label="Special Terms & Export Description">
+            <textarea name="description" rows={3} value={form.description}
+              onChange={onChange} placeholder="Provide auction notes, shipping terms, or inspection caveats…"
+              className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26] resize-none" />
           </Field>
-        </div>
 
-        {/* Min increment */}
-        <Field label="Minimum Bid Increment (USD)">
-          <input name="minIncrement" type="number" min={0} step="1"
-            value={form.minIncrement} onChange={onChange} className="input" />
-        </Field>
+          {/* Status */}
+          <Field label="Initial Listing Status">
+            <select name="status" value={form.status} onChange={onChange} className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#D01F26]">
+              <option value="draft">Draft (Private, not visible in public auctions)</option>
+              <option value="active">Active (Visible and accepting bids immediately)</option>
+            </select>
+          </Field>
 
-        {/* Reserve price (hidden from buyers) */}
-        <Field label="Reserve Price — USD (hidden from buyers)">
-          <input name="reservePrice" type="number" min={0} step="1"
-            value={form.reservePrice} onChange={onChange} placeholder="Leave blank for no reserve"
-            className="input" />
-          <p className="text-xs text-gray-400 mt-1">
-            Bidding will show as &#34;reserve not met&#34; (red) until the highest bid exceeds this value. Buyers cannot see the amount.
-          </p>
-        </Field>
+          {/* Dates */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Field label="Starts At">
+              <input name="startsAt" type="datetime-local" value={form.startsAt}
+                onChange={onChange} className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#D01F26]" />
+            </Field>
+            <Field label="Ends At">
+              <input name="endsAt" type="datetime-local" value={form.endsAt}
+                onChange={onChange} className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#D01F26]" />
+            </Field>
+          </div>
 
-        {/* Actions */}
-        <div className="flex gap-3 pt-2">
-          <button type="submit" disabled={loading || loadingV}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors disabled:opacity-50">
-            {loading ? 'Saving…' : isEdit ? 'Save Changes' : 'Create Auction'}
-          </button>
-          <button type="button" onClick={() => navigate('/admin')}
-            className="px-6 py-2.5 rounded-lg border text-gray-600 hover:bg-gray-50 transition-colors">
-            Cancel
-          </button>
-        </div>
-      </form>
+          {/* Min increment */}
+          <Field label="Minimum Bid Increment (USD)">
+            <input name="minIncrement" type="number" min={0} step="1"
+              value={form.minIncrement} onChange={onChange} className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:border-[#D01F26]" />
+          </Field>
+
+          {/* Reserve price (hidden from buyers) */}
+          <Field label="Reserve Price (USD — Confidential)">
+            <input name="reservePrice" type="number" min={0} step="1"
+              value={form.reservePrice} onChange={onChange} placeholder="Leave blank for no reserve requirement"
+              className="w-full bg-[#FAF8F5] border border-[#D8D8D8] rounded px-3 py-2 text-sm text-[#1A1A1A] placeholder:text-[#999999] focus:outline-none focus:border-[#D01F26]" />
+            <p className="text-[11px] text-[#777777] mt-1">
+              Bidding will reflect "Reserve Not Met" until this threshold is reached. Absolute value is strictly concealed from buyers.
+            </p>
+          </Field>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3 pt-4 border-t border-[#EAEAEA]">
+            <button type="submit" disabled={loading || loadingV}
+              className="btn-tapro-red text-xs px-6 py-2.5 disabled:opacity-50">
+              {loading ? 'Processing…' : isEdit ? 'Update Auction' : 'Launch Auction'}
+            </button>
+            <button type="button" onClick={() => navigate('/admin')}
+              className="bg-white border border-[#D8D8D8] hover:border-[#1A1A1A] text-[#1A1A1A] text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded transition-colors">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
@@ -196,7 +201,7 @@ export default function AuctionFormPage() {
 function Field({ label, children }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-xs font-bold uppercase tracking-wider text-[#555555] mb-1.5">{label}</label>
       {children}
     </div>
   )

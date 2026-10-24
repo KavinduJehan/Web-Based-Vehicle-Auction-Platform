@@ -219,7 +219,7 @@ export default function VehicleDetailPage() {
                 <svg className="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>JEVIC Mileage Verified</span>
+                <span>Inspected Mileage</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -231,7 +231,7 @@ export default function VehicleDetailPage() {
                 <svg className="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>JAAI Multi-Point Checked</span>
+                <span>Multi-Point Inspected</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -428,7 +428,7 @@ export default function VehicleDetailPage() {
 
             {inquirySent ? (
               <div className="text-center py-6 space-y-3">
-                <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                <div className="w-12 h-12 bg-emerald-50 text-emerald-700 rounded flex items-center justify-center mx-auto border border-emerald-300">
                   <svg className="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
@@ -521,7 +521,7 @@ export default function VehicleDetailPage() {
             </svg>
           </button>
           {images.length > 1 && (
-            <span className="absolute top-6 left-1/2 -translate-x-1/2 text-white/80 font-mono text-sm bg-black/50 px-3 py-1 rounded-full">
+            <span className="absolute top-6 left-1/2 -translate-x-1/2 text-white/90 font-mono text-xs bg-black/80 border border-white/20 px-3 py-1 rounded">
               {activeIdx + 1} / {images.length}
             </span>
           )}

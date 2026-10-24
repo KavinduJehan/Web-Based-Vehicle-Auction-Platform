@@ -39,8 +39,7 @@ export default function Navbar() {
       <div className="bg-[#111111] text-[#D8D8D8] text-[11px] font-mono py-1.5 px-4 border-b border-[#2A2A2A]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-white font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D01F26] animate-pulse" />
+            <span className="text-white font-semibold tracking-wider">
               INTERNATIONAL MOTOR EXPORT DESK
             </span>
             <span className="hidden md:inline text-[#D8D8D8]/40">|</span>
@@ -89,7 +88,7 @@ export default function Navbar() {
                 }>
                   Admin Desk
                   {pendingCount > 0 && (
-                    <span className="absolute -top-1.5 -right-3.5 bg-[#D01F26] text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center font-mono">
+                    <span className="absolute -top-1.5 -right-3 bg-[#D01F26] text-white text-[9px] font-bold rounded px-1 min-w-[16px] text-center font-mono">
                       {pendingCount > 9 ? '9+' : pendingCount}
                     </span>
                   )}
@@ -102,9 +101,8 @@ export default function Navbar() {
               {user ? (
                 <Link
                   to={accountPath}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded bg-[#242424] border border-[#3A3A3A] text-xs font-bold uppercase tracking-wider text-white hover:border-[#D01F26] transition-colors"
+                  className="inline-flex items-center px-3.5 py-1.5 rounded bg-[#242424] border border-[#3A3A3A] text-xs font-bold uppercase tracking-wider text-white hover:border-[#D01F26] transition-colors"
                 >
-                  <span className="w-2 h-2 rounded-full bg-[#D01F26]" />
                   {isAdmin ? 'Admin Console' : (user.name || 'Client Portal')}
                 </Link>
               ) : (

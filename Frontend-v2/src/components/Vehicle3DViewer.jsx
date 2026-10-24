@@ -310,8 +310,7 @@ export default function Vehicle3DViewer() {
       {/* Top Header Badge & Preset Angles */}
       <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none z-20">
         <div className="flex items-center gap-2 pointer-events-auto">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#1A1A1A]/95 text-white text-[11px] font-mono tracking-wider border border-[#333333] shadow-md">
-            <span className="w-2 h-2 rounded-full bg-[#D01F26] animate-pulse" />
+          <span className="inline-block px-2.5 py-1 rounded bg-[#1A1A1A]/95 text-white text-[11px] font-mono font-bold tracking-wider border border-[#333333] shadow-md">
             VIRTUAL SHOWROOM 360°
           </span>
           <span className="text-[11px] font-mono text-[#D8D8D8]/70 hidden sm:inline-block">
