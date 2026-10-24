@@ -17,6 +17,7 @@ import ProfilePage       from '../pages/ProfilePage'
 import VehicleListPage   from '../pages/VehicleListPage'
 import VehicleDetailPage from '../pages/VehicleDetailPage'
 import ChangePasswordPage from '../pages/ChangePasswordPage'
+import { isAuctionEnabled } from '../config/appConfig'
 
 export default function AppRouter() {
   return (
@@ -29,9 +30,9 @@ export default function AppRouter() {
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/reset-password"  element={<ResetPasswordPage />} />
       <Route path="/register"       element={<RegisterPage />} />
-      <Route path="/auctions"       element={<AuctionListPage />} />
-      <Route path="/auctions/:id"   element={<AuctionDetailPage />} />
-      <Route path="/auctions/:id/winner" element={<WinnerPage />} />
+      <Route path="/auctions"       element={isAuctionEnabled ? <AuctionListPage /> : <Navigate to="/vehicles" replace />} />
+      <Route path="/auctions/:id"   element={isAuctionEnabled ? <AuctionDetailPage /> : <Navigate to="/vehicles" replace />} />
+      <Route path="/auctions/:id/winner" element={isAuctionEnabled ? <WinnerPage /> : <Navigate to="/vehicles" replace />} />
       <Route path="/vehicles"            element={<VehicleListPage />} />
       <Route path="/vehicles/:id"        element={<VehicleDetailPage />} />
 

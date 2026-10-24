@@ -1,0 +1,74 @@
+import { Routes, Route, Navigate } from 'react-router-dom'
+import ProtectedRoute from '../components/ProtectedRoute'
+import LandingPage       from '../pages/LandingPage'
+import AboutPage         from '../pages/AboutPage'
+import ContactPage       from '../pages/ContactPage'
+import AuctionListPage   from '../pages/AuctionListPage'
+import AuctionDetailPage from '../pages/AuctionDetailPage'
+import WinnerPage        from '../pages/WinnerPage'
+import LoginPage         from '../pages/LoginPage'
+import ForgotPasswordPage from '../pages/ForgotPasswordPage'
+import ResetPasswordPage from '../pages/ResetPasswordPage'
+import RegisterPage      from '../pages/RegisterPage'
+import AdminPage         from '../pages/admin/AdminPage'
+import VehicleFormPage   from '../pages/admin/VehicleFormPage'
+import AuctionFormPage   from '../pages/admin/AuctionFormPage'
+import ReportsPage       from '../pages/admin/ReportsPage'
+import ProfilePage       from '../pages/ProfilePage'
+import VehicleListPage   from '../pages/VehicleListPage'
+import VehicleDetailPage from '../pages/VehicleDetailPage'
+import ChangePasswordPage from '../pages/ChangePasswordPage'
+import { isAuctionEnabled } from '../config/appConfig'
+
+export default function AppRouter() {
+  return (
+    <Routes>
+      {/* Public */}
+      <Route path="/"               element={<LandingPage />} />
+      <Route path="/about"          element={<AboutPage />} />
+      <Route path="/contact"        element={<ContactPage />} />
+      <Route path="/login"          element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password"  element={<ResetPasswordPage />} />
+      <Route path="/register"       element={<RegisterPage />} />
+      <Route path="/auctions"       element={isAuctionEnabled ? <AuctionListPage /> : <Navigate to="/vehicles" replace />} />
+      <Route path="/auctions/:id"   element={isAuctionEnabled ? <AuctionDetailPage /> : <Navigate to="/vehicles" replace />} />
+      <Route path="/auctions/:id/winner" element={isAuctionEnabled ? <WinnerPage /> : <Navigate to="/vehicles" replace />} />
+      <Route path="/vehicles"            element={<VehicleListPage />} />
+      <Route path="/vehicles/:id"        element={<VehicleDetailPage />} />
+
+      {/* Admin-only */}
+      <Route path="/admin" element={
+        <ProtectedRoute role="admin"><AdminPage /></ProtectedRoute>
+      } />
+      <Route path="/admin/vehicles/new" element={
+        <ProtectedRoute role="admin"><VehicleFormPage /></ProtectedRoute>
+      } />
+      <Route path="/admin/vehicles/:id/edit" element={
+        <ProtectedRoute role="admin"><VehicleFormPage /></ProtectedRoute>
+      } />
+      <Route path="/admin/auctions/new" element={
+        <ProtectedRoute role="admin"><AuctionFormPage /></ProtectedRoute>
+      } />
+      <Route path="/admin/auctions/:id/edit" element={
+        <ProtectedRoute role="admin"><AuctionFormPage /></ProtectedRoute>
+      } />
+      <Route path="/admin/reports" element={
+        <ProtectedRoute role="admin"><ReportsPage /></ProtectedRoute>
+      } />
+
+      {/* Buyer */}
+      <Route path="/profile" element={
+        <ProtectedRoute><ProfilePage /></ProtectedRoute>
+      } />
+
+      {/* Force password change — no role guard, just auth */}
+      <Route path="/change-password" element={
+        <ProtectedRoute skipPasswordCheck><ChangePasswordPage /></ProtectedRoute>
+      } />
+
+      {/* Catch-all */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  )
+}

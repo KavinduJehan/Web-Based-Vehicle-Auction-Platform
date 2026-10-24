@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { listUsers } from '../api/users'
+import { isAuctionEnabled, DEALER_CONFIG } from '../config/appConfig'
 
 export default function Navbar() {
   const { user, isAdmin } = useAuth()
@@ -40,15 +41,19 @@ export default function Navbar() {
             <span className="inline-flex items-center justify-center h-9 w-9 rounded-lg bg-white/10 text-white font-bold text-sm">TA</span>
             <span>
               <span className="block text-base font-bold tracking-tight text-white">TAPRO<span className="text-amber-300">AUTO</span></span>
-              <span className="block text-[10px] uppercase tracking-[0.18em] text-slate-200/80">Export Desk</span>
+              <span className="block text-[10px] uppercase tracking-[0.18em] text-slate-200/80">{isAuctionEnabled ? 'Export Desk' : 'Premier Showroom'}</span>
             </span>
           </Link>
 
           {/* Desktop nav */}
           <div className="hidden sm:flex items-center gap-6">
             <NavLink to="/" onClick={close} className={navLinkClass}>Home</NavLink>
-            <NavLink to="/auctions" onClick={close} className={navLinkClass}>Auctions</NavLink>
-            <NavLink to="/vehicles"  onClick={close} className={navLinkClass}>Vehicles</NavLink>
+            {isAuctionEnabled && (
+              <NavLink to="/auctions" onClick={close} className={navLinkClass}>Auctions</NavLink>
+            )}
+            <NavLink to="/vehicles" onClick={close} className={navLinkClass}>
+              {isAuctionEnabled ? 'Vehicles' : 'Showroom'}
+            </NavLink>
             <NavLink to="/about" onClick={close} className={navLinkClass}>About</NavLink>
             {user && isAdmin && (
               <NavLink to="/admin" onClick={close} className={({ isActive }) =>
@@ -117,8 +122,12 @@ export default function Navbar() {
         <div className="mobile-menu-open sm:hidden border-t border-slate-800/70 bg-[#0c2237] px-4 py-3 space-y-1">
           <MobileLink to="/" onClick={close}>Home</MobileLink>
           <MobileLink to="/about" onClick={close}>About</MobileLink>
-          <MobileLink to="/auctions" onClick={close}>Auctions</MobileLink>
-          <MobileLink to="/vehicles"  onClick={close}>Vehicles</MobileLink>
+          {isAuctionEnabled && (
+            <MobileLink to="/auctions" onClick={close}>Auctions</MobileLink>
+          )}
+          <MobileLink to="/vehicles" onClick={close}>
+            {isAuctionEnabled ? 'Vehicles' : 'Showroom'}
+          </MobileLink>
           {user && isAdmin && (
             <MobileLink to="/admin" onClick={close}>
               Admin

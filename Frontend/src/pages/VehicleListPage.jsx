@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { listVehicles } from '../api/vehicles'
 import StatusBadge from '../components/StatusBadge'
 import { toMediaUrl } from '../utils/mediaUrl'
+import { isAuctionEnabled } from '../config/appConfig'
 
 const LIMIT = 12
 
@@ -84,8 +85,19 @@ export default function VehicleListPage() {
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Vehicles</h1>
-        <span className="text-sm text-gray-400">{data.total} vehicle{data.total !== 1 ? 's' : ''}</span>
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900">
+            {isAuctionEnabled ? 'Vehicle Inventory' : 'Showroom Inventory'}
+          </h1>
+          <p className="text-xs text-slate-500 mt-1">
+            {isAuctionEnabled
+              ? 'Catalogued vehicles available for upcoming or active auctions'
+              : 'Certified Japanese vehicles inspected & ready for direct export'}
+          </p>
+        </div>
+        <span className="text-xs font-semibold bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full">
+          {data.total} vehicle{data.total !== 1 ? 's' : ''} available
+        </span>
       </div>
 
       {/* ── Filters bar ── */}
@@ -179,40 +191,59 @@ export default function VehicleListPage() {
             <Link
               key={v.id}
               to={`/vehicles/${v.id}`}
-              className="bg-white border rounded-xl overflow-hidden hover:shadow-md transition-shadow flex flex-col"
+              className="group bg-white border border-slate-200 hover:border-amber-400 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col"
             >
               {/* Thumbnail */}
-              {v.images?.[0] ? (
-                <img
-                  src={toMediaUrl(v.images[0])}
-                  alt={v.title}
-                  className="w-full h-44 object-cover"
-                />
-              ) : (
-                <div className="w-full h-44 bg-gray-100 flex items-center justify-center text-gray-300 text-4xl">
-                  🚗
-                </div>
-              )}
-
-              <div className="p-4 flex flex-col gap-2 flex-1">
-                <div className="flex items-start justify-between gap-2">
-                  <h2 className="font-semibold text-gray-900 truncate">
-                    {v.title || `${v.make} ${v.model} ${v.year}`}
-                  </h2>
+              <div className="relative w-full h-48 bg-slate-900 overflow-hidden">
+                {v.images?.[0] ? (
+                  <img
+                    src={toMediaUrl(v.images[0])}
+                    alt={v.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-slate-500 text-3xl">
+                    🚗
+                  </div>
+                )}
+                <div className="absolute top-2 right-2">
                   <StatusBadge status={v.status} />
                 </div>
+              </div>
 
-                <p className="text-xs text-gray-400">
-                  {[v.make, v.model, v.year].filter(Boolean).join(' · ')}
+              <div className="p-4 flex flex-col gap-2 flex-1">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-amber-600">
+                  Stock #{v.id}
                 </p>
+                <h2 className="font-bold text-slate-900 truncate group-hover:text-amber-600 transition-colors">
+                  {v.title || `${v.make} ${v.model} ${v.year}`}
+                </h2>
 
-                {v.mileage != null && (
-                  <p className="text-xs text-gray-400">{Number(v.mileage).toLocaleString()} km</p>
-                )}
+                <div className="flex flex-wrap gap-2 text-[11px] text-slate-500">
+                  <span className="bg-slate-100 px-2 py-0.5 rounded font-medium">{v.year}</span>
+                  {v.mileage != null && (
+                    <span className="bg-slate-100 px-2 py-0.5 rounded font-medium">
+                      {Number(v.mileage).toLocaleString()} km
+                    </span>
+                  )}
+                  {v.grade && (
+                    <span className="bg-slate-100 px-2 py-0.5 rounded font-medium">Grade {v.grade}</span>
+                  )}
+                </div>
 
-                <p className="text-blue-600 font-bold mt-auto">
-                  USD {Number(v.starting_price).toLocaleString()}
-                </p>
+                <div className="pt-2 mt-auto border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <span className="block text-[10px] uppercase tracking-wider text-slate-400 font-medium">
+                      {isAuctionEnabled ? 'Starting Bid' : 'Direct Export Price'}
+                    </span>
+                    <span className="text-base font-extrabold text-slate-900">
+                      USD {Number(v.starting_price).toLocaleString()}
+                    </span>
+                  </div>
+                  <span className="text-xs font-semibold text-amber-600 group-hover:translate-x-1 transition-transform">
+                    View Details →
+                  </span>
+                </div>
               </div>
             </Link>
           ))}

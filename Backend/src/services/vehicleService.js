@@ -1,4 +1,6 @@
 import * as vehicleRepository from '../repositories/vehicleRepository.js';
+import * as userRepository from '../repositories/userRepository.js';
+import { sendNewVehicleArrivalAlert } from './emailService.js';
 
 export async function listVehicles(filters = {}) {
   const { rows, total, page, limit } = await vehicleRepository.findAll(filters);
@@ -26,7 +28,19 @@ function handleDbError(err) {
 
 export async function createVehicle(payload, user) {
   // Only admins (the business owners) list vehicles; seller_id is always the calling admin
-  return vehicleRepository.create({ ...payload, sellerId: user.sub }).catch(handleDbError);
+  const created = await vehicleRepository.create({ ...payload, sellerId: user.sub }).catch(handleDbError);
+
+  // Asynchronously notify registered buyers of new showroom arrival
+  if (created && (created.status === 'listed' || !created.status)) {
+    userRepository.findAll().then(allUsers => {
+      const activeBuyers = allUsers.filter(u => u.email && u.role === 'buyer' && u.verification_status !== 'rejected');
+      sendNewVehicleArrivalAlert({ vehicle: created, buyers: activeBuyers });
+    }).catch(err => {
+      console.error('Failed to trigger new vehicle arrival notification:', err.message);
+    });
+  }
+
+  return created;
 }
 
 export async function updateVehicle(id, payload, user) {
