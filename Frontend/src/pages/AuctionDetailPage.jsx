@@ -2,11 +2,13 @@ import { useEffect, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { getAuction, closeAuction, setWinner } from '../api/auctions'
 import { listBids, placeBid } from '../api/bids'
+import { useri} from '../api/bids'
 import { useAuth } from '../context/AuthContext'
 import StatusBadge from '../components/StatusBadge'
 import CountdownTimer from '../components/CountdownTimer'
 import Spinner from '../components/Spinner'
 import { toMediaUrl } from '../utils/mediaUrl'
+
 
 export default function AuctionDetailPage() {
   const { id } = useParams()
@@ -362,7 +364,7 @@ export default function AuctionDetailPage() {
                           {sortedBids.map((b) => (
                             <tr key={b.id} className="hover:bg-orange-50/50">
                               <td className="px-3 py-2 font-medium">USD {Number(b.amount).toLocaleString()}</td>
-                              <td className="px-3 py-2 text-gray-700">{b.bidder_name ?? '—'}</td>
+                              <td className="px-3 py-2 text-gray-700">{b.bidId ?? '—'}</td>
                               <td className="px-3 py-2 text-right">
                                 <button
                                   onClick={() => handleSelectWinner(b.id)}
@@ -416,7 +418,7 @@ export default function AuctionDetailPage() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr className="text-left text-gray-500 text-xs uppercase tracking-wider">
                     <th className="px-6 py-4 font-semibold">Amount</th>
-                    <th className="px-6 py-4 font-semibold">Bidder</th>
+                    <th className="px-6 py-4 font-semibold">Bid ID</th>
                     <th className="px-6 py-4 font-semibold">Placed</th>
                   </tr>
                 </thead>
@@ -427,7 +429,7 @@ export default function AuctionDetailPage() {
                         {i === 0 && <span className="text-green-600 mr-2" title="Highest Bid">★</span>}
                         USD {Number(b.amount).toLocaleString()}
                       </td>
-                      <td className="px-6 py-4 text-gray-700 whitespace-nowrap">{b.bidder_name ?? '—'}</td>
+                      <td className="px-6 py-4 text-gray-700 whitespace-nowrap">{b.id ?? '—'}</td>
                       <td className="px-6 py-4 text-gray-500 whitespace-nowrap">
                         {new Date(b.created_at).toLocaleString()}
                       </td>

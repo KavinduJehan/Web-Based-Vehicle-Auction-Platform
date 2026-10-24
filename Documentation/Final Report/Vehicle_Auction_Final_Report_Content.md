@@ -469,7 +469,23 @@ A subtler defect was found through the automated test suite itself rather than m
 
 Finally, the bid-history endpoint (`GET /api/auctions/:id/bids`) had been placed behind `authRequired`, which silently locked out guests and any logged-out visitor from seeing bid history at all — directly contradicting the transparency requirement (FR-12) that bid history be public. This was fixed by removing the authentication requirement from that specific route and confirming the frontend fetches bid history unconditionally rather than only when a user is logged in.
 
-5.5 User Acceptance Testing
+5.5 API Response-Time Benchmark
+
+The performance non-functional requirement stated that API responses should complete in under 500 ms under normal load and that the system should support at least 100 concurrent users. To provide measurable evidence for this requirement, a local benchmark was run against the Node.js/Express backend using the seeded PostgreSQL development database. The benchmark issued 100 simultaneous GET requests per endpoint after a short warm-up run. The seeded database contained 34 users, 25 vehicles, 25 auctions, and 273 bids. Table 5.3 summarises the observed response times for representative read-heavy endpoints, including vehicle search/filtering and the admin reporting summary.
+
+Table 5.3: API response-time benchmark with 100 concurrent requests
+
+| Endpoint tested | Requests | Successful responses | Average response time | 95th percentile | Maximum response time | Requirement result |
+|---|---:|---:|---:|---:|---:|---|
+| `GET /api/health` | 100 | 100 | 70.0 ms | 81.1 ms | 82.6 ms | Passed |
+| `GET /api/vehicles?search=Toyota&status=listed&priceMin=1000&priceMax=100000&yearMin=2000&yearMax=2026&page=1&limit=100&sortBy=starting_price&order=desc` | 100 | 100 | 87.7 ms | 127.4 ms | 131.4 ms | Passed |
+| `GET /api/vehicles?page=1&limit=100&sortBy=created_at&order=desc` | 100 | 100 | 71.7 ms | 107.3 ms | 110.5 ms | Passed |
+| `GET /api/auctions` | 100 | 100 | 61.5 ms | 108.5 ms | 112.4 ms | Passed |
+| `GET /api/reports/summary` | 100 | 100 | 97.5 ms | 156.9 ms | 161.6 ms | Passed |
+
+The measured average and 95th-percentile response times were all below the 500 ms target. The heaviest tested endpoint was the admin summary report, which aggregates overview, auction, buyer, and inventory report data, and it still completed with a 97.5 ms average response time and a 156.9 ms 95th percentile under the 100-concurrent-request test. These results support the conclusion that the implemented API met the stated performance requirement for the seeded project workload.
+
+5.6 User Acceptance Testing
 
 Following the resolution of the defects above, a User Acceptance Testing session was conducted with the client. The two business owners at Tapro Japan Co. Ltd. were given guided access to a deployed instance of the system and asked to perform representative tasks corresponding to their actual weekly workflow: listing a newly acquired vehicle with photographs and specifications, scheduling an auction for it, reviewing the live bid ladder for an active auction, verifying a newly registered buyer, and closing an auction to select a winner. Feedback was gathered through direct observation and follow-up discussion rather than a formal written survey, given the small number of stakeholders involved.
 

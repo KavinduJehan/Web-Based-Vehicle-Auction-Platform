@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 const principles = [
   {
@@ -60,8 +61,10 @@ const contactCards = [
 ]
 
 export default function AboutPage() {
+  const { user, isAdmin } = useAuth()
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [sent, setSent] = useState(false)
+  const accountPath = isAdmin ? '/admin' : '/profile'
 
   function onChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -90,7 +93,13 @@ export default function AboutPage() {
         </p>
         <div className="about-hero-actions">
           <Link to="/auctions" className="btn-primary">Browse Auctions</Link>
-          <Link to="/register" className="btn-secondary">Register as Buyer</Link>
+          {user ? (
+            <Link to={accountPath} className="btn-secondary">
+              {isAdmin ? 'Admin Dashboard' : 'My Profile'}
+            </Link>
+          ) : (
+            <Link to="/register" className="btn-secondary">Register as Buyer</Link>
+          )}
         </div>
       </section>
 
